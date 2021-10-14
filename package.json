@@ -1,0 +1,83 @@
+{
+  "name": "contract-expiration-tracker",
+  "version": "1.0.0",
+  "description": "A tool to track expirations of procurement projects and/or contracts to help prepare for and be proactive on upcoming sourcing requirements.",
+  "directories": {
+    "doc": "docs"
+  },
+  "type": "module",
+  "exports": "./app.js",
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions",
+    "start": "cross-env NODE_ENV=production node ./bin/www",
+    "dev": "cross-env NODE_ENV=dev DEBUG=contract-expiration-tracker:* nodemon ./bin/www"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cityssm/contract-expiration-tracke.git"
+  },
+  "author": "The Corporation of the City of Sault Ste. Marie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cityssm/contract-expiration-tracke/issues"
+  },
+  "homepage": "https://github.com/cityssm/contract-expiration-tracke#readme",
+  "dependencies": {
+    "@cityssm/ad-web-auth-connector": "^0.1.0",
+    "@cityssm/bulma-webapp-js": "^1.1.3",
+    "@cityssm/express-abuse-points": "^1.0.1",
+    "@cityssm/expressjs-server-js": "^2.3.1",
+    "@cityssm/mssql-multi-pool": "^2.1.2",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "better-sqlite3": "^7.4.3",
+    "compression": "^1.7.4",
+    "connect-sqlite3": "0.9.11",
+    "cookie-parser": "^1.4.5",
+    "cross-env": "^7.0.3",
+    "csurf": "^1.11.0",
+    "debug": "^4.3.2",
+    "ejs": "^3.1.6",
+    "exit-hook": "^3.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.4.1",
+    "express-session": "^1.17.2",
+    "http-errors": "^1.8.0"
+  },
+  "devDependencies": {
+    "@cityssm/bulma-a11y": "^0.3.0",
+    "@cityssm/simple-fa5-checkbox": "^0.2.1",
+    "@creativebulma/bulma-tooltip": "^1.2.0",
+    "@types/better-sqlite3": "^7.4.0",
+    "@types/compression": "^1.7.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/csurf": "^1.11.2",
+    "@types/debug": "^4.1.7",
+    "@types/ejs": "^3.1.0",
+    "@types/express": "^4.17.13",
+    "@types/express-rate-limit": "^5.1.3",
+    "@types/express-session": "^1.17.4",
+    "@types/gulp": "^4.0.9",
+    "@types/gulp-minify": "^3.1.1",
+    "@types/http-errors": "^1.8.1",
+    "@types/request-ip": "^0.0.37",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "bulma": "^0.9.3",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-unicorn": "^37.0.1",
+    "gulp": "^4.0.2",
+    "gulp-minify": "^3.1.0",
+    "nodemon": "^2.0.13"
+  },
+  "resolutions": {
+    "xmldom": "github:xmldom/xmldom#0.7.0",
+    "yargs-parser": "5.0.0-security.0"
+  },
+  "private": true
+}

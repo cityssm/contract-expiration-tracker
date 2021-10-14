@@ -1,0 +1,103 @@
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <h3 class="modal-card-title">Add a New Contract</h3>
+      <button class="delete is-close-modal-button" aria-label="close" type="button"></button>
+    </header>
+    <section class="modal-card-body">
+      <form>
+        <div class="field">
+          <label class="label" for="contractAdd--contractTitle">Contract Title</label>
+          <div class="control has-icons-right">
+            <input class="input" id="contractAdd--contractTitle" name="contractTitle" type="text" maxlength="200" required />
+            <span class="icon is-small is-right">
+              <i class="fas fa-asterisk" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-4">
+            <div class="field">
+              <label class="label" for="contractAdd--contractCategoryIsNew"><span data-customization="contractCategory.alias"></span> Type</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="contractAdd--contractCategoryIsNew" name="contractCategoryIsNew">
+                    <option value="0">Existing</option>
+                    <option value="1">New</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field mb-0" id="field--contractAdd--contractCategory-existing">
+              <label class="label" for="contractAdd--contractCategory-existing">Existing <span data-customization="contractCategory.alias"></span></label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="contractAdd--contactCategory-existing" name="contractCategory-existing">
+                    <option value="">(Select One)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="field is-hidden" id="field--contractAdd--contractCategory-new">
+              <label class="label" for="contractAdd--contractCategory-new">New <span data-customization="contractCategory.alias"></span></label>
+              <div class="control">
+                <input class="input" id="contractAdd--contractCategory-new" name="contractCategory-new" type="text" maxlength="100" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="contractAdd--contractParty">Contract Party</label>
+          <div class="control">
+            <input class="input" id="contractAdd--contractParty" name="contractParty" type="text" maxlength="200" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="contractAdd--contractDescription">Description</label>
+          <div class="control">
+            <textarea class="textarea" id="contractAdd--contractDescription" name="contractDescription"></textarea>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label" for="contractAdd--startDate">Start Date</label>
+              <div class="control has-icons-right">
+                <input class="input" id="contractAdd--startDate" name="startDate" type="date" required />
+                <span class="icon is-small is-right">
+                  <i class="fas fa-asterisk" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label" for="contractAdd--endDate">End Date</label>
+              <div class="control">
+                <input class="input" id="contractAdd--endDate" name="endDate" type="date" />
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label" for="contractAdd--extensionDate">Extension Date</label>
+              <div class="control">
+                <input class="input" id="contractAdd--extensionDate" name="extensionDate" type="date" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot is-justify-content-right">
+      <button class="button is-success" type="submit" form="form--contractAdd">
+        <span class="icon"><i class="fas fa-plus" aria-hidden="true"></i></span>
+        <span>Add New Contract</span>
+      </button>
+      <button class="button is-close-modal-button" type="button">Cancel</button>
+    </footer>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="has-background-grey" id="is-login-page" lang="en">
+
+<head>
+  <title>
+    Login: Contract Expiration Tracker
+  </title>
+  <%- include('_headTags'); -%>
+</head>
+
+<body>
+  <div class="columns is-vcentered is-centered has-min-page-height is-marginless">
+    <div class="column is-half-widescreen is-two-thirds-desktop is-three-quarters-tablet">
+      <div class="box mx-3 my-3">
+        <h1 class="title is-3 has-text-centered">
+          Contract Expiration Tracker
+        </h1>
+        <form method="post" action="<%= urlPrefix %>/login">
+          <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
+          <label class="label" for="login--userName">User Name</label>
+          <div class="field has-addons">
+            <div class="control">
+              <span class="button is-static"><%= configFunctions.getProperty("application.userDomain") %>\</span>
+            </div>
+            <div class="control is-expanded">
+              <input class="input" id="login--userName" name="userName" type="text" placeholder="User Name" value="<%= userName %>" autofocus required />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="login--password">Password</label>
+            <div class="control has-icons-left">
+              <input class="input" id="login--password" name="password" type="password" placeholder="Password" required />
+              <span class="icon is-small is-left">
+                <i class="fas fa-key" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="level is-mobile">
+            <div class="level-left has-text-danger">
+                <% if (message !== "") { %>
+                <span class="icon">
+                  <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                </span>
+                <span><%= message %></span>
+              <% } %>
+            </div>
+            <div class="level-right has-text-right">
+              <button class="button is-link" type="submit">
+                <span class="icon">
+                  <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                </span>
+                <span>Log In</span>
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="has-text-right">
+          <a class="is-size-7" href="https://cityssm.github.io/contract-expiration-tracker/" target="_blank">Help</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer>
+    if (window.document.documentMode) {
+      window.document.body.insertAdjacentHTML("afterbegin",
+        "<div class=\"message is-danger m-2\"><p class=\"message-body has-text-centered has-text-weight-bold\">The Internet Explorer web browser is not supported.</p></div>");
+    }
+  </script>
+</body>
+
+</html>

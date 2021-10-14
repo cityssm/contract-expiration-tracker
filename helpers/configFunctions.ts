@@ -1,0 +1,82 @@
+import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
+
+
+/*
+ * LOAD CONFIGURATION
+ */
+
+// eslint-disable-next-line node/no-unpublished-import
+import { config } from "../data/config.js";
+
+Object.freeze(config);
+
+
+/*
+ * SET UP FALLBACK VALUES
+ */
+
+
+const configOverrides: { [propertyName: string]: unknown } = {};
+
+const configFallbackValues = new Map<string, unknown>();
+
+configFallbackValues.set("application.httpPort", 55_557);
+
+configFallbackValues.set("reverseProxy.disableCompression", false);
+configFallbackValues.set("reverseProxy.disableEtag", false);
+configFallbackValues.set("reverseProxy.blockViaXForwardedFor", false);
+configFallbackValues.set("reverseProxy.urlPrefix", "");
+
+configFallbackValues.set("session.cookieName", "contract-expiration-tracker-user-sid");
+configFallbackValues.set("session.secret", "cityssm/contract-expiration-tracker");
+configFallbackValues.set("session.maxAgeMillis", 60 * 60 * 1000);
+configFallbackValues.set("session.doKeepAlive", false);
+
+
+configFallbackValues.set("permissions.canUpdate", []);
+
+configFallbackValues.set("customizations.contractCategory.alias", "Contract Category");
+
+
+export function getProperty(propertyName: "application.httpPort"): number;
+export function getProperty(propertyName: "application.userDomain"): string;
+
+export function getProperty(propertyName: "reverseProxy.disableCompression"): boolean;
+export function getProperty(propertyName: "reverseProxy.disableEtag"): boolean;
+export function getProperty(propertyName: "reverseProxy.blockViaXForwardedFor"): boolean;
+export function getProperty(propertyName: "reverseProxy.urlPrefix"): "";
+
+export function getProperty(propertyName: "session.cookieName"): string;
+export function getProperty(propertyName: "session.doKeepAlive"): boolean;
+export function getProperty(propertyName: "session.maxAgeMillis"): number;
+export function getProperty(propertyName: "session.secret"): string;
+
+export function getProperty(propertyName: "adWebAuthConfig"): ADWebAuthConfig;
+
+export function getProperty(propertyName: "permissions.canUpdate"): string[];
+
+export function getProperty(propertyName: "customizations.contractCategory.alias"): string;
+
+
+export function getProperty(propertyName: string): unknown {
+
+  if (Object.prototype.hasOwnProperty.call(configOverrides, propertyName)) {
+    return configOverrides[propertyName];
+  }
+
+  const propertyNameSplit = propertyName.split(".");
+
+  let currentObject = config;
+
+  for (const element of propertyNameSplit) {
+
+    currentObject = currentObject[element];
+
+    if (!currentObject) {
+      return configFallbackValues.get(propertyName);
+    }
+
+  }
+
+  return currentObject;
+}

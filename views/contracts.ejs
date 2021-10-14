@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class="has-background-white-ter" lang="en">
+
+<head>
+  <title>
+    Contract Expiration Tracker
+  </title>
+  <%- include('_headTags'); -%>
+</head>
+
+<body>
+  <nav class="navbar is-dark mb-3">
+    <div class="navbar-brand">
+      <span class="navbar-item has-text-weight-bold">
+          Contract Expiration Tracker
+      </span>
+      <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown">
+          <a class="navbar-link">
+            <span class="icon"><i class="fas fa-user" aria-hidden="true"></i></span>
+            <span><%= user.userName %></span>
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="<%= urlPrefix %>/logout">
+              <span class="icon"><i class="fas fa-sign-out-alt" aria-hidden="true"></i></span>
+              <span>Log Out</span>
+            </a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://cityssm.github.io/contract-expiration-tracker/" target="_blank" rel="nofollow">
+          <span class="icon"><i class="fas fa-question-circle" aria-hidden="true"></i></span>
+          <span>Help</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <div class="container py-2">
+    <% if (user.canUpdate) { %>
+      <div class="fixed-container is-fixed-bottom-right mr-4 mb-4">
+        <button class="button is-circle is-success has-tooltip-left" id="button--addContract" data-tooltip="Add a New Contract" type="button">
+          <i class="fas fa-plus" aria-hidden="true"></i>
+        </button>
+      </div>
+    <% } %>
+    <form class="box" id="form--filters">
+      <div class="field">
+        <div class="control has-icons-left">
+          <input class="input" id="filters--searchString" name="searchString" type="text" placeholder="Search Contracts" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
+      <div class="facheck">
+        <input id="filters--includeExpired" name="includeExpired" type="checkbox" />
+        <label for="filters--includeExpired">Include Expired Contracts</label>
+      </div>
+    </form>
+    <div id="container--results">
+      <div class="has-text-centered p-4">
+        <span class="icon">
+          <i class="fas fa-4x fa-spinner fa-pulse" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.exports = window.exports || {};
+    window.exports.__esModule = window.exports.__esModule || false;
+    exports.canUpdate = <%= user.canUpdate %>;
+    exports.urlPrefix = "<%= urlPrefix %>";
+
+    exports.customizations_contractCategory_alias = "<%= configFunctions.getProperty("customizations.contractCategory.alias") %>";
+  </script>
+  <script src="<%= urlPrefix %>/lib/bulma-webapp-js/cityssm.min.js"></script>
+  <script>
+    cityssm.htmlModalFolder ="<%= urlPrefix %>/html/";
+  </script>
+  <script src="<%= urlPrefix %>/javascripts/contracts.min.js"></script>
+  <script src="<%= urlPrefix %>/javascripts/site.min.js"></script>
+</body>
+</html>

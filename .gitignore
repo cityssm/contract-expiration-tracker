@@ -1,3 +1,6 @@
+data/config.*
+data/*.db
+
 # Logs
 logs
 *.log

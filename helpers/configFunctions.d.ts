@@ -1,0 +1,14 @@
+import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
+export declare function getProperty(propertyName: "application.httpPort"): number;
+export declare function getProperty(propertyName: "application.userDomain"): string;
+export declare function getProperty(propertyName: "reverseProxy.disableCompression"): boolean;
+export declare function getProperty(propertyName: "reverseProxy.disableEtag"): boolean;
+export declare function getProperty(propertyName: "reverseProxy.blockViaXForwardedFor"): boolean;
+export declare function getProperty(propertyName: "reverseProxy.urlPrefix"): "";
+export declare function getProperty(propertyName: "session.cookieName"): string;
+export declare function getProperty(propertyName: "session.doKeepAlive"): boolean;
+export declare function getProperty(propertyName: "session.maxAgeMillis"): number;
+export declare function getProperty(propertyName: "session.secret"): string;
+export declare function getProperty(propertyName: "adWebAuthConfig"): ADWebAuthConfig;
+export declare function getProperty(propertyName: "permissions.canUpdate"): string[];
+export declare function getProperty(propertyName: "customizations.contractCategory.alias"): string;
