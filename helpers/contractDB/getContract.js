@@ -1,35 +1,27 @@
 import sqlite from "better-sqlite3";
 import { contractsDB as databasePath } from "../../data/databasePaths.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
-export const getContracts = (filters, requestSession) => {
+export const getContract = (contractId, requestSession) => {
     let sql = "select contractId," +
         " contractTitle, contractCategory, contractParty," +
         " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
         " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
-        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
+        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +
+        " recordUpdate_userName, recordUpdate_timeMillis" +
         " from Contracts" +
-        " where recordDelete_timeMillis is null";
-    const parameters = [];
+        " where recordDelete_timeMillis is null" +
+        " and contractId = ?";
+    const parameters = [contractId];
     if (!requestSession.user.canUpdate) {
         sql += " and contractCategory in (select contractCategory from ContractCategoryUsers where userName = ?)";
         parameters.push(requestSession.user.userName);
-    }
-    if (filters.searchString !== "") {
-        const searchStringPieces = filters.searchString.trim().toLowerCase().split(" ");
-        for (const searchStringPiece of searchStringPieces) {
-            sql += " and (" +
-                "instr(lower(contractTitle), ?)" +
-                " or instr(lower(contractDescription), ?)" +
-                ")";
-            parameters.push(searchStringPiece, searchStringPiece);
-        }
     }
     const database = sqlite(databasePath, {
         readonly: true
     });
     database.function("userFn_dateIntegerToString", dateTimeFunctions.dateIntegerToString);
-    const rows = database.prepare(sql).all(parameters);
+    const contract = database.prepare(sql).get(parameters);
     database.close();
-    return rows;
+    return contract;
 };
-export default getContracts;
+export default getContract;

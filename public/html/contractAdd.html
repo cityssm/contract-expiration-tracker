@@ -6,7 +6,7 @@
       <button class="delete is-close-modal-button" aria-label="close" type="button"></button>
     </header>
     <section class="modal-card-body">
-      <form>
+      <form id="form--contractAdd">
         <div class="field">
           <label class="label" for="contractAdd--contractTitle">Contract Title</label>
           <div class="control has-icons-right">
@@ -64,9 +64,9 @@
         <div class="columns">
           <div class="column">
             <div class="field">
-              <label class="label" for="contractAdd--startDate">Start Date</label>
+              <label class="label" for="contractAdd--startDateString">Start Date</label>
               <div class="control has-icons-right">
-                <input class="input" id="contractAdd--startDate" name="startDate" type="date" required />
+                <input class="input" id="contractAdd--startDateString" name="startDateString" type="date" required />
                 <span class="icon is-small is-right">
                   <i class="fas fa-asterisk" aria-hidden="true"></i>
                 </span>
@@ -75,17 +75,17 @@
           </div>
           <div class="column">
             <div class="field">
-              <label class="label" for="contractAdd--endDate">End Date</label>
+              <label class="label" for="contractAdd--endDateString">End Date</label>
               <div class="control">
-                <input class="input" id="contractAdd--endDate" name="endDate" type="date" />
+                <input class="input" id="contractAdd--endDateString" name="endDateString" type="date" />
               </div>
             </div>
           </div>
           <div class="column">
             <div class="field">
-              <label class="label" for="contractAdd--extensionDate">Extension Date</label>
+              <label class="label" for="contractAdd--extensionDateString">Extension Date</label>
               <div class="control">
-                <input class="input" id="contractAdd--extensionDate" name="extensionDate" type="date" />
+                <input class="input" id="contractAdd--extensionDateString" name="extensionDateString" type="date" />
               </div>
             </div>
           </div>

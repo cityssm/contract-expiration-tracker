@@ -18,8 +18,11 @@ export interface Contract {
   contractParty?: string;
   contractDescription?: string;
   startDate: number;
+  startDateString: string;
   endDate?: number;
+  endDateString?: string;
   extensionDate?: number;
+  extensionDateString?: string;
   tags?: string[];
   recordCreate_userName: string;
   recordCreate_timeMillis: number;

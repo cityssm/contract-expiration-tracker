@@ -11,6 +11,9 @@
 <body>
   <nav class="navbar is-dark mb-3">
     <div class="navbar-brand">
+      <span class="navbar-item">
+        <img src="<%= urlPrefix %>/images/logo.svg" alt="" />
+      </span>
       <span class="navbar-item has-text-weight-bold">
           Contract Expiration Tracker
       </span>
@@ -83,6 +86,7 @@
   <script>
     cityssm.htmlModalFolder ="<%= urlPrefix %>/html/";
   </script>
+  <script src="<%= urlPrefix %>/lib/date-diff/date-diff.min.js"></script>
   <script src="<%= urlPrefix %>/javascripts/contracts.min.js"></script>
   <script src="<%= urlPrefix %>/javascripts/site.min.js"></script>
 </body>

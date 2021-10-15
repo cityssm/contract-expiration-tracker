@@ -1,13 +1,26 @@
 import sqlite from "better-sqlite3";
 import { contractsDB as databasePath } from "../../data/databasePaths.js";
 
+import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
+
 import type { Contract } from "../../types/recordTypes";
 import type * as expressSession from "express-session";
 
 
-export const getContracts = (searchString: string, requestSession: expressSession.Session) => {
+interface GetContractsFilters {
+  searchString: string;
+  includeExpired: boolean;
+}
 
-  let sql = "select * from Contracts" +
+
+export const getContracts = (filters: GetContractsFilters, requestSession: expressSession.Session) => {
+
+  let sql = "select contractId," +
+  " contractTitle, contractCategory, contractParty," +
+  " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
+  " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
+  " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
+  " from Contracts" +
     " where recordDelete_timeMillis is null";
 
   const parameters = [];
@@ -17,9 +30,9 @@ export const getContracts = (searchString: string, requestSession: expressSessio
     parameters.push(requestSession.user.userName);
   }
 
-  if (searchString !== "") {
+  if (filters.searchString !== "") {
 
-    const searchStringPieces = searchString.trim().toLowerCase().split(" ");
+    const searchStringPieces = filters.searchString.trim().toLowerCase().split(" ");
 
     for (const searchStringPiece of searchStringPieces) {
 
@@ -36,11 +49,14 @@ export const getContracts = (searchString: string, requestSession: expressSessio
     readonly: true
   });
 
+  database.function("userFn_dateIntegerToString", dateTimeFunctions.dateIntegerToString);
+
   const rows: Contract[] = database.prepare(sql).all(parameters);
 
   database.close();
 
   return rows;
 };
+
 
 export default getContracts;

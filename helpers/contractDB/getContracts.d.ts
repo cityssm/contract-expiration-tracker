@@ -1,4 +1,8 @@
 import type { Contract } from "../../types/recordTypes";
 import type * as expressSession from "express-session";
-export declare const getContracts: (searchString: string, requestSession: expressSession.Session) => Contract[];
+interface GetContractsFilters {
+    searchString: string;
+    includeExpired: boolean;
+}
+export declare const getContracts: (filters: GetContractsFilters, requestSession: expressSession.Session) => Contract[];
 export default getContracts;

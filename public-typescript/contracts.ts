@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-module */
 
 import type { Contract } from "../types/recordTypes";
+import type { DateDiff } from "@cityssm/date-diff/types";
 
 import type { cityssmGlobal } from "@cityssm/bulma-webapp-js/src/types";
 declare const cityssm: cityssmGlobal;
@@ -13,10 +14,15 @@ declare const cityssm: cityssmGlobal;
 
   const urlPrefix = exports.urlPrefix as string;
 
+  const dateDiff = exports.dateDiff as DateDiff;
+
   const filterFormElement = document.querySelector("#form--filters") as HTMLFormElement;
   const searchResultsElement = document.querySelector("#container--results") as HTMLDivElement;
 
   const getContracts = () => {
+
+    const currentDate = new Date();
+    const currentDateString = cityssm.dateToString(currentDate);
 
     searchResultsElement.innerHTML = "<div class=\"has-text-centered p-4\">" +
       "<span class=\"icon\"><i class=\"fas fa-4x fa-spinner fa-pulse\" aria-hidden=\"true\"></i></span>" +
@@ -31,7 +37,80 @@ declare const cityssm: cityssmGlobal;
             "</div>";
           return;
         }
+
+        const panelElement = document.createElement("div");
+        panelElement.className = "panel";
+
+        for (const contract of responseJSON.contracts) {
+
+          const panelBlockElement = document.createElement("a");
+          panelBlockElement.className = "panel-block is-block";
+          panelBlockElement.dataset.contractId = contract.contractId.toString();
+          panelBlockElement.href = "#";
+          panelBlockElement.addEventListener("click", openContract);
+
+          panelBlockElement.innerHTML = "<div class=\"columns is-multiline is-mobile\">" +
+            ("<div class=\"column is-12-mobile is-8-tablet\">" +
+              "<h2 class=\"title is-5 mb-1\">" + cityssm.escapeHTML(contract.contractTitle) + "</h2>" +
+              (contract.contractCategory !== ""
+                ? "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />"
+                : "") +
+              (contract.contractParty !== ""
+                ? "<span class=\"icon\"><i class=\"fas fa-user-tie\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractParty) + "<br />"
+                : "") +
+              "</div>") +
+            ("<div class=\"column is-6-mobile has-text-centered\">" +
+              "<i class=\"fas fa-play" + (contract.startDateString <= currentDateString ? " has-text-success" : "") + "\" aria-hidden=\"true\"></i><br />" +
+              contract.startDateString +
+              (contract.startDateString <= currentDateString
+                ? "<br /><span class=\"is-size-7\">" + dateDiff(cityssm.dateStringToDate(contract.startDateString), currentDate).formatted + " ago" :
+                "") +
+              "</div>") +
+            ("<div class=\"column is-6-mobile has-text-centered\">" +
+              "<i class=\"fas fa-stop\" aria-hidden=\"true\"></i><br />" +
+              (contract.endDate
+                ? contract.endDateString
+                : "<span class=\"has-text-grey\">No End Date</span>") +
+              (contract.extensionDate
+                ? "<br /><span class=\"is-size-7\">Extend to " + contract.extensionDateString + "</span>"
+                : "") +
+              "</div>") +
+            "</div>";
+
+          panelElement.append(panelBlockElement);
+        }
+
+        searchResultsElement.innerHTML = "";
+        searchResultsElement.append(panelElement);
       });
+  };
+
+
+  const openContract = (clickEvent: Event) => {
+    clickEvent.preventDefault();
+
+    const contractId = (clickEvent.currentTarget as HTMLAnchorElement).dataset.contractId;
+
+    cityssm.openHtmlModal("contractView", {
+      onshown: (modalElement, closeModalFunction) => {
+
+        cityssm.postJSON(urlPrefix + "/contracts/doGetContract", {
+          contractId
+        }, (contract: Contract) => {
+
+          if (!contract || !contract.contractId) {
+            closeModalFunction();
+            cityssm.alertModal("Contract Not Found", "Please try again.", "OK", "danger");
+            getContracts();
+            return;
+          }
+
+          (modalElement.querySelector("#contractEdit--contractId") as HTMLInputElement).value = contract.contractId.toString();
+          (modalElement.querySelector("#contractEdit--contractTitle") as HTMLInputElement).value = contract.contractTitle;
+          (modalElement.querySelector("#contractEdit--contractCategory-new") as HTMLInputElement).value = contract.contractCategory;
+        });
+      }
+    });
   };
 
   filterFormElement.addEventListener("submit", (formEvent) => {
@@ -58,9 +137,24 @@ declare const cityssm: cityssmGlobal;
   document.querySelector("#button--addContract").addEventListener("click", () => {
 
     let addContractCloseModalFunction: () => void;
+    let formElement: HTMLFormElement;
 
     const submitFunction = (formEvent: Event) => {
       formEvent.preventDefault();
+
+      cityssm.postJSON(urlPrefix + "/contracts/doAddContract", formElement,
+        (responseJSON: { success: boolean }) => {
+
+          if (responseJSON.success) {
+            addContractCloseModalFunction();
+            getContracts();
+          } else {
+            cityssm.alertModal("Error Adding Contract",
+              "Please try again",
+              "OK",
+              "danger");
+          }
+        });
     };
 
     cityssm.openHtmlModal("contractAdd", {
@@ -77,7 +171,9 @@ declare const cityssm: cityssmGlobal;
       onshown: (modalElement, closeModalFunction) => {
 
         addContractCloseModalFunction = closeModalFunction;
-        modalElement.querySelector("form").addEventListener("submit", submitFunction);
+        formElement = modalElement.querySelector("form");
+
+        formElement.addEventListener("submit", submitFunction);
 
         const contractCategoryIsNewElement = modalElement.querySelector("#contractAdd--contractCategoryIsNew") as HTMLSelectElement;
         contractCategoryIsNewElement.addEventListener("change", () => {

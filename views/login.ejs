@@ -15,7 +15,12 @@
         <h1 class="title is-3 has-text-centered">
           Contract Expiration Tracker
         </h1>
-        <form method="post" action="<%= urlPrefix %>/login">
+        <div class="columns is-vcentered">
+          <div class="column is-one-third is-hidden-mobile has-text-centered">
+            <img class="image is-fullwidth" src="<%= urlPrefix %>/images/logo.svg" alt="" loading="lazy" />
+          </div>
+          <div class="column">
+            <form method="post" action="<%= urlPrefix %>/login">
           <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
           <label class="label" for="login--userName">User Name</label>
           <div class="field has-addons">
@@ -55,6 +60,8 @@
             </div>
           </div>
         </form>
+          </div>
+        </div>
         <div class="has-text-right">
           <a class="is-size-7" href="https://cityssm.github.io/contract-expiration-tracker/" target="_blank">Help</a>
         </div>
