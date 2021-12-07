@@ -171,6 +171,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
         });
     });
     switchContractToEditMode = (closeModalFunction) => {
+        bulmaJS.init();
         const editFormElement = document.querySelector("#form--contractEdit");
         editFormElement.querySelector("fieldset").disabled = false;
         editFormElement.addEventListener("submit", (formEvent) => {
@@ -185,5 +186,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
         const modalElement = editFormElement.closest(".modal");
         modalElement.querySelector("#button--switchToEditMode").remove();
         modalElement.querySelector("button[type='submit']").classList.remove("is-hidden");
+        modalElement.querySelector("#contractEdit--optionsButton").classList.remove("is-hidden");
     };
 })();

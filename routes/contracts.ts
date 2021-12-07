@@ -9,6 +9,7 @@ import handler_doGetContractCategories from "../handlers/doGetContractCategories
 
 import handler_doAddContract from "../handlers/doAddContract.js";
 import handler_doUpdateContract from "../handlers/doUpdateContract.js";
+import handler_doRemoveContract from "../handlers/doRemoveContract.js";
 
 
 const handler_updateOnly: RequestHandler = (request, response, next) => {
@@ -36,6 +37,7 @@ router.post("/doGetContractCategories", handler_doGetContractCategories);
 
 router.post("/doAddContract", handler_updateOnly, handler_doAddContract);
 router.post("/doUpdateContract", handler_updateOnly, handler_doUpdateContract);
+router.post("/doRemoveContract", handler_updateOnly, handler_doRemoveContract);
 
 
 export default router;

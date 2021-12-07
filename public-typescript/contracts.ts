@@ -255,6 +255,8 @@ declare const bulmaJS: BulmaJS;
 
   switchContractToEditMode = (closeModalFunction) => {
 
+    bulmaJS.init();
+
     const editFormElement = document.querySelector("#form--contractEdit");
     editFormElement.querySelector("fieldset").disabled = false;
 
@@ -276,5 +278,6 @@ declare const bulmaJS: BulmaJS;
     const modalElement = editFormElement.closest(".modal");
     modalElement.querySelector("#button--switchToEditMode").remove();
     modalElement.querySelector("button[type='submit']").classList.remove("is-hidden");
+    modalElement.querySelector("#contractEdit--optionsButton").classList.remove("is-hidden");
   };
 })();
