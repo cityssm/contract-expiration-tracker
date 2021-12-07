@@ -1,4 +1,5 @@
 data/config.*
+data/sessions/
 data/*.db
 
 # Logs

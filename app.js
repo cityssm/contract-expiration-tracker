@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import csurf from "csurf";
 import rateLimit from "express-rate-limit";
 import session from "express-session";
-import sqlite from "connect-sqlite3";
+import FileStore from "session-file-store";
 import * as configFunctions from "./helpers/configFunctions.js";
 import * as stringFns from "@cityssm/expressjs-server-js/stringFns.js";
 import * as dateTimeFns from "@cityssm/expressjs-server-js/dateTimeFns.js";
@@ -51,12 +51,12 @@ app.use(urlPrefix, express.static(path.join(__dirname, "public")));
 app.use(urlPrefix + "/lib/bulma-webapp-js", express.static(path.join(__dirname, "node_modules", "@cityssm", "bulma-webapp-js", "dist")));
 app.use(urlPrefix + "/lib/date-diff", express.static(path.join(__dirname, "node_modules", "@cityssm", "date-diff", "es2015")));
 app.use(urlPrefix + "/lib/fa5", express.static(path.join(__dirname, "node_modules", "@fortawesome", "fontawesome-free")));
-const SQLiteStore = sqlite(session);
 const sessionCookieName = configFunctions.getProperty("session.cookieName");
+const FileStoreSession = FileStore(session);
 app.use(session({
-    store: new SQLiteStore({
-        dir: "data",
-        db: "sessions.db"
+    store: new FileStoreSession({
+        path: "./data/sessions",
+        logFn: debug("contract-expiration-tracker:session")
     }),
     name: sessionCookieName,
     secret: configFunctions.getProperty("session.secret"),

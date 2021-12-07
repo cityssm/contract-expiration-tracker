@@ -9,7 +9,7 @@ import csurf from "csurf";
 import rateLimit from "express-rate-limit";
 
 import session from "express-session";
-import sqlite from "connect-sqlite3";
+import FileStore from "session-file-store";
 
 import * as configFunctions from "./helpers/configFunctions.js";
 import * as stringFns from "@cityssm/expressjs-server-js/stringFns.js";
@@ -110,17 +110,16 @@ app.use(urlPrefix + "/lib/fa5",
  */
 
 
-const SQLiteStore = sqlite(session);
-
-
 const sessionCookieName = configFunctions.getProperty("session.cookieName");
+
+const FileStoreSession = FileStore(session);
 
 
 // Initialize session
 app.use(session({
-  store: new SQLiteStore({
-    dir: "data",
-    db: "sessions.db"
+  store: new FileStoreSession({
+    path: "./data/sessions",
+    logFn: debug("contract-expiration-tracker:session")
   }),
   name: sessionCookieName,
   secret: configFunctions.getProperty("session.secret"),
