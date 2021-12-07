@@ -16,11 +16,11 @@ interface GetContractsFilters {
 export const getContracts = (filters: GetContractsFilters, requestSession: expressSession.Session) => {
 
   let sql = "select contractId," +
-  " contractTitle, contractCategory, contractParty," +
-  " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
-  " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
-  " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
-  " from Contracts" +
+    " contractTitle, contractCategory, contractParty," +
+    " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
+    " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
+    " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
+    " from Contracts" +
     " where recordDelete_timeMillis is null";
 
   const parameters = [];

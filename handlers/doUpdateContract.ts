@@ -1,14 +1,14 @@
 import type { RequestHandler } from "express";
 
-import { getContract } from "../helpers/contractDB/getContract.js";
+import { updateContract } from "../helpers/contractDB/updateContract.js";
 
 
 export const handler: RequestHandler = async (request, response) => {
 
-  const contract = getContract(request.body.contractId, request.session);
+  const success = updateContract(request.body, request.session);
 
   response.json({
-    contract
+    success
   });
 };
 

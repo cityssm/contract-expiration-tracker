@@ -11,7 +11,7 @@ import type * as expressSession from "express-session";
 export const getContract = (contractId: number | string, requestSession: expressSession.Session) => {
 
   let sql = "select contractId," +
-    " contractTitle, contractCategory, contractParty," +
+    " contractTitle, contractCategory, contractParty, contractDescription," +
     " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
     " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
     " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +

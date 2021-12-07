@@ -3,7 +3,7 @@ import { contractsDB as databasePath } from "../../data/databasePaths.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
 export const getContract = (contractId, requestSession) => {
     let sql = "select contractId," +
-        " contractTitle, contractCategory, contractParty," +
+        " contractTitle, contractCategory, contractParty, contractDescription," +
         " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
         " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
         " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +

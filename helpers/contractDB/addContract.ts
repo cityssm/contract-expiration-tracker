@@ -30,7 +30,7 @@ export const addContract = (contractForm: AddContractForm, requestSession: expre
     ")" +
     " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
     .run(contractForm.contractTitle,
-      contractForm.contractCategoryIsNew ? contractForm["contractCategory-new"] : contractForm["contractCategory-existing"],
+      contractForm.contractCategoryIsNew === "1" ? contractForm["contractCategory-new"] : contractForm["contractCategory-existing"],
       contractForm.contractParty,
       contractForm.contractDescription,
       contractForm.startDateString === "" ? undefined : dateStringToInteger(contractForm.startDateString),

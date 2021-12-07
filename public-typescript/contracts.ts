@@ -4,7 +4,10 @@ import type { Contract } from "../types/recordTypes";
 import type { DateDiff } from "@cityssm/date-diff/types";
 
 import type { cityssmGlobal } from "@cityssm/bulma-webapp-js/src/types";
+import type { BulmaJS } from "@cityssm/bulma-js/types";
+
 declare const cityssm: cityssmGlobal;
+declare const bulmaJS: BulmaJS;
 
 (() => {
 
@@ -18,6 +21,10 @@ declare const cityssm: cityssmGlobal;
 
   const filterFormElement = document.querySelector("#form--filters") as HTMLFormElement;
   const searchResultsElement = document.querySelector("#container--results") as HTMLDivElement;
+
+
+  let switchContractToEditMode: (closeModalFunction: () => void) => void;
+
 
   const getContracts = () => {
 
@@ -92,11 +99,27 @@ declare const cityssm: cityssmGlobal;
     const contractId = (clickEvent.currentTarget as HTMLAnchorElement).dataset.contractId;
 
     cityssm.openHtmlModal("contractView", {
+
+      onshow: (modalElement) => {
+
+        const contractCategoryAlias = exports.customizations_contractCategory_alias as string;
+
+        const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
+
+        for (const contractCategoryAliasElement of contractCategoryAliasElements) {
+          contractCategoryAliasElement.textContent = contractCategoryAlias;
+        }
+      },
+
       onshown: (modalElement, closeModalFunction) => {
+
+        bulmaJS.toggleHtmlClipped();
 
         cityssm.postJSON(urlPrefix + "/contracts/doGetContract", {
           contractId
-        }, (contract: Contract) => {
+        }, (responseJSON: {contract: Contract;}) => {
+
+          const contract = responseJSON.contract;
 
           if (!contract || !contract.contractId) {
             closeModalFunction();
@@ -107,11 +130,28 @@ declare const cityssm: cityssmGlobal;
 
           (modalElement.querySelector("#contractEdit--contractId") as HTMLInputElement).value = contract.contractId.toString();
           (modalElement.querySelector("#contractEdit--contractTitle") as HTMLInputElement).value = contract.contractTitle;
-          (modalElement.querySelector("#contractEdit--contractCategory-new") as HTMLInputElement).value = contract.contractCategory;
+          (modalElement.querySelector("#contractEdit--contractCategory") as HTMLInputElement).value = contract.contractCategory;
+          (modalElement.querySelector("#contractEdit--contractParty") as HTMLInputElement).value = contract.contractParty;
+          (modalElement.querySelector("#contractEdit--contractDescription") as HTMLInputElement).value = contract.contractDescription;
+          (modalElement.querySelector("#contractEdit--startDateString") as HTMLInputElement).value = contract.startDateString;
+          (modalElement.querySelector("#contractEdit--endDateString") as HTMLInputElement).value = contract.endDateString;
+          (modalElement.querySelector("#contractEdit--extensionDateString") as HTMLInputElement).value = contract.extensionDateString;
         });
+
+        if (canUpdate) {
+          const editModeButtonElement = modalElement.querySelector("#button--switchToEditMode") as HTMLButtonElement;
+          editModeButtonElement.classList.remove("is-hidden");
+          editModeButtonElement.addEventListener("click", () => {
+            switchContractToEditMode(closeModalFunction);
+          });
+        }
+      },
+      onremoved: () => {
+        bulmaJS.toggleHtmlClipped();
       }
     });
   };
+
 
   filterFormElement.addEventListener("submit", (formEvent) => {
     formEvent.preventDefault();
@@ -122,9 +162,11 @@ declare const cityssm: cityssmGlobal;
 
   getContracts();
 
+
   /*
    * Contract Maintenance
    */
+
 
   const canUpdate = exports.canUpdate as boolean;
 
@@ -167,8 +209,24 @@ declare const cityssm: cityssmGlobal;
         for (const contractCategoryAliasElement of contractCategoryAliasElements) {
           contractCategoryAliasElement.textContent = contractCategoryAlias;
         }
+
+        cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories", {},
+          (responseJSON: {contractCategories: string[];}) => {
+
+            const existingContactCategoryElement = modalElement.querySelector("#contractAdd--contactCategory-existing");
+
+            for (const contractCategory of responseJSON.contractCategories) {
+
+              const optionElement = document.createElement("option");
+              optionElement.textContent = contractCategory;
+              optionElement.value = contractCategory;
+              existingContactCategoryElement.append(optionElement);
+            }
+          });
       },
       onshown: (modalElement, closeModalFunction) => {
+
+        bulmaJS.toggleHtmlClipped();
 
         addContractCloseModalFunction = closeModalFunction;
         formElement = modalElement.querySelector("form");
@@ -188,7 +246,35 @@ declare const cityssm: cityssmGlobal;
             modalElement.querySelector("#field--contractAdd--contractCategory-existing").classList.remove("is-hidden");
           }
         });
+      },
+      onremoved: () => {
+        bulmaJS.toggleHtmlClipped();
       }
     });
   });
+
+  switchContractToEditMode = (closeModalFunction) => {
+
+    const editFormElement = document.querySelector("#form--contractEdit");
+    editFormElement.querySelector("fieldset").disabled = false;
+
+    editFormElement.addEventListener("submit", (formEvent) => {
+
+      formEvent.preventDefault();
+
+      cityssm.postJSON(urlPrefix + "/contracts/doUpdateContract",
+        editFormElement,
+        (responseJSON: { success: boolean; }) => {
+
+          if (responseJSON.success) {
+            closeModalFunction();
+            getContracts();
+          }
+        });
+    });
+
+    const modalElement = editFormElement.closest(".modal");
+    modalElement.querySelector("#button--switchToEditMode").remove();
+    modalElement.querySelector("button[type='submit']").classList.remove("is-hidden");
+  };
 })();
