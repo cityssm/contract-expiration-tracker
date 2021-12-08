@@ -1,6 +1,6 @@
 {
   "name": "contract-expiration-tracker",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "A tool to track expirations of procurement projects and/or contracts to help prepare for and be proactive on upcoming sourcing requirements.",
   "directories": {
     "doc": "docs"
@@ -9,6 +9,7 @@
   "exports": "./app.js",
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
+    "build": "npx genversion --es6 --semi version.js",
     "start": "cross-env NODE_ENV=production node ./bin/www",
     "dev": "cross-env NODE_ENV=dev DEBUG=contract-expiration-tracker:* nodemon ./bin/www"
   },

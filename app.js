@@ -11,6 +11,7 @@ import FileStore from "session-file-store";
 import * as configFunctions from "./helpers/configFunctions.js";
 import * as stringFns from "@cityssm/expressjs-server-js/stringFns.js";
 import * as dateTimeFns from "@cityssm/expressjs-server-js/dateTimeFns.js";
+import { version } from "./version.js";
 import routerLogin from "./routes/login.js";
 import routerContracts from "./routes/contracts.js";
 import * as databaseInitializer from "./helpers/databaseInitializer.js";
@@ -87,6 +88,7 @@ app.use(function (request, response, next) {
     response.locals.stringFns = stringFns;
     response.locals.user = request.session.user;
     response.locals.csrfToken = request.csrfToken();
+    response.locals.buildNumber = version;
     response.locals.urlPrefix = configFunctions.getProperty("reverseProxy.urlPrefix");
     next();
 });
