@@ -23,9 +23,6 @@ declare const bulmaJS: BulmaJS;
   const searchResultsElement = document.querySelector("#container--results") as HTMLDivElement;
 
 
-  let switchContractToEditMode: (closeModalFunction: () => void) => void;
-
-
   const getContracts = () => {
 
     const currentDate = new Date();
@@ -117,7 +114,7 @@ declare const bulmaJS: BulmaJS;
 
         cityssm.postJSON(urlPrefix + "/contracts/doGetContract", {
           contractId
-        }, (responseJSON: {contract: Contract;}) => {
+        }, (responseJSON: { contract: Contract; }) => {
 
           const contract = responseJSON.contract;
 
@@ -211,7 +208,7 @@ declare const bulmaJS: BulmaJS;
         }
 
         cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories", {},
-          (responseJSON: {contractCategories: string[];}) => {
+          (responseJSON: { contractCategories: string[]; }) => {
 
             const existingContactCategoryElement = modalElement.querySelector("#contractAdd--contactCategory-existing");
 
@@ -253,9 +250,11 @@ declare const bulmaJS: BulmaJS;
     });
   });
 
-  switchContractToEditMode = (closeModalFunction) => {
+  const switchContractToEditMode = (closeModalFunction: () => void) => {
 
     bulmaJS.init();
+
+    // Set up form
 
     const editFormElement = document.querySelector("#form--contractEdit");
     editFormElement.querySelector("fieldset").disabled = false;
@@ -275,9 +274,40 @@ declare const bulmaJS: BulmaJS;
         });
     });
 
+    // Toggle the button visibility
+    //
     const modalElement = editFormElement.closest(".modal");
     modalElement.querySelector("#button--switchToEditMode").remove();
     modalElement.querySelector("button[type='submit']").classList.remove("is-hidden");
     modalElement.querySelector("#contractEdit--optionsButton").classList.remove("is-hidden");
+
+    // Set up remove
+
+    const removeContract = () => {
+      const contractId = (editFormElement.querySelector("#contractEdit--contractId") as HTMLInputElement).value;
+
+      cityssm.postJSON(urlPrefix + "/contracts/doRemoveContract", {
+        contractId
+      }, (responseJSON: { success: boolean; }) => {
+
+        if (responseJSON.success) {
+          closeModalFunction();
+          getContracts();
+        }
+      });
+    };
+
+    modalElement.querySelector("#contractEdit--removeContractButton").addEventListener("click", (clickEvent) => {
+
+      clickEvent.preventDefault();
+
+      bulmaJS.confirm({
+        message: "Are you sure you want to remove this contract record?",
+        okButton: {
+          text: "Yes, Remove the Contract",
+          callbackFunction: removeContract
+        }
+      });
+    });
   };
 })();

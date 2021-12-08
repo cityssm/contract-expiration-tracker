@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
     const dateDiff = exports.dateDiff;
     const filterFormElement = document.querySelector("#form--filters");
     const searchResultsElement = document.querySelector("#container--results");
-    let switchContractToEditMode;
     const getContracts = () => {
         const currentDate = new Date();
         const currentDateString = cityssm.dateToString(currentDate);
@@ -170,7 +169,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             }
         });
     });
-    switchContractToEditMode = (closeModalFunction) => {
+    const switchContractToEditMode = (closeModalFunction) => {
         bulmaJS.init();
         const editFormElement = document.querySelector("#form--contractEdit");
         editFormElement.querySelector("fieldset").disabled = false;
@@ -187,5 +186,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
         modalElement.querySelector("#button--switchToEditMode").remove();
         modalElement.querySelector("button[type='submit']").classList.remove("is-hidden");
         modalElement.querySelector("#contractEdit--optionsButton").classList.remove("is-hidden");
+        const removeContract = () => {
+            const contractId = editFormElement.querySelector("#contractEdit--contractId").value;
+            cityssm.postJSON(urlPrefix + "/contracts/doRemoveContract", {
+                contractId
+            }, (responseJSON) => {
+                if (responseJSON.success) {
+                    closeModalFunction();
+                    getContracts();
+                }
+            });
+        };
+        modalElement.querySelector("#contractEdit--removeContractButton").addEventListener("click", (clickEvent) => {
+            clickEvent.preventDefault();
+            bulmaJS.confirm({
+                message: "Are you sure you want to remove this contract record?",
+                okButton: {
+                    text: "Yes, Remove the Contract",
+                    callbackFunction: removeContract
+                }
+            });
+        });
     };
 })();
