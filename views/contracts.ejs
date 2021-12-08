@@ -37,14 +37,10 @@
             </a>
           </div>
         </div>
-        <a class="navbar-item" href="https://cityssm.github.io/contract-expiration-tracker/" target="_blank" rel="nofollow">
-          <span class="icon"><i class="fas fa-question-circle" aria-hidden="true"></i></span>
-          <span>Help</span>
-        </a>
       </div>
     </div>
   </nav>
-  <div class="container py-2">
+  <main class="container py-2 has-min-page-height">
     <% if (user.canUpdate) { %>
       <div class="fixed-container is-fixed-bottom-right mr-4 mb-4">
         <button class="button is-circle is-success has-tooltip-left" id="button--addContract" data-tooltip="Add a New Contract" type="button">
@@ -73,7 +69,18 @@
         </span>
       </div>
     </div>
-  </div>
+  </main>
+  <footer class="has-background-black-ter has-text-white-ter px-3 py-6 has-text-right">
+    <strong class="has-text-white-ter">Contract Expiration Tracker</strong><br />
+    Build <%= buildNumber %><br />
+    <a class="has-text-white" href="https://cityssm.github.io/contract-expiration-tracker/docs/" target="_blank" rel="nofollow noreferrer">
+      Help
+    </a>
+    &middot;
+    <a class="has-text-white" href="https://github.com/cityssm/contract-expiration-tracker" target="_blank" rel="nofollow noreferrer">
+      GitHub
+    </a>
+  </footer>
   <script>
     window.exports = window.exports || {};
     window.exports.__esModule = window.exports.__esModule || false;

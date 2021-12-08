@@ -6,6 +6,10 @@ $modal-content-width: 900px;
 @import '@cityssm/simple-fa5-checkbox/facheck-bulma';
 @import '@creativebulma/bulma-tooltip/src/sass/index';
 
+.has-min-page-height {
+  min-height: 100vh;
+}
+
 .modal,
 .modal-card,
 .modal-content {
