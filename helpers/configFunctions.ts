@@ -36,6 +36,7 @@ configFallbackValues.set("session.doKeepAlive", false);
 configFallbackValues.set("permissions.canUpdate", []);
 
 configFallbackValues.set("customizations.contractCategory.alias", "Contract Category");
+configFallbackValues.set("customizations.contractCategory.aliasPlural", "Contract Categories");
 
 
 export function getProperty(propertyName: "application.httpPort"): number;
@@ -56,6 +57,7 @@ export function getProperty(propertyName: "adWebAuthConfig"): ADWebAuthConfig;
 export function getProperty(propertyName: "permissions.canUpdate"): string[];
 
 export function getProperty(propertyName: "customizations.contractCategory.alias"): string;
+export function getProperty(propertyName: "customizations.contractCategory.aliasPlural"): string;
 
 
 export function getProperty(propertyName: string): unknown {

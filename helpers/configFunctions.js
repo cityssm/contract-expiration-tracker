@@ -13,6 +13,7 @@ configFallbackValues.set("session.maxAgeMillis", 60 * 60 * 1000);
 configFallbackValues.set("session.doKeepAlive", false);
 configFallbackValues.set("permissions.canUpdate", []);
 configFallbackValues.set("customizations.contractCategory.alias", "Contract Category");
+configFallbackValues.set("customizations.contractCategory.aliasPlural", "Contract Categories");
 export function getProperty(propertyName) {
     if (Object.prototype.hasOwnProperty.call(configOverrides, propertyName)) {
         return configOverrides[propertyName];

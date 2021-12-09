@@ -12,3 +12,4 @@ export declare function getProperty(propertyName: "session.secret"): string;
 export declare function getProperty(propertyName: "adWebAuthConfig"): ADWebAuthConfig;
 export declare function getProperty(propertyName: "permissions.canUpdate"): string[];
 export declare function getProperty(propertyName: "customizations.contractCategory.alias"): string;
+export declare function getProperty(propertyName: "customizations.contractCategory.aliasPlural"): string;

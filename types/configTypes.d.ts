@@ -23,6 +23,7 @@ export interface Config {
     customizations: {
         contractCategory: {
             alias: string;
+            aliasPlural: string;
         };
     };
 }
