@@ -1,5 +1,6 @@
 import { Router } from "express";
 import handler_contracts from "../handlers/contracts.js";
+import handler_exportCSV from "../handlers/exportCSV.js";
 import handler_doGetContracts from "../handlers/doGetContracts.js";
 import handler_doGetContract from "../handlers/doGetContract.js";
 import handler_doGetContractCategories from "../handlers/doGetContractCategories.js";
@@ -17,6 +18,7 @@ const handler_updateOnly = (request, response, next) => {
 };
 export const router = Router();
 router.get("/", handler_contracts);
+router.get("/exportCSV", handler_exportCSV);
 router.post("/doGetContracts", handler_doGetContracts);
 router.post("/doGetContract", handler_doGetContract);
 router.post("/doGetContractCategories", handler_doGetContractCategories);

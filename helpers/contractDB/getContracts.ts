@@ -10,7 +10,7 @@ import type * as expressSession from "express-session";
 interface GetContractsFilters {
   contractCategory: string;
   searchString: string;
-  includeExpired: boolean;
+  includeExpired?: string;
 }
 
 

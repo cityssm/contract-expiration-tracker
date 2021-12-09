@@ -69,6 +69,9 @@ declare const bulmaJS: BulmaJS;
   const dateDiff = exports.dateDiff as DateDiff;
 
   const filterFormElement = document.querySelector("#form--filters") as HTMLFormElement;
+
+  const includeExpiredFilterElement = filterFormElement.querySelector("#filters--includeExpired") as HTMLInputElement;
+
   const searchResultsElement = document.querySelector("#container--results") as HTMLDivElement;
 
 
@@ -203,9 +206,43 @@ declare const bulmaJS: BulmaJS;
 
   contractCategoryFilterElement.addEventListener("change", getContracts);
   document.querySelector("#filters--searchString").addEventListener("change", getContracts);
-  document.querySelector("#filters--includeExpired").addEventListener("change", getContracts);
+  includeExpiredFilterElement.addEventListener("change", getContracts);
 
   getContracts();
+
+
+  /*
+   * Exports
+   */
+
+
+  document.querySelector("#exports--csv").addEventListener("click", () => {
+
+    let currentURL = window.location.href;
+
+    if (currentURL.includes("#")) {
+      currentURL = currentURL.slice(0, Math.max(0, currentURL.indexOf("#")));
+    }
+
+    if (currentURL.includes("?")) {
+      currentURL = currentURL.slice(0, Math.max(0, currentURL.indexOf("?")));
+    }
+
+    currentURL = currentURL +
+      (currentURL.endsWith("/") ? "" : "/") +
+      "exportCSV";
+
+    const exportURL = new URL(currentURL);
+
+    exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
+    exportURL.searchParams.set("searchString", (document.querySelector("#filters--searchString") as HTMLInputElement).value);
+
+    if (includeExpiredFilterElement.checked) {
+      exportURL.searchParams.set("includeExpired", includeExpiredFilterElement.value);
+    }
+
+    window.open(exportURL);
+  });
 
 
   /*
