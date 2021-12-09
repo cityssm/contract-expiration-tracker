@@ -13,9 +13,11 @@ declare const bulmaJS: BulmaJS;
 
   const urlPrefix = exports.urlPrefix as string;
 
+
   /*
    * Contract Categories
    */
+
 
   const contractCategoryAlias = exports.customizations_contractCategory_alias as string;
   const contractCategoryAliasPlural = exports.customizations_contractCategory_aliasPlural as string;
@@ -23,6 +25,7 @@ declare const bulmaJS: BulmaJS;
   let contractCategories: string[] = exports.contractCategories;
 
   const contractCategoryFilterElement = document.querySelector("#filters--contractCategory") as HTMLSelectElement;
+
 
   const renderContractCategories = () => {
 
@@ -50,6 +53,7 @@ declare const bulmaJS: BulmaJS;
     }
   };
 
+
   const refreshContractCategories = () => {
 
     cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories",
@@ -60,11 +64,14 @@ declare const bulmaJS: BulmaJS;
       });
   };
 
+
   renderContractCategories();
+
 
   /*
    * Contract Search
    */
+
 
   const dateDiff = exports.dateDiff as DateDiff;
 
