@@ -1,5 +1,6 @@
-import { Router, RequestHandler } from "express";
+import { Router } from "express";
 
+import { updateOnly as handler_updateOnly } from "../handlers/permissionHandlers.js";
 
 import handler_contracts from "../handlers/contracts.js";
 import handler_exportCSV from "../handlers/exportCSV.js";
@@ -11,20 +12,6 @@ import handler_doGetContractCategories from "../handlers/doGetContractCategories
 import handler_doAddContract from "../handlers/doAddContract.js";
 import handler_doUpdateContract from "../handlers/doUpdateContract.js";
 import handler_doRemoveContract from "../handlers/doRemoveContract.js";
-
-
-const handler_updateOnly: RequestHandler = (request, response, next) => {
-
-  if (request.session.user.canUpdate) {
-    return next();
-  }
-
-  response.status(403);
-
-  return response.json({
-    success: false
-  });
-};
 
 
 export const router = Router();
