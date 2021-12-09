@@ -11,11 +11,54 @@ declare const bulmaJS: BulmaJS;
 
 (() => {
 
+  const urlPrefix = exports.urlPrefix as string;
+
+  /*
+   * Contract Categories
+   */
+
+  const contractCategoryAlias = exports.customizations_contractCategory_alias as string;
+  const contractCategoryAliasPlural = exports.customizations_contractCategory_aliasPlural as string;
+
+  let contractCategories: string[] = exports.contractCategories;
+
+  const contractCategoryFilterElement = document.querySelector("#filters--contractCategory") as HTMLSelectElement;
+
+  const renderContractCategories = () => {
+
+    const currentContractCategory = contractCategoryFilterElement.value;
+
+    contractCategoryFilterElement.innerHTML = "<option value=\"\">(All Available " + cityssm.escapeHTML(contractCategoryAliasPlural) + ")</option>";
+
+    for (const contractCategory of contractCategories) {
+      const optionElement = document.createElement("option");
+
+      optionElement.value = contractCategory;
+      optionElement.textContent = contractCategory;
+
+      contractCategoryFilterElement.append(optionElement);
+
+      if (currentContractCategory === contractCategory) {
+        optionElement.selected = true;
+      }
+    }
+  };
+
+  const refreshContractCategories = () => {
+
+    cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories",
+      {},
+      (responseJSON: { contractCategories: string[]; }) => {
+        contractCategories = responseJSON.contractCategories;
+        renderContractCategories();
+      });
+  };
+
+  renderContractCategories();
+
   /*
    * Contract Search
    */
-
-  const urlPrefix = exports.urlPrefix as string;
 
   const dateDiff = exports.dateDiff as DateDiff;
 
@@ -99,8 +142,6 @@ declare const bulmaJS: BulmaJS;
 
       onshow: (modalElement) => {
 
-        const contractCategoryAlias = exports.customizations_contractCategory_alias as string;
-
         const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
 
         for (const contractCategoryAliasElement of contractCategoryAliasElements) {
@@ -154,6 +195,7 @@ declare const bulmaJS: BulmaJS;
     formEvent.preventDefault();
   });
 
+  contractCategoryFilterElement.addEventListener("change", getContracts);
   document.querySelector("#filters--searchString").addEventListener("change", getContracts);
   document.querySelector("#filters--includeExpired").addEventListener("change", getContracts);
 
@@ -186,7 +228,13 @@ declare const bulmaJS: BulmaJS;
 
           if (responseJSON.success) {
             addContractCloseModalFunction();
+
+            if ((formElement.querySelector("#contractAdd--contractCategoryIsNew") as HTMLSelectElement).value === "1") {
+              refreshContractCategories();
+            }
+
             getContracts();
+
           } else {
             cityssm.alertModal("Error Adding Contract",
               "Please try again",
@@ -199,27 +247,21 @@ declare const bulmaJS: BulmaJS;
     cityssm.openHtmlModal("contractAdd", {
       onshow: (modalElement) => {
 
-        const contractCategoryAlias = exports.customizations_contractCategory_alias as string;
-
         const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
 
         for (const contractCategoryAliasElement of contractCategoryAliasElements) {
           contractCategoryAliasElement.textContent = contractCategoryAlias;
         }
 
-        cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories", {},
-          (responseJSON: { contractCategories: string[]; }) => {
+        const existingContactCategoryElement = modalElement.querySelector("#contractAdd--contactCategory-existing");
 
-            const existingContactCategoryElement = modalElement.querySelector("#contractAdd--contactCategory-existing");
+        for (const contractCategory of contractCategories) {
 
-            for (const contractCategory of responseJSON.contractCategories) {
-
-              const optionElement = document.createElement("option");
-              optionElement.textContent = contractCategory;
-              optionElement.value = contractCategory;
-              existingContactCategoryElement.append(optionElement);
-            }
-          });
+          const optionElement = document.createElement("option");
+          optionElement.textContent = contractCategory;
+          optionElement.value = contractCategory;
+          existingContactCategoryElement.append(optionElement);
+        }
       },
       onshown: (modalElement, closeModalFunction) => {
 

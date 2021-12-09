@@ -14,6 +14,10 @@ export const getContracts = (filters, requestSession) => {
         sql += " and contractCategory in (select contractCategory from ContractCategoryUsers where userName = ?)";
         parameters.push(requestSession.user.userName);
     }
+    if (filters.contractCategory !== "") {
+        sql += " and contractCategory = ?";
+        parameters.push(filters.contractCategory);
+    }
     if (filters.searchString !== "") {
         const searchStringPieces = filters.searchString.trim().toLowerCase().split(" ");
         for (const searchStringPiece of searchStringPieces) {

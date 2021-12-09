@@ -49,12 +49,30 @@
       </div>
     <% } %>
     <form class="box" id="form--filters">
-      <div class="field">
-        <div class="control has-icons-left">
-          <input class="input" id="filters--searchString" name="searchString" type="text" placeholder="Search Contracts" />
-          <span class="icon is-small is-left">
-            <i class="fas fa-search" aria-hidden="true"></i>
-          </span>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <div class="control is-expanded has-icons-left">
+              <div class="select is-fullwidth">
+                <select id="filters--contractCategory" name="contractCategory">
+                  <option value="">(All Available Categories)</option>
+                </select>
+              </div>
+              <span class="icon is-small is-left">
+                <i class="fas fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <div class="control has-icons-left">
+              <input class="input" id="filters--searchString" name="searchString" type="text" placeholder="Search Contracts" />
+              <span class="icon is-small is-left">
+                <i class="fas fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="facheck">
@@ -88,6 +106,9 @@
     exports.urlPrefix = "<%= urlPrefix %>";
 
     exports.customizations_contractCategory_alias = "<%= configFunctions.getProperty("customizations.contractCategory.alias") %>";
+    exports.customizations_contractCategory_aliasPlural = "<%= configFunctions.getProperty("customizations.contractCategory.aliasPlural") %>";
+
+    exports.contractCategories = <%- JSON.stringify(contractCategories) %>;
   </script>
   <script src="<%= urlPrefix %>/lib/bulma-js/bulma-js.js"></script>
   <script src="<%= urlPrefix %>/lib/bulma-webapp-js/cityssm.min.js"></script>

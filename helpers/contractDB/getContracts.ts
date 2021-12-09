@@ -8,6 +8,7 @@ import type * as expressSession from "express-session";
 
 
 interface GetContractsFilters {
+  contractCategory: string;
   searchString: string;
   includeExpired: boolean;
 }
@@ -28,6 +29,11 @@ export const getContracts = (filters: GetContractsFilters, requestSession: expre
   if (!requestSession.user.canUpdate) {
     sql += " and contractCategory in (select contractCategory from ContractCategoryUsers where userName = ?)";
     parameters.push(requestSession.user.userName);
+  }
+
+  if (filters.contractCategory !== "") {
+    sql += " and contractCategory = ?";
+    parameters.push(filters.contractCategory);
   }
 
   if (filters.searchString !== "") {
