@@ -6,10 +6,14 @@ export const getContractCategories = (requestSession) => {
         " where recordDelete_timeMillis is null" +
         " and contractCategory != ''";
     const parameters = [];
-    if (!requestSession.user.canUpdate) {
+    if (requestSession.user.canUpdate) {
+        sql += " union select distinct contractCategory from ContractCategoryUsers";
+    }
+    else {
         sql += " and contractCategory in (select contractCategory from ContractCategoryUsers where userName = ?)";
         parameters.push(requestSession.user.userName);
     }
+    sql += " order by contractCategory";
     const database = sqlite(databasePath, {
         readonly: true
     });
