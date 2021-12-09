@@ -46,6 +46,7 @@
     "express-rate-limit": "^5.5.1",
     "express-session": "^1.17.2",
     "http-errors": "^1.8.1",
+    "papaparse": "^5.3.1",
     "session-file-store": "^1.5.0"
   },
   "devDependencies": {
@@ -64,6 +65,7 @@
     "@types/gulp": "^4.0.9",
     "@types/gulp-minify": "^3.1.1",
     "@types/http-errors": "^1.8.1",
+    "@types/papaparse": "^5.3.1",
     "@types/request-ip": "^0.0.37",
     "@types/session-file-store": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
