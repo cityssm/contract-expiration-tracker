@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     const contractCategoryFilterElement = document.querySelector("#filters--contractCategory");
     const renderContractCategories = () => {
         const currentContractCategory = contractCategoryFilterElement.value;
+        let currentContractCategoryFound = false;
         contractCategoryFilterElement.innerHTML = "<option value=\"\">(All Available " + cityssm.escapeHTML(contractCategoryAliasPlural) + ")</option>";
         for (const contractCategory of contractCategories) {
             const optionElement = document.createElement("option");
@@ -16,7 +17,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
             contractCategoryFilterElement.append(optionElement);
             if (currentContractCategory === contractCategory) {
                 optionElement.selected = true;
+                currentContractCategoryFound = true;
             }
+        }
+        if (currentContractCategory !== "" && !currentContractCategoryFound) {
+            getContracts();
         }
     };
     const refreshContractCategories = () => {
@@ -217,6 +222,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             }, (responseJSON) => {
                 if (responseJSON.success) {
                     closeModalFunction();
+                    refreshContractCategories();
                     getContracts();
                 }
             });

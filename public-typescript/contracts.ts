@@ -27,6 +27,7 @@ declare const bulmaJS: BulmaJS;
   const renderContractCategories = () => {
 
     const currentContractCategory = contractCategoryFilterElement.value;
+    let currentContractCategoryFound = false;
 
     contractCategoryFilterElement.innerHTML = "<option value=\"\">(All Available " + cityssm.escapeHTML(contractCategoryAliasPlural) + ")</option>";
 
@@ -40,7 +41,12 @@ declare const bulmaJS: BulmaJS;
 
       if (currentContractCategory === contractCategory) {
         optionElement.selected = true;
+        currentContractCategoryFound = true;
       }
+    }
+
+    if (currentContractCategory !== "" && !currentContractCategoryFound) {
+      getContracts();
     }
   };
 
@@ -334,6 +340,7 @@ declare const bulmaJS: BulmaJS;
 
         if (responseJSON.success) {
           closeModalFunction();
+          refreshContractCategories();
           getContracts();
         }
       });
