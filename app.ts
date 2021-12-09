@@ -16,8 +16,10 @@ import * as stringFns from "@cityssm/expressjs-server-js/stringFns.js";
 import * as dateTimeFns from "@cityssm/expressjs-server-js/dateTimeFns.js";
 import { version } from "./version.js";
 
+import { updateOnly as handler_updateOnly } from "./handlers/permissionHandlers.js";
 import routerLogin from "./routes/login.js";
 import routerContracts from "./routes/contracts.js";
+import routerAdmin from "./routes/admin.js";
 
 import * as databaseInitializer from "./helpers/databaseInitializer.js";
 
@@ -179,6 +181,8 @@ app.get(urlPrefix + "/", sessionChecker, (_request, response) => {
 });
 
 app.use(urlPrefix + "/contracts", sessionChecker, routerContracts);
+
+app.use(urlPrefix + "/admin", sessionChecker, handler_updateOnly, routerAdmin);
 
 app.use(urlPrefix + "/login", routerLogin);
 
