@@ -27,3 +27,7 @@ export interface Contract {
     recordDelete_userName?: string;
     recordDelete_timeMillis?: number;
 }
+export interface ContractCategoryUser {
+    userName: string;
+    contractCategory: string;
+}
