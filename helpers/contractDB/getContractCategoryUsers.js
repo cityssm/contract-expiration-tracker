@@ -1,6 +1,6 @@
 import sqlite from "better-sqlite3";
 import { contractsDB as databasePath } from "../../data/databasePaths.js";
-export const getContractCategoryUsers = (filters, orderBy) => {
+export const getContractCategoryUsers = (filters, orderBy = "userName") => {
     let sql = "select userName, contractCategory" +
         " from ContractCategoryUsers" +
         " where 1 = 1";

@@ -11,7 +11,7 @@ interface GetContractCategoryUsersFilters {
 
 
 export const getContractCategoryUsers = (filters: GetContractCategoryUsersFilters,
-  orderBy: "userName" | "contractCategory"): ContractCategoryUser[] => {
+  orderBy: "userName" | "contractCategory" = "userName"): ContractCategoryUser[] => {
 
   let sql = "select userName, contractCategory" +
     " from ContractCategoryUsers" +
