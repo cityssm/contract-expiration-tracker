@@ -27,6 +27,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     const refreshContractCategories = () => {
         cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories", {}, (responseJSON) => {
             contractCategories = responseJSON.contractCategories;
+            exports.contractCategories = responseJSON.contractCategories;
             renderContractCategories();
         });
     };

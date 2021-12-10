@@ -1,0 +1,98 @@
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <h3 class="modal-card-title">
+        <span data-customization="contractCategory.alias"></span> User Maintenance
+      </h3>
+      <button class="delete is-close-modal-button" aria-label="close" type="button"></button>
+    </header>
+    <section class="modal-card-body">
+      <div>
+        <div class="tabs is-boxed">
+          <ul>
+            <li class="is-active">
+              <a href="#ccuFilterTab--userName">
+                <span class="icon is-small"><i class="fas fa-user" aria-hidden="true"></i></span>
+                <span>By User</span>
+              </a>
+            </li>
+            <li>
+              <a href="#ccuFilterTab--contractCategory">
+                <span class="icon is-small"><i class="fas fa-archive" aria-hidden="true"></i></span>
+                <span>By <span data-customization="contractCategory.alias"></span></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="ccuFilterTab" id="ccuFilterTab--userName">
+          <div class="columns">
+            <div class="column is-two-fifths">
+              <div class="field">
+                <label class="label" for="ccuFilter--userName">Filter by User Name</label>
+                <div class="control is-expanded has-icons-left">
+                  <div class="select is-fullwidth">
+                    <select id="ccuFilter--userName" name="userName"></select>
+                  </div>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-filter" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <label class="label" for="ccuAdd--contractCategory">New <span data-customization="contractCategory.alias"></span></label>
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  <div class="select is-fullwidth">
+                    <select id="ccuAdd--contractCategory" name="contractCategory" required></select>
+                  </div>
+                </div>
+                <div class="control">
+                  <button class="button is-success ccuAddButton" type="button">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ccuFilterTab is-hidden" id="ccuFilterTab--contractCategory">
+          <div class="columns">
+            <div class="column is-three-fifths">
+              <div class="field">
+                <label class="label" for="ccuFilter--contractCategory">Filter by <span data-customization="contractCategory.alias"></span></label>
+                <div class="control is-expanded has-icons-left">
+                  <div class="select is-fullwidth">
+                    <select id="ccuFilter--contractCategory" name="contractCategory"></select>
+                  </div>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-filter" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <label class="label" for="ccuAdd--userName">New User Name</label>
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  <input class="input" id="ccuAdd--userName" name="userName" maxlength="30" list="ccuAdd--userName-datalist" autocomplete="off" required />
+                  <datalist id="ccuAdd--userName-datalist"></datalist>
+                </div>
+                <div class="control">
+                  <button class="button is-success ccuAddButton" type="button">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3" id="ccu--results"></div>
+    </section>
+    <footer class="modal-card-foot is-justify-content-right">
+      <button class="button is-close-modal-button" type="button">Close</button>
+    </footer>
+  </div>
+</div>

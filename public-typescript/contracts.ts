@@ -60,6 +60,7 @@ declare const bulmaJS: BulmaJS;
       {},
       (responseJSON: { contractCategories: string[]; }) => {
         contractCategories = responseJSON.contractCategories;
+        exports.contractCategories = responseJSON.contractCategories;
         renderContractCategories();
       });
   };
