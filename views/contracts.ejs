@@ -50,7 +50,7 @@
   </nav>
   <main class="container py-2 has-min-page-height">
     <% if (user.canUpdate) { %>
-      <div class="fixed-container is-fixed-bottom-right mr-4 mb-4">
+      <div class="fixed-container is-fixed-bottom-right mr-4 mb-4 is-hidden-print">
         <button class="button is-circle is-success has-tooltip-left" id="button--addContract" data-tooltip="Add a New Contract" type="button">
           <i class="fas fa-plus" aria-hidden="true"></i>
         </button>
@@ -95,11 +95,11 @@
         </span>
       </div>
     </div>
-    <p class="has-text-centered mt-4 is-size-7">
-      <button class="button is-ghost is-small" id="exports--csv" type="button">Export as CSV</button>
+    <p class="has-text-centered mt-4 is-size-7 is-hidden-print">
+      <button class="button is-ghost is-small" id="exports--csv" type="button">Export Results as CSV</button>
     </p>
   </main>
-  <footer class="has-background-black-ter has-text-white-ter px-3 py-6 has-text-right">
+  <footer class="has-background-black-ter has-text-white-ter px-3 py-6">
     <strong class="has-text-white-ter">Contract Expiration Tracker</strong><br />
     Build <%= buildNumber %><br />
     <a class="has-text-white" href="https://cityssm.github.io/contract-expiration-tracker/docs/" target="_blank" rel="nofollow noreferrer">
