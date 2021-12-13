@@ -47,6 +47,44 @@ declare const bulmaJS: BulmaJS;
     exportAnchorElements[exportType].href = exportURL.href;
   };
 
+  const setExportURLs = () => {
+    setExportURL("csv");
+    setExportURL("ical");
+  };
+
+  const doResetUserAccessGUIDs = () => {
+
+    cityssm.postJSON(urlPrefix + "/contracts/doResetUserAccessGUIDs", {},
+    (responseJSON: { success: boolean; guidA: string; guidB: string; }) => {
+
+      if (responseJSON.success) {
+
+        bulmaJS.alert({
+          title: "Export Keys Reset Successfully",
+          message: "Note that if your export links are used by any application like Microsoft Excel or Outlook, you will have to update those links."
+        });
+
+        exports.guidA = responseJSON.guidA;
+        exports.guidB = responseJSON.guidB;
+
+        setExportURLs();
+      }
+    });
+  };
+
+  document.querySelector("#navbar--resetUserAccessGUIDs").addEventListener("click", (clickEvent) => {
+    clickEvent.preventDefault();
+
+    bulmaJS.confirm({
+      contextualColorName: "warning",
+      title: "Are you sure you want to reset your export keys?",
+      message: "This should definitely be done if you think your export keys have been compromised.",
+      okButton: {
+        text: "Yes, Reset the Keys",
+        callbackFunction: doResetUserAccessGUIDs
+      }
+    })
+  })
 
   /*
    * Contract Categories

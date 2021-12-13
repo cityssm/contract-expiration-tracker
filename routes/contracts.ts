@@ -12,6 +12,8 @@ import handler_doAddContract from "../handlers/doAddContract.js";
 import handler_doUpdateContract from "../handlers/doUpdateContract.js";
 import handler_doRemoveContract from "../handlers/doRemoveContract.js";
 
+import handler_doResetUserAccessGUIDs from "../handlers/doResetUserAccessGUIDs.js";
+
 
 export const router = Router();
 
@@ -25,6 +27,8 @@ router.post("/doGetContractCategories", handler_doGetContractCategories);
 router.post("/doAddContract", handler_updateOnly, handler_doAddContract);
 router.post("/doUpdateContract", handler_updateOnly, handler_doUpdateContract);
 router.post("/doRemoveContract", handler_updateOnly, handler_doRemoveContract);
+
+router.post("/doResetUserAccessGUIDs", handler_updateOnly, handler_doResetUserAccessGUIDs);
 
 
 export default router;

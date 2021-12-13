@@ -17,7 +17,5 @@ export const guidHandler = (request, response, next) => {
         return next();
     }
     response.status(403);
-    return response.json({
-        success: false
-    });
+    return response.send("Error: Link Not Valid");
 };
