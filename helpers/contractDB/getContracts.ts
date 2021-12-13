@@ -45,9 +45,10 @@ export const getContracts = (filters: GetContractsFilters, requestSession: expre
       sql += " and (" +
         "instr(lower(contractTitle), ?)" +
         " or instr(lower(contractDescription), ?)" +
+        " or instr(lower(contractParty), ?)" +
         ")";
 
-      parameters.push(searchStringPiece, searchStringPiece);
+      parameters.push(searchStringPiece, searchStringPiece, searchStringPiece);
     }
   }
 
