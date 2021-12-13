@@ -109,6 +109,11 @@ declare const bulmaJS: BulmaJS;
 
           const panelBlockElement = document.createElement("a");
           panelBlockElement.className = "panel-block is-block";
+
+          if (contract.endDate && contract.endDateString < currentDateString) {
+            panelBlockElement.classList.add("has-background-danger-light");
+          }
+
           panelBlockElement.dataset.contractId = contract.contractId.toString();
           panelBlockElement.href = "#";
           panelBlockElement.addEventListener("click", openContract);
