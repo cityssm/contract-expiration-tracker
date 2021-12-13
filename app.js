@@ -50,6 +50,9 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 const urlPrefix = configFunctions.getProperty("reverseProxy.urlPrefix");
+if (urlPrefix !== "") {
+    debugApp("urlPrefix = " + urlPrefix);
+}
 app.use(urlPrefix, express.static(path.join(__dirname, "public")));
 app.use(urlPrefix + "/lib/bulma-js", express.static(path.join(__dirname, "node_modules", "@cityssm", "bulma-js", "dist")));
 app.use(urlPrefix + "/lib/bulma-webapp-js", express.static(path.join(__dirname, "node_modules", "@cityssm", "bulma-webapp-js", "dist")));

@@ -95,6 +95,10 @@ app.use(limiter);
 
 const urlPrefix = configFunctions.getProperty("reverseProxy.urlPrefix");
 
+if (urlPrefix !== "") {
+  debugApp("urlPrefix = " + urlPrefix);
+}
+
 
 app.use(urlPrefix, express.static(path.join(__dirname, "public")));
 
