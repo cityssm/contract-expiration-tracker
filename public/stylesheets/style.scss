@@ -8,6 +8,10 @@ $modal-content-width: 900px;
 
 .has-min-page-height {
   min-height: 100vh;
+
+  @media print {
+    min-height: inherit;
+  }
 }
 
 .modal,
@@ -98,6 +102,13 @@ $modal-content-width: 900px;
   }
 
   .is-hidden-screen {
+    display: none !important;
+  }
+}
+
+
+@media print {
+  .is-hidden-print {
     display: none !important;
   }
 }
