@@ -8,7 +8,7 @@ import type * as expressSession from "express-session";
 
 
 
-export const getContract = (contractId: number | string, requestSession: expressSession.Session) => {
+export const getContract = (contractId: number | string, requestSession: expressSession.Session): Contract => {
 
   let sql = "select contractId," +
     " contractTitle, contractCategory, contractParty, contractDescription," +

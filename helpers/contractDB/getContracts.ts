@@ -14,7 +14,7 @@ interface GetContractsFilters {
 }
 
 
-export const getContracts = (filters: GetContractsFilters, requestSession: expressSession.Session) => {
+export const getContracts = (filters: GetContractsFilters, requestSession: expressSession.Session): Contract[] => {
 
   let sql = "select contractId," +
     " contractTitle, contractCategory, contractParty," +
