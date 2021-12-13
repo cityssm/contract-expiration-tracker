@@ -28,6 +28,10 @@ export const getContracts = (filters, requestSession) => {
             parameters.push(searchStringPiece, searchStringPiece);
         }
     }
+    if (!filters.includeExpired) {
+        sql += " and endDate is not null and endDate >= ?";
+        parameters.push(dateTimeFunctions.dateToInteger(new Date()));
+    }
     const database = sqlite(databasePath, {
         readonly: true
     });

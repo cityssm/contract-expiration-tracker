@@ -51,6 +51,11 @@ export const getContracts = (filters: GetContractsFilters, requestSession: expre
     }
   }
 
+  if (!filters.includeExpired) {
+    sql += " and endDate is not null and endDate >= ?";
+    parameters.push(dateTimeFunctions.dateToInteger(new Date()));
+  }
+
   const database = sqlite(databasePath, {
     readonly: true
   });
