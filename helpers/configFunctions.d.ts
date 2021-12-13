@@ -1,3 +1,4 @@
+import type * as configTypes from "../types/configTypes";
 import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
 export declare function getProperty(propertyName: "application.httpPort"): number;
 export declare function getProperty(propertyName: "application.userDomain"): string;
@@ -9,7 +10,9 @@ export declare function getProperty(propertyName: "session.cookieName"): string;
 export declare function getProperty(propertyName: "session.doKeepAlive"): boolean;
 export declare function getProperty(propertyName: "session.maxAgeMillis"): number;
 export declare function getProperty(propertyName: "session.secret"): string;
-export declare function getProperty(propertyName: "adWebAuthConfig"): ADWebAuthConfig;
+export declare function getProperty(propertyName: "authentication.source"): "ad-web-auth" | "Active Directory";
+export declare function getProperty(propertyName: "authentication.adWebAuthConfig"): ADWebAuthConfig;
+export declare function getProperty(propertyName: "authentication.activeDirectoryConfig"): configTypes.ActiveDirectoryConfig;
 export declare function getProperty(propertyName: "permissions.canUpdate"): string[];
 export declare function getProperty(propertyName: "customizations.contractCategory.alias"): string;
 export declare function getProperty(propertyName: "customizations.contractCategory.aliasPlural"): string;

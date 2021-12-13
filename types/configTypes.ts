@@ -22,7 +22,11 @@ export interface Config {
     doKeepAlive?: boolean;
   };
 
-  adWebAuthConfig: ADWebAuthConfig;
+  authentication: {
+    source: "ad-web-auth" | "Active Directory",
+    adWebAuthConfig?: ADWebAuthConfig;
+    activeDirectoryConfig?: ActiveDirectoryConfig;
+  };
 
   permissions: {
     canUpdate: string[];
@@ -34,4 +38,12 @@ export interface Config {
       aliasPlural: string;
     }
   }
+}
+
+
+export interface ActiveDirectoryConfig {
+  url: string;
+  baseDN: string;
+  username: string;
+  password: string;
 }

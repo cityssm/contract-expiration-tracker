@@ -1,3 +1,4 @@
+import type * as configTypes from "../types/configTypes";
 import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
 
 
@@ -52,7 +53,9 @@ export function getProperty(propertyName: "session.doKeepAlive"): boolean;
 export function getProperty(propertyName: "session.maxAgeMillis"): number;
 export function getProperty(propertyName: "session.secret"): string;
 
-export function getProperty(propertyName: "adWebAuthConfig"): ADWebAuthConfig;
+export function getProperty(propertyName: "authentication.source"): "ad-web-auth" | "Active Directory";
+export function getProperty(propertyName: "authentication.adWebAuthConfig"): ADWebAuthConfig;
+export function getProperty(propertyName: "authentication.activeDirectoryConfig"): configTypes.ActiveDirectoryConfig;
 
 export function getProperty(propertyName: "permissions.canUpdate"): string[];
 
