@@ -36,7 +36,14 @@ export const initContractsDB = () => {
             " contractCategory varchar(100) not null," +
             " primary key (userName, contractCategory)" +
             ") without rowid").run();
+        contractsDB.prepare("create table UserAccessGUIDs (" +
+            "userName varchar(30) primary key not null," +
+            " guidA char(36) not null," +
+            " guidB char(36) not null," +
+            " recordCreate_timeMillis integer not null" +
+            ") without rowid").run();
         return true;
     }
+    contractsDB.close();
     return false;
 };

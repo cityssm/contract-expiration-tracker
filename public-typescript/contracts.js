@@ -2,6 +2,27 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 (() => {
     const urlPrefix = exports.urlPrefix;
+    const exportAnchorElements = {
+        csv: document.querySelector("#export--csv"),
+        ical: document.querySelector("#export--ical")
+    };
+    const setExportURL = (exportType) => {
+        const exportURLString = window.location.protocol + "//" +
+            window.location.host +
+            urlPrefix +
+            "/export" +
+            "/" + exportType +
+            "/" + exports.userName +
+            "/" + exports.guidA +
+            "/" + exports.guidB;
+        const exportURL = new URL(exportURLString);
+        exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
+        exportURL.searchParams.set("searchString", document.querySelector("#filters--searchString").value);
+        if (includeExpiredFilterElement.checked) {
+            exportURL.searchParams.set("includeExpired", includeExpiredFilterElement.value);
+        }
+        exportAnchorElements[exportType].href = exportURL.href;
+    };
     const contractCategoryAlias = exports.customizations_contractCategory_alias;
     const contractCategoryAliasPlural = exports.customizations_contractCategory_aliasPlural;
     let contractCategories = exports.contractCategories;
@@ -92,6 +113,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
             searchResultsElement.innerHTML = "";
             searchResultsElement.append(panelElement);
         });
+        setExportURL("csv");
+        setExportURL("ical");
     };
     const openContract = (clickEvent) => {
         clickEvent.preventDefault();
@@ -144,25 +167,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
     document.querySelector("#filters--searchString").addEventListener("change", getContracts);
     includeExpiredFilterElement.addEventListener("change", getContracts);
     getContracts();
-    document.querySelector("#exports--csv").addEventListener("click", () => {
-        let currentURL = window.location.href;
-        if (currentURL.includes("#")) {
-            currentURL = currentURL.slice(0, Math.max(0, currentURL.indexOf("#")));
-        }
-        if (currentURL.includes("?")) {
-            currentURL = currentURL.slice(0, Math.max(0, currentURL.indexOf("?")));
-        }
-        currentURL = currentURL +
-            (currentURL.endsWith("/") ? "" : "/") +
-            "exportCSV";
-        const exportURL = new URL(currentURL);
-        exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
-        exportURL.searchParams.set("searchString", document.querySelector("#filters--searchString").value);
-        if (includeExpiredFilterElement.checked) {
-            exportURL.searchParams.set("includeExpired", includeExpiredFilterElement.value);
-        }
-        window.open(exportURL);
-    });
     const canUpdate = exports.canUpdate;
     if (!canUpdate) {
         return;

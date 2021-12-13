@@ -96,7 +96,9 @@
       </div>
     </div>
     <p class="has-text-centered mt-4 is-size-7 is-hidden-print">
-      <button class="button is-ghost is-small" id="exports--csv" type="button">Export Results as CSV</button>
+      Export Results as<br />
+      <a class="button is-small is-ghost" id="export--csv" href="#" target="_blank">CSV</a>
+      <a class="button is-small is-ghost" id="export--ical" href="#" target="_blank">iCal</a>
     </p>
   </main>
   <footer class="has-background-black-ter has-text-white-ter px-3 py-6">
@@ -113,7 +115,12 @@
   <script>
     window.exports = window.exports || {};
     window.exports.__esModule = window.exports.__esModule || false;
+
+    exports.userName = "<%= user.userName %>";
     exports.canUpdate = <%= user.canUpdate %>;
+    exports.guidA = "<%= user.guidA %>";
+    exports.guidB = "<%= user.guidB %>";
+
     exports.urlPrefix = "<%= urlPrefix %>";
 
     exports.customizations_contractCategory_alias = "<%= configFunctions.getProperty("customizations.contractCategory.alias") %>";

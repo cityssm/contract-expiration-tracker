@@ -1,6 +1,8 @@
 import { Router } from "express";
 import * as authFunctions from "../helpers/authFunctions.js";
 import * as configFunctions from "../helpers/configFunctions.js";
+import { getUserAccessGUIDs } from "../helpers/contractDB/getUserAccessGUIDs.js";
+import { resetUserAccessGUIDs } from "../helpers/contractDB/resetUserAccessGUIDs.js";
 import debug from "debug";
 const debugLogin = debug("contract-expiration-tracker:routes:login");
 const redirectURL = configFunctions.getProperty("reverseProxy.urlPrefix") + "/contracts";
@@ -24,9 +26,15 @@ router.route("/")
     try {
         const isAuthenticated = await authFunctions.authenticate(userName, passwordPlain);
         if (isAuthenticated) {
+            let userAccessGUIDs = getUserAccessGUIDs(userName);
+            if (!userAccessGUIDs) {
+                userAccessGUIDs = resetUserAccessGUIDs(userName);
+            }
             request.session.user = {
                 userName: userName,
-                canUpdate: configFunctions.getProperty("permissions.canUpdate").includes(userName)
+                canUpdate: configFunctions.getProperty("permissions.canUpdate").includes(userName),
+                guidA: userAccessGUIDs.guidA,
+                guidB: userAccessGUIDs.guidB
             };
             return response.redirect(redirectURL);
         }

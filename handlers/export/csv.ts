@@ -3,7 +3,7 @@
 import type { RequestHandler } from "express";
 
 import Papa from "papaparse";
-import { getContracts } from "../helpers/contractDB/getContracts.js";
+import { getContracts } from "../../helpers/contractDB/getContracts.js";
 
 
 export const handler: RequestHandler = async (request, response) => {
@@ -14,7 +14,16 @@ export const handler: RequestHandler = async (request, response) => {
     includeExpired: request.query.includeExpired as string
   };
 
-  const contracts = getContracts(parameters, request.session);
+  const fakeSession = {
+    user: {
+      userName: request.params.userName,
+      canUpdate: false,
+      guidA: request.params.guidA,
+      guidB: request.params.guibB
+    }
+  }
+
+  const contracts = getContracts(parameters, fakeSession);
 
   const csv = Papa.unparse(contracts);
 

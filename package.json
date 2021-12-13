@@ -47,8 +47,10 @@
     "express-rate-limit": "^5.5.1",
     "express-session": "^1.17.2",
     "http-errors": "^1.8.1",
+    "ical-generator": "^3.1.0",
     "papaparse": "^5.3.1",
-    "session-file-store": "^1.5.0"
+    "session-file-store": "^1.5.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@cityssm/bulma-a11y": "^0.4.0",
@@ -70,6 +72,7 @@
     "@types/papaparse": "^5.3.1",
     "@types/request-ip": "^0.0.37",
     "@types/session-file-store": "^1.2.2",
+    "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "bulma": "^0.9.3",

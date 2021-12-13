@@ -18,6 +18,7 @@ import { version } from "./version.js";
 
 import { updateOnly as handler_updateOnly } from "./handlers/permissionHandlers.js";
 import routerLogin from "./routes/login.js";
+import routerExport from "./routes/export.js";
 import routerContracts from "./routes/contracts.js";
 import routerAdmin from "./routes/admin.js";
 
@@ -162,6 +163,7 @@ const sessionChecker = (request: express.Request, response: express.Response, ne
   return response.redirect(urlPrefix + "/login");
 };
 
+
 /*
  * ROUTES
  */
@@ -183,6 +185,8 @@ app.use(function(request, response, next) {
 app.get(urlPrefix + "/", sessionChecker, (_request, response) => {
   response.redirect(urlPrefix + "/contracts");
 });
+
+app.use(urlPrefix + "/export", routerExport);
 
 app.use(urlPrefix + "/contracts", sessionChecker, routerContracts);
 

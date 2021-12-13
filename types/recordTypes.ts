@@ -1,6 +1,8 @@
 export interface User {
   userName: string;
   canUpdate: boolean;
+  guidA: string;
+  guidB: string;
 }
 
 
@@ -8,6 +10,11 @@ declare module "express-session" {
   interface Session {
     user: User;
   }
+}
+
+
+export interface SessionWithUser {
+  user: User;
 }
 
 

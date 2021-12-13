@@ -3,8 +3,7 @@ import { contractsDB as databasePath } from "../../data/databasePaths.js";
 
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
 
-import type { Contract } from "../../types/recordTypes";
-import type * as expressSession from "express-session";
+import type { Contract, SessionWithUser } from "../../types/recordTypes";
 
 
 interface GetContractsFilters {
@@ -14,13 +13,14 @@ interface GetContractsFilters {
 }
 
 
-export const getContracts = (filters: GetContractsFilters, requestSession: expressSession.Session): Contract[] => {
+export const getContracts = (filters: GetContractsFilters, requestSession: SessionWithUser): Contract[] => {
 
   let sql = "select contractId," +
     " contractTitle, contractCategory, contractParty," +
     " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
     " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
-    " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
+    " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +
+    " recordCreate_timeMillis, recordUpdate_timeMillis" +
     " from Contracts" +
     " where recordDelete_timeMillis is null";
 

@@ -6,7 +6,8 @@ export const getContracts = (filters, requestSession) => {
         " contractTitle, contractCategory, contractParty," +
         " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
         " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
-        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
+        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +
+        " recordCreate_timeMillis, recordUpdate_timeMillis" +
         " from Contracts" +
         " where recordDelete_timeMillis is null";
     const parameters = [];

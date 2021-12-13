@@ -15,6 +15,40 @@ declare const bulmaJS: BulmaJS;
 
 
   /*
+   * Exports
+   */
+
+
+  const exportAnchorElements = {
+    csv: document.querySelector("#export--csv") as HTMLAnchorElement,
+    ical: document.querySelector("#export--ical") as HTMLAnchorElement
+  };
+
+  const setExportURL = (exportType: "csv" | "ical") => {
+
+    const exportURLString = window.location.protocol + "//" +
+      window.location.host +
+      urlPrefix +
+      "/export" +
+      "/" + exportType +
+      "/" + exports.userName +
+      "/" + exports.guidA +
+      "/" + exports.guidB;
+
+    const exportURL = new URL(exportURLString);
+
+    exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
+    exportURL.searchParams.set("searchString", (document.querySelector("#filters--searchString") as HTMLInputElement).value);
+
+    if (includeExpiredFilterElement.checked) {
+      exportURL.searchParams.set("includeExpired", includeExpiredFilterElement.value);
+    }
+
+    exportAnchorElements[exportType].href = exportURL.href;
+  };
+
+
+  /*
    * Contract Categories
    */
 
@@ -152,6 +186,9 @@ declare const bulmaJS: BulmaJS;
         searchResultsElement.innerHTML = "";
         searchResultsElement.append(panelElement);
       });
+
+    setExportURL("csv");
+    setExportURL("ical");
   };
 
 
@@ -222,40 +259,6 @@ declare const bulmaJS: BulmaJS;
   includeExpiredFilterElement.addEventListener("change", getContracts);
 
   getContracts();
-
-
-  /*
-   * Exports
-   */
-
-
-  document.querySelector("#exports--csv").addEventListener("click", () => {
-
-    let currentURL = window.location.href;
-
-    if (currentURL.includes("#")) {
-      currentURL = currentURL.slice(0, Math.max(0, currentURL.indexOf("#")));
-    }
-
-    if (currentURL.includes("?")) {
-      currentURL = currentURL.slice(0, Math.max(0, currentURL.indexOf("?")));
-    }
-
-    currentURL = currentURL +
-      (currentURL.endsWith("/") ? "" : "/") +
-      "exportCSV";
-
-    const exportURL = new URL(currentURL);
-
-    exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
-    exportURL.searchParams.set("searchString", (document.querySelector("#filters--searchString") as HTMLInputElement).value);
-
-    if (includeExpiredFilterElement.checked) {
-      exportURL.searchParams.set("includeExpired", includeExpiredFilterElement.value);
-    }
-
-    window.open(exportURL);
-  });
 
 
   /*
