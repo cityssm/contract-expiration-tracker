@@ -2,8 +2,11 @@
 
 import type { RequestHandler } from "express";
 
-import Papa from "papaparse";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
+
+import * as configFunctions from "../../helpers/configFunctions.js";
+
+import Papa from "papaparse";
 
 
 export const handler: RequestHandler = async (request, response) => {
@@ -17,9 +20,9 @@ export const handler: RequestHandler = async (request, response) => {
   const fakeSession = {
     user: {
       userName: request.params.userName,
-      canUpdate: false,
+      canUpdate: configFunctions.getProperty("permissions.canUpdate").includes(request.params.userName),
       guidA: request.params.guidA,
-      guidB: request.params.guibB
+      guidB: request.params.guidB
     }
   }
 

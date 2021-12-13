@@ -6,6 +6,7 @@ import ical from "ical-generator";
 
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 
+import * as configFunctions from "../../helpers/configFunctions.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
 
 import type { ICalEvent } from "ical-generator";
@@ -59,9 +60,9 @@ export const handler: RequestHandler = (request, response) => {
   const fakeSession = {
     user: {
       userName: request.params.userName,
-      canUpdate: false,
+      canUpdate: configFunctions.getProperty("permissions.canUpdate").includes(request.params.userName),
       guidA: request.params.guidA,
-      guidB: request.params.guibB
+      guidB: request.params.guidB
     }
   }
 
@@ -97,6 +98,18 @@ export const handler: RequestHandler = (request, response) => {
     }
 
     // Build extension date
+
+    if (contract.extensionDate) {
+
+      const extensionEvent = calendar.createEvent({
+        summary: contract.contractTitle + " (Extension)",
+        start: dateTimeFunctions.dateIntegerToDate(contract.extensionDate)
+      });
+
+      extensionEvent.uid(contract.contractId + "-extension");
+
+      addEventDetails(extensionEvent, contract);
+    }
   }
 
   response.setHeader("Content-Disposition",

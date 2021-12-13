@@ -1,5 +1,6 @@
-import Papa from "papaparse";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
+import * as configFunctions from "../../helpers/configFunctions.js";
+import Papa from "papaparse";
 export const handler = async (request, response) => {
     const parameters = {
         contractCategory: request.query.contractCategory,
@@ -9,9 +10,9 @@ export const handler = async (request, response) => {
     const fakeSession = {
         user: {
             userName: request.params.userName,
-            canUpdate: false,
+            canUpdate: configFunctions.getProperty("permissions.canUpdate").includes(request.params.userName),
             guidA: request.params.guidA,
-            guidB: request.params.guibB
+            guidB: request.params.guidB
         }
     };
     const contracts = getContracts(parameters, fakeSession);
