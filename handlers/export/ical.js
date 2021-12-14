@@ -1,4 +1,5 @@
 import ical from "ical-generator";
+import { getExportSession } from "./exportSession.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 import * as configFunctions from "../../helpers/configFunctions.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
@@ -32,14 +33,7 @@ export const handler = (request, response) => {
         searchString: request.query.searchString,
         includeExpired: request.query.includeExpired
     };
-    const fakeSession = {
-        user: {
-            userName: request.params.userName,
-            canUpdate: configFunctions.getProperty("permissions.canUpdate").includes(request.params.userName),
-            guidA: request.params.guidA,
-            guidB: request.params.guidB
-        }
-    };
+    const fakeSession = getExportSession(request);
     const contracts = getContracts(parameters, fakeSession);
     const calendar = ical({
         name: "Contract Expiration Tracker: " + request.params.userName

@@ -4,6 +4,7 @@ import type { RequestHandler } from "express";
 
 import ical from "ical-generator";
 
+import { getExportSession } from "./exportSession.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 
 import * as configFunctions from "../../helpers/configFunctions.js";
@@ -57,14 +58,7 @@ export const handler: RequestHandler = (request, response) => {
     includeExpired: request.query.includeExpired as string
   };
 
-  const fakeSession = {
-    user: {
-      userName: request.params.userName,
-      canUpdate: configFunctions.getProperty("permissions.canUpdate").includes(request.params.userName),
-      guidA: request.params.guidA,
-      guidB: request.params.guidB
-    }
-  }
+  const fakeSession = getExportSession(request);
 
   const contracts = getContracts(parameters, fakeSession);
 
