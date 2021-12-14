@@ -1,4 +1,5 @@
 import ical from "ical-generator";
+import { ICalAlarmType } from "ical-generator/dist/alarm.js";
 import { getExportSession } from "./exportSession.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 import * as configFunctions from "../../helpers/configFunctions.js";
@@ -17,7 +18,7 @@ const addEventDetails = (icalEvent, contract) => {
     icalEvent.created(new Date(contract.recordCreate_timeMillis));
     icalEvent.lastModified(new Date(contract.recordUpdate_timeMillis));
     icalEvent.createAlarm({
-        type: "display",
+        type: ICalAlarmType.display,
         trigger: configFunctions.getProperty("customizations.notificationDays") * 86400
     });
     if (contract.contractCategory) {
