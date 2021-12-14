@@ -39,6 +39,7 @@ export const getContracts = (filters, requestSession, options = {}) => {
         sql += " and endDate is not null and endDate >= ?";
         parameters.push(dateTimeFunctions.dateToInteger(new Date()));
     }
+    sql += " order by endDate desc, startDate desc";
     const database = sqlite(databasePath, {
         readonly: true
     });

@@ -67,6 +67,8 @@ export const getContracts = (filters: GetContractsFilters, requestSession: Sessi
     parameters.push(dateTimeFunctions.dateToInteger(new Date()));
   }
 
+  sql += " order by endDate desc, startDate desc"
+
   const database = sqlite(databasePath, {
     readonly: true
   });
