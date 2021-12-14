@@ -4,6 +4,9 @@ import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js"
 export const getContracts = (filters, requestSession, options = {}) => {
     let sql = "select contractId," +
         " contractTitle, contractCategory, contractParty," +
+        (options.includeContractDescription
+            ? " contractDescription,"
+            : "") +
         " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
         " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
         " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +

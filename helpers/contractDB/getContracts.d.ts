@@ -5,6 +5,7 @@ interface GetContractsFilters {
     includeExpired?: string;
 }
 interface GetContractsOptions {
+    includeContractDescription?: boolean;
     includeTimeMillis?: boolean;
 }
 export declare const getContracts: (filters: GetContractsFilters, requestSession: SessionWithUser, options?: GetContractsOptions) => Contract[];
