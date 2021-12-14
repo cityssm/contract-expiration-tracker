@@ -36,7 +36,7 @@ const addEventDetails = (icalEvent: ICalEvent, contract: Contract) => {
 
   icalEvent.createAlarm({
     type: "display",
-    trigger: 2 * 30 * 86_400
+    trigger: configFunctions.getProperty("customizations.notificationDays") * 86_400
   })
 
   if (contract.contractCategory) {

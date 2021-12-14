@@ -36,7 +36,8 @@ export interface Config {
     contractCategory: {
       alias: string;
       aliasPlural: string;
-    }
+    },
+    notificationDays?: number;
   }
 }
 

@@ -16,3 +16,4 @@ export declare function getProperty(propertyName: "authentication.activeDirector
 export declare function getProperty(propertyName: "permissions.canUpdate"): string[];
 export declare function getProperty(propertyName: "customizations.contractCategory.alias"): string;
 export declare function getProperty(propertyName: "customizations.contractCategory.aliasPlural"): string;
+export declare function getProperty(propertyName: "customizations.notificationDays"): number;

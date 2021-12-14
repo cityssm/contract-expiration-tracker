@@ -29,6 +29,7 @@ export interface Config {
             alias: string;
             aliasPlural: string;
         };
+        notificationDays?: number;
     };
 }
 export interface ActiveDirectoryConfig {
