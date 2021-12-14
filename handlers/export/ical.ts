@@ -2,8 +2,7 @@
 
 import type { RequestHandler } from "express";
 
-import ical from "ical-generator";
-import { ICalAlarmType } from "ical-generator/dist/alarm.js";
+import ical, { ICalEvent, ICalEventStatus, ICalEventTransparency, ICalAlarmType } from "ical-generator";
 
 import { getExportSession } from "./exportSession.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
@@ -12,8 +11,6 @@ import * as configFunctions from "../../helpers/configFunctions.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
 
 import type { Contract } from "../../types/recordTypes";
-
-import type { ICalEvent } from "ical-generator";
 
 
 const addEventDetails = (icalEvent: ICalEvent, contract: Contract) => {

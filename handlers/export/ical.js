@@ -1,5 +1,4 @@
-import ical from "ical-generator";
-import { ICalAlarmType } from "ical-generator/dist/alarm.js";
+import ical, { ICalEventStatus, ICalEventTransparency, ICalAlarmType } from "ical-generator";
 import { getExportSession } from "./exportSession.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 import * as configFunctions from "../../helpers/configFunctions.js";
