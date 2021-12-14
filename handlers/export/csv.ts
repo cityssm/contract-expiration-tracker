@@ -18,7 +18,9 @@ export const handler: RequestHandler = async (request, response) => {
 
   const fakeSession = getExportSession(request);
 
-  const contracts = getContracts(parameters, fakeSession);
+  const contracts = getContracts(parameters, fakeSession, {
+    includeTimeMillis: true
+  });
 
   const csv = Papa.unparse(contracts);
 

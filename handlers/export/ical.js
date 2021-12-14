@@ -35,7 +35,9 @@ export const handler = (request, response) => {
         includeExpired: request.query.includeExpired
     };
     const fakeSession = getExportSession(request);
-    const contracts = getContracts(parameters, fakeSession);
+    const contracts = getContracts(parameters, fakeSession, {
+        includeTimeMillis: true
+    });
     const calendar = ical({
         name: "Contract Expiration Tracker: " + request.params.userName
     });

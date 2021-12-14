@@ -1,13 +1,15 @@
 import sqlite from "better-sqlite3";
 import { contractsDB as databasePath } from "../../data/databasePaths.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
-export const getContracts = (filters, requestSession) => {
+export const getContracts = (filters, requestSession, options = {}) => {
     let sql = "select contractId," +
         " contractTitle, contractCategory, contractParty," +
         " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
         " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
-        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +
-        " recordCreate_timeMillis, recordUpdate_timeMillis" +
+        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
+        (options.includeTimeMillis
+            ? ", recordCreate_timeMillis, recordUpdate_timeMillis"
+            : "") +
         " from Contracts" +
         " where recordDelete_timeMillis is null";
     const parameters = [];

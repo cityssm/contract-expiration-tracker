@@ -8,7 +8,9 @@ export const handler = async (request, response) => {
         includeExpired: request.query.includeExpired
     };
     const fakeSession = getExportSession(request);
-    const contracts = getContracts(parameters, fakeSession);
+    const contracts = getContracts(parameters, fakeSession, {
+        includeTimeMillis: true
+    });
     const csv = Papa.unparse(contracts);
     response.setHeader("Content-Disposition", "attachment; filename=contracts-" + Date.now().toString() + ".csv");
     response.setHeader("Content-Type", "text/csv");
