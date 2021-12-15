@@ -15,9 +15,11 @@ export const initContractsDB = () => {
             " contractTitle varchar(200) not null," +
             " contractParty varchar(200)," +
             " contractDescription text," +
+            " privateContractDescription text," +
             " startDate integer not null," +
             " endDate integer," +
             " extensionDate integer," +
+            " managingUserName varchar(30)," +
             " recordCreate_userName varchar(30) not null," +
             " recordCreate_timeMillis integer not null," +
             " recordUpdate_userName varchar(30) not null," +
