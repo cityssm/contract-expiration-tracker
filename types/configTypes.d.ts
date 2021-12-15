@@ -25,7 +25,8 @@ export interface Config {
         canUpdate: string[];
     };
     customizations: {
-        contractCategory: {
+        applicationName?: string;
+        contractCategory?: {
             alias: string;
             aliasPlural: string;
         };

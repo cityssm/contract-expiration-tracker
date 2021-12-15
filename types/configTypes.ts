@@ -33,7 +33,8 @@ export interface Config {
   };
 
   customizations: {
-    contractCategory: {
+    applicationName?: string;
+    contractCategory?: {
       alias: string;
       aliasPlural: string;
     },

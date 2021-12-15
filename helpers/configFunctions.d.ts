@@ -14,6 +14,7 @@ export declare function getProperty(propertyName: "authentication.source"): "ad-
 export declare function getProperty(propertyName: "authentication.adWebAuthConfig"): ADWebAuthConfig;
 export declare function getProperty(propertyName: "authentication.activeDirectoryConfig"): configTypes.ActiveDirectoryConfig;
 export declare function getProperty(propertyName: "permissions.canUpdate"): string[];
+export declare function getProperty(propertyName: "customizations.applicationName"): string;
 export declare function getProperty(propertyName: "customizations.contractCategory.alias"): string;
 export declare function getProperty(propertyName: "customizations.contractCategory.aliasPlural"): string;
 export declare function getProperty(propertyName: "customizations.notificationDays"): number;

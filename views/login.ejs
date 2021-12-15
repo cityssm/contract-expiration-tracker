@@ -3,7 +3,7 @@
 
 <head>
   <title>
-    Login: Contract Expiration Tracker
+    Login: <%= configFunctions.getProperty("customizations.applicationName") %>
   </title>
   <%- include('_headTags'); -%>
 </head>
@@ -13,7 +13,7 @@
     <div class="column is-half-widescreen is-two-thirds-desktop is-three-quarters-tablet">
       <div class="box mx-3 my-3">
         <h1 class="title is-3 has-text-centered">
-          Contract Expiration Tracker
+          <%= configFunctions.getProperty("customizations.applicationName") %>
         </h1>
         <div class="columns is-vcentered">
           <div class="column is-one-third is-hidden-mobile has-text-centered">

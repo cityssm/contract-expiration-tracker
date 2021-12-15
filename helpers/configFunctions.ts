@@ -36,6 +36,7 @@ configFallbackValues.set("session.doKeepAlive", false);
 
 configFallbackValues.set("permissions.canUpdate", []);
 
+configFallbackValues.set("customizations.applicationName", "Contract Expiration Tracker");
 configFallbackValues.set("customizations.contractCategory.alias", "Contract Category");
 configFallbackValues.set("customizations.contractCategory.aliasPlural", "Contract Categories");
 configFallbackValues.set("customizations.notificationDays", 90);
@@ -60,6 +61,7 @@ export function getProperty(propertyName: "authentication.activeDirectoryConfig"
 
 export function getProperty(propertyName: "permissions.canUpdate"): string[];
 
+export function getProperty(propertyName: "customizations.applicationName"): string;
 export function getProperty(propertyName: "customizations.contractCategory.alias"): string;
 export function getProperty(propertyName: "customizations.contractCategory.aliasPlural"): string;
 export function getProperty(propertyName: "customizations.notificationDays"): number;

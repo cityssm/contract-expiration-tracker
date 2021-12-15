@@ -41,7 +41,7 @@ export const handler = (request, response) => {
         includeTimeMillis: true
     });
     const calendar = ical({
-        name: "Contract Expiration Tracker: " + request.params.userName,
+        name: configFunctions.getProperty("customizations.applicationName") + ": " + request.params.userName,
         description: JSON.stringify(parameters),
         prodId: {
             company: "The Corporation of the City of Sault Ste. Marie",

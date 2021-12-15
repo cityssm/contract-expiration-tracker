@@ -12,6 +12,7 @@ configFallbackValues.set("session.secret", "cityssm/contract-expiration-tracker"
 configFallbackValues.set("session.maxAgeMillis", 60 * 60 * 1000);
 configFallbackValues.set("session.doKeepAlive", false);
 configFallbackValues.set("permissions.canUpdate", []);
+configFallbackValues.set("customizations.applicationName", "Contract Expiration Tracker");
 configFallbackValues.set("customizations.contractCategory.alias", "Contract Category");
 configFallbackValues.set("customizations.contractCategory.aliasPlural", "Contract Categories");
 configFallbackValues.set("customizations.notificationDays", 90);

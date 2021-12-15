@@ -3,7 +3,7 @@
 
 <head>
   <title>
-    Contract Expiration Tracker
+    <%= configFunctions.getProperty("customizations.applicationName") %>
   </title>
   <%- include('_headTags'); -%>
 </head>
@@ -15,7 +15,7 @@
         <img src="<%= urlPrefix %>/images/logo.svg" alt="" />
       </span>
       <span class="navbar-item has-text-weight-bold">
-          Contract Expiration Tracker
+        <%= configFunctions.getProperty("customizations.applicationName") %>
       </span>
       <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
@@ -119,7 +119,7 @@
     </div>
   </main>
   <footer class="has-background-black-ter has-text-white-ter px-3 py-6">
-    <strong class="has-text-white-ter">Contract Expiration Tracker</strong><br />
+    <strong class="has-text-white-ter"><%= configFunctions.getProperty("customizations.applicationName") %></strong><br />
     Build <%= buildNumber %><br />
     <a class="has-text-white" href="https://cityssm.github.io/contract-expiration-tracker/docs/" target="_blank" rel="nofollow noreferrer">
       Help
