@@ -4,9 +4,11 @@ import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js"
 export const getContract = (contractId, requestSession) => {
     let sql = "select contractId," +
         " contractTitle, contractCategory, contractParty, contractDescription," +
+        (requestSession.user.canUpdate ? " privateContractDescription," : "") +
         " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
         " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
         " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +
+        " managingUserName," +
         " recordUpdate_userName, recordUpdate_timeMillis" +
         " from Contracts" +
         " where recordDelete_timeMillis is null" +

@@ -13,6 +13,8 @@ declare const bulmaJS: BulmaJS;
 
   const urlPrefix = exports.urlPrefix as string;
 
+  const canUpdate = exports.canUpdate as boolean;
+
 
   /*
    * Exports
@@ -55,21 +57,21 @@ declare const bulmaJS: BulmaJS;
   const doResetUserAccessGUIDs = () => {
 
     cityssm.postJSON(urlPrefix + "/contracts/doResetUserAccessGUIDs", {},
-    (responseJSON: { success: boolean; guidA: string; guidB: string; }) => {
+      (responseJSON: { success: boolean; guidA: string; guidB: string; }) => {
 
-      if (responseJSON.success) {
+        if (responseJSON.success) {
 
-        bulmaJS.alert({
-          title: "Export Keys Reset Successfully",
-          message: "Note that if your export links are used by any application like Microsoft Excel or Outlook, you will have to update those links."
-        });
+          bulmaJS.alert({
+            title: "Export Keys Reset Successfully",
+            message: "Note that if your export links are used by any application like Microsoft Excel or Outlook, you will have to update those links."
+          });
 
-        exports.guidA = responseJSON.guidA;
-        exports.guidB = responseJSON.guidB;
+          exports.guidA = responseJSON.guidA;
+          exports.guidB = responseJSON.guidB;
 
-        setExportURLs();
-      }
-    });
+          setExportURLs();
+        }
+      });
   };
 
   document.querySelector("#navbar--resetUserAccessGUIDs").addEventListener("click", (clickEvent) => {
@@ -85,6 +87,7 @@ declare const bulmaJS: BulmaJS;
       }
     })
   })
+
 
   /*
    * Contract Categories
@@ -244,6 +247,10 @@ declare const bulmaJS: BulmaJS;
         for (const contractCategoryAliasElement of contractCategoryAliasElements) {
           contractCategoryAliasElement.textContent = contractCategoryAlias;
         }
+
+        if (canUpdate) {
+          modalElement.querySelector("#contractEdit--privateContractDescription").closest(".field").classList.remove("is-hidden");
+        }
       },
 
       onshown: (modalElement, closeModalFunction) => {
@@ -267,7 +274,41 @@ declare const bulmaJS: BulmaJS;
           (modalElement.querySelector("#contractEdit--contractTitle") as HTMLInputElement).value = contract.contractTitle;
           (modalElement.querySelector("#contractEdit--contractCategory") as HTMLInputElement).value = contract.contractCategory;
           (modalElement.querySelector("#contractEdit--contractParty") as HTMLInputElement).value = contract.contractParty;
+
+          const managingUserNameElement = modalElement.querySelector("#contractEdit--managingUserName") as HTMLSelectElement;
+          let managingUserNameFound = false;
+
+          if (canUpdate) {
+            for (const userName of (exports.canUpdateUserNames as string[])) {
+
+              const optionElement = document.createElement("option");
+              optionElement.textContent = userName;
+              optionElement.value = userName;
+
+              managingUserNameElement.append(optionElement);
+
+              if (contract.managingUserName && contract.managingUserName === userName) {
+                optionElement.selected = true;
+                managingUserNameFound = true;
+              }
+            }
+          }
+
+          if (contract.managingUserName && contract.managingUserName !== "" && !managingUserNameFound) {
+
+            const optionElement = document.createElement("option");
+            optionElement.textContent = contract.managingUserName;
+            optionElement.value = contract.managingUserName;
+            managingUserNameElement.append(optionElement);
+            optionElement.selected = true;
+          }
+
           (modalElement.querySelector("#contractEdit--contractDescription") as HTMLInputElement).value = contract.contractDescription;
+
+          if (canUpdate) {
+            (modalElement.querySelector("#contractEdit--privateContractDescription") as HTMLInputElement).value = contract.privateContractDescription;
+          }
+
           (modalElement.querySelector("#contractEdit--startDateString") as HTMLInputElement).value = contract.startDateString;
           (modalElement.querySelector("#contractEdit--endDateString") as HTMLInputElement).value = contract.endDateString;
           (modalElement.querySelector("#contractEdit--extensionDateString") as HTMLInputElement).value = contract.extensionDateString;
@@ -303,8 +344,6 @@ declare const bulmaJS: BulmaJS;
    * Contract Maintenance
    */
 
-
-  const canUpdate = exports.canUpdate as boolean;
 
   if (!canUpdate) {
     return;
@@ -358,6 +397,21 @@ declare const bulmaJS: BulmaJS;
           optionElement.textContent = contractCategory;
           optionElement.value = contractCategory;
           existingContactCategoryElement.append(optionElement);
+        }
+
+        const managingUserNameElement = modalElement.querySelector("#contractAdd--managingUserName");
+
+        for (const managingUserName of (exports.canUpdateUserNames as string[])) {
+
+          const optionElement = document.createElement("option");
+          optionElement.textContent = managingUserName;
+          optionElement.value = managingUserName;
+
+          managingUserNameElement.append(optionElement);
+
+          if (managingUserName === exports.userName) {
+            optionElement.selected = true;
+          }
         }
       },
       onshown: (modalElement, closeModalFunction) => {

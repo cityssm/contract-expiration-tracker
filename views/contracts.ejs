@@ -144,6 +144,10 @@
     exports.customizations_contractCategory_aliasPlural = "<%= configFunctions.getProperty("customizations.contractCategory.aliasPlural") %>";
 
     exports.contractCategories = <%- JSON.stringify(contractCategories) %>;
+
+    <% if (user.canUpdate) { %>
+      exports.canUpdateUserNames = <%- JSON.stringify(configFunctions.getProperty("permissions.canUpdate").sort()) %>;
+    <% } %>
   </script>
   <script src="<%= urlPrefix %>/lib/bulma-js/bulma-js.js"></script>
   <script src="<%= urlPrefix %>/lib/bulma-webapp-js/cityssm.min.js"></script>

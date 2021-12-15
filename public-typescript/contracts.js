@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 (() => {
     const urlPrefix = exports.urlPrefix;
+    const canUpdate = exports.canUpdate;
     const exportAnchorElements = {
         csv: document.querySelector("#export--csv"),
         ical: document.querySelector("#export--ical")
@@ -154,6 +155,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 for (const contractCategoryAliasElement of contractCategoryAliasElements) {
                     contractCategoryAliasElement.textContent = contractCategoryAlias;
                 }
+                if (canUpdate) {
+                    modalElement.querySelector("#contractEdit--privateContractDescription").closest(".field").classList.remove("is-hidden");
+                }
             },
             onshown: (modalElement, closeModalFunction) => {
                 bulmaJS.toggleHtmlClipped();
@@ -171,7 +175,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     modalElement.querySelector("#contractEdit--contractTitle").value = contract.contractTitle;
                     modalElement.querySelector("#contractEdit--contractCategory").value = contract.contractCategory;
                     modalElement.querySelector("#contractEdit--contractParty").value = contract.contractParty;
+                    const managingUserNameElement = modalElement.querySelector("#contractEdit--managingUserName");
+                    let managingUserNameFound = false;
+                    if (canUpdate) {
+                        for (const userName of exports.canUpdateUserNames) {
+                            const optionElement = document.createElement("option");
+                            optionElement.textContent = userName;
+                            optionElement.value = userName;
+                            managingUserNameElement.append(optionElement);
+                            if (contract.managingUserName && contract.managingUserName === userName) {
+                                optionElement.selected = true;
+                                managingUserNameFound = true;
+                            }
+                        }
+                    }
+                    if (contract.managingUserName && contract.managingUserName !== "" && !managingUserNameFound) {
+                        const optionElement = document.createElement("option");
+                        optionElement.textContent = contract.managingUserName;
+                        optionElement.value = contract.managingUserName;
+                        managingUserNameElement.append(optionElement);
+                        optionElement.selected = true;
+                    }
                     modalElement.querySelector("#contractEdit--contractDescription").value = contract.contractDescription;
+                    if (canUpdate) {
+                        modalElement.querySelector("#contractEdit--privateContractDescription").value = contract.privateContractDescription;
+                    }
                     modalElement.querySelector("#contractEdit--startDateString").value = contract.startDateString;
                     modalElement.querySelector("#contractEdit--endDateString").value = contract.endDateString;
                     modalElement.querySelector("#contractEdit--extensionDateString").value = contract.extensionDateString;
@@ -196,7 +224,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
     document.querySelector("#filters--searchString").addEventListener("change", getContracts);
     includeExpiredFilterElement.addEventListener("change", getContracts);
     getContracts();
-    const canUpdate = exports.canUpdate;
     if (!canUpdate) {
         return;
     }
@@ -230,6 +257,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     optionElement.textContent = contractCategory;
                     optionElement.value = contractCategory;
                     existingContactCategoryElement.append(optionElement);
+                }
+                const managingUserNameElement = modalElement.querySelector("#contractAdd--managingUserName");
+                for (const managingUserName of exports.canUpdateUserNames) {
+                    const optionElement = document.createElement("option");
+                    optionElement.textContent = managingUserName;
+                    optionElement.value = managingUserName;
+                    managingUserNameElement.append(optionElement);
+                    if (managingUserName === exports.userName) {
+                        optionElement.selected = true;
+                    }
                 }
             },
             onshown: (modalElement, closeModalFunction) => {

@@ -7,9 +7,13 @@ export const getContracts = (filters, requestSession, options = {}) => {
         (options.includeContractDescription
             ? " contractDescription,"
             : "") +
+        (requestSession.user.canUpdate && options.includePrivateContractDescription
+            ? " privateContractDescription,"
+            : "") +
         " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
         " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
-        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString" +
+        " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +
+        " managingUserName" +
         (options.includeTimeMillis
             ? ", recordCreate_timeMillis, recordUpdate_timeMillis"
             : "") +

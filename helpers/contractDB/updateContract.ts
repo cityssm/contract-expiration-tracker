@@ -10,7 +10,9 @@ interface UpdateContractForm {
   contractTitle: string;
   contractCategory: string;
   contractParty: string;
+  managingUserName: string;
   contractDescription: string;
+  privateContractDescription: string;
   startDateString: string;
   endDateString: string;
   extensionDateString: string;
@@ -26,7 +28,9 @@ export const updateContract = (contractForm: UpdateContractForm, requestSession:
     " set contractTitle = ?," +
     " contractCategory = ?," +
     " contractParty = ?," +
+    " managingUserName = ?," +
     " contractDescription = ?," +
+    " privateContractDescription = ?," +
     " startDate = ?," +
     " endDate = ?," +
     " extensionDate = ?," +
@@ -36,7 +40,9 @@ export const updateContract = (contractForm: UpdateContractForm, requestSession:
     .run(contractForm.contractTitle,
       contractForm.contractCategory,
       contractForm.contractParty,
+      contractForm.managingUserName,
       contractForm.contractDescription,
+      contractForm.privateContractDescription,
       contractForm.startDateString === "" ? undefined : dateStringToInteger(contractForm.startDateString),
       contractForm.endDateString === "" ? undefined : dateStringToInteger(contractForm.endDateString),
       contractForm.extensionDateString === "" ? undefined : dateStringToInteger(contractForm.extensionDateString),

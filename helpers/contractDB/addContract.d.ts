@@ -5,7 +5,9 @@ interface AddContractForm {
     "contractCategory-existing": string;
     "contractCategory-new": string;
     contractParty: string;
+    managingUserName: string;
     contractDescription: string;
+    privateContractDescription: string;
     startDateString: string;
     endDateString: string;
     extensionDateString: string;

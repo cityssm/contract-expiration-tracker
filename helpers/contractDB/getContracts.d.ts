@@ -6,6 +6,7 @@ interface GetContractsFilters {
 }
 interface GetContractsOptions {
     includeContractDescription?: boolean;
+    includePrivateContractDescription?: boolean;
     includeTimeMillis?: boolean;
 }
 export declare const getContracts: (filters: GetContractsFilters, requestSession: SessionWithUser, options?: GetContractsOptions) => Contract[];

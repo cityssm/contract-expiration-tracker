@@ -11,7 +11,9 @@ interface AddContractForm {
   "contractCategory-existing": string;
   "contractCategory-new": string;
   contractParty: string;
+  managingUserName: string;
   contractDescription: string;
+  privateContractDescription: string;
   startDateString: string;
   endDateString: string;
   extensionDateString: string;
@@ -24,15 +26,18 @@ export const addContract = (contractForm: AddContractForm, requestSession: expre
   const database = sqlite(databasePath);
 
   const info = database.prepare("insert into Contracts (" +
-    "contractTitle, contractCategory, contractParty, contractDescription," +
+    "contractTitle, contractCategory, contractParty, managingUserName," +
+    " contractDescription, privateContractDescription," +
     " startDate, endDate, extensionDate," +
     " recordCreate_userName, recordCreate_timeMillis, recordUpdate_userName, recordUpdate_timeMillis" +
     ")" +
-    " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
     .run(contractForm.contractTitle,
       contractForm.contractCategoryIsNew === "1" ? contractForm["contractCategory-new"] : contractForm["contractCategory-existing"],
       contractForm.contractParty,
+      contractForm.managingUserName,
       contractForm.contractDescription,
+      contractForm.privateContractDescription,
       contractForm.startDateString === "" ? undefined : dateStringToInteger(contractForm.startDateString),
       contractForm.endDateString === "" ? undefined : dateStringToInteger(contractForm.endDateString),
       contractForm.extensionDateString === "" ? undefined : dateStringToInteger(contractForm.extensionDateString),

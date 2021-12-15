@@ -4,7 +4,9 @@ interface UpdateContractForm {
     contractTitle: string;
     contractCategory: string;
     contractParty: string;
+    managingUserName: string;
     contractDescription: string;
+    privateContractDescription: string;
     startDateString: string;
     endDateString: string;
     extensionDateString: string;

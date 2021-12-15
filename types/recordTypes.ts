@@ -24,12 +24,14 @@ export interface Contract {
   contractTitle: string;
   contractParty?: string;
   contractDescription?: string;
+  privateContractDescription?: string;
   startDate: number;
   startDateString: string;
   endDate?: number;
   endDateString?: string;
   extensionDate?: number;
   extensionDateString?: string;
+  managingUserName?: string;
   tags?: string[];
   recordCreate_userName: string;
   recordCreate_timeMillis: number;

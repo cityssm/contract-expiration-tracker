@@ -49,10 +49,26 @@
             </div>
           </div>
         </div>
-        <div class="field">
-          <label class="label" for="contractAdd--contractParty">Contract Party</label>
-          <div class="control">
-            <input class="input" id="contractAdd--contractParty" name="contractParty" type="text" maxlength="200" />
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label" for="contractAdd--contractParty">Contract Party</label>
+              <div class="control">
+                <input class="input" id="contractAdd--contractParty" name="contractParty" type="text" maxlength="200" />
+              </div>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="field">
+              <label class="label" for="contractAdd--managingUserName">Managing User</label>
+              <div class="control is-expanded">
+                <div class="select is-fullwidth">
+                  <select id="contractAdd--managingUserName" name="managingUserName">
+                    <option value="">(None Selected)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="field">
@@ -60,6 +76,13 @@
           <div class="control">
             <textarea class="textarea" id="contractAdd--contractDescription" name="contractDescription"></textarea>
           </div>
+        </div>
+        <div class="field">
+          <label class="label" for="contractAdd--privateContractDescription">Private Description</label>
+          <div class="control">
+            <textarea class="textarea" id="contractAdd--privateContractDescription" name="privateContractDescription"></textarea>
+          </div>
+          <p class="help">Only available to update users.</p>
         </div>
         <div class="columns">
           <div class="column">
