@@ -149,6 +149,9 @@ declare const bulmaJS: BulmaJS;
    */
 
 
+  const contractAlias = exports.customizations_contract_alias as string;
+  const contractAliasPlural = exports.customizations_contract_aliasPlural as string;
+
   const dateDiff = exports.dateDiff as DateDiff;
 
   const filterFormElement = document.querySelector("#form--filters") as HTMLFormElement;
@@ -172,7 +175,7 @@ declare const bulmaJS: BulmaJS;
 
         if (responseJSON.contracts.length === 0) {
           searchResultsElement.innerHTML = "<div class=\"message is-info\">" +
-            "<p class=\"message-body\">There are no contracts available.</p>" +
+            "<p class=\"message-body\">There are no " + contractAliasPlural.toLowerCase() + " available.</p>" +
             "</div>";
           return;
         }
@@ -242,6 +245,12 @@ declare const bulmaJS: BulmaJS;
 
       onshow: (modalElement) => {
 
+        const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
+
+        for (const contractAliasElement of contractAliasElements) {
+          contractAliasElement.textContent = contractAlias;
+        }
+
         const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
 
         for (const contractCategoryAliasElement of contractCategoryAliasElements) {
@@ -265,7 +274,7 @@ declare const bulmaJS: BulmaJS;
 
           if (!contract || !contract.contractId) {
             closeModalFunction();
-            cityssm.alertModal("Contract Not Found", "Please try again.", "OK", "danger");
+            cityssm.alertModal(contractAlias + " Not Found", "Please try again.", "OK", "danger");
             getContracts();
             return;
           }
@@ -372,7 +381,7 @@ declare const bulmaJS: BulmaJS;
             getContracts();
 
           } else {
-            cityssm.alertModal("Error Adding Contract",
+            cityssm.alertModal("Error Adding " + contractAlias,
               "Please try again",
               "OK",
               "danger");
@@ -382,6 +391,12 @@ declare const bulmaJS: BulmaJS;
 
     cityssm.openHtmlModal("contractAdd", {
       onshow: (modalElement) => {
+
+        const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
+
+        for (const contractAliasElement of contractAliasElements) {
+          contractAliasElement.textContent = contractAlias;
+        }
 
         const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
 

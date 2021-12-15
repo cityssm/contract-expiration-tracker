@@ -34,10 +34,8 @@ export interface Config {
 
   customizations: {
     applicationName?: string;
-    contractCategory?: {
-      alias: string;
-      aliasPlural: string;
-    },
+    contract?: FieldCustomization;
+    contractCategory?: FieldCustomization;
     notificationDays?: number;
   }
 }
@@ -48,4 +46,10 @@ export interface ActiveDirectoryConfig {
   baseDN: string;
   username: string;
   password: string;
+}
+
+
+interface FieldCustomization {
+  alias: string;
+  aliasPlural: string;
 }

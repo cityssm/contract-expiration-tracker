@@ -2,13 +2,13 @@
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
-      <h3 class="modal-card-title">Add a New Contract</h3>
+      <h3 class="modal-card-title">Add a New <span data-customization="contract.alias"></span></h3>
       <button class="delete is-close-modal-button" aria-label="close" type="button"></button>
     </header>
     <section class="modal-card-body">
       <form id="form--contractAdd">
         <div class="field">
-          <label class="label" for="contractAdd--contractTitle">Contract Title</label>
+          <label class="label" for="contractAdd--contractTitle"><span data-customization="contract.alias"></span> Title</label>
           <div class="control has-icons-right">
             <input class="input" id="contractAdd--contractTitle" name="contractTitle" type="text" maxlength="200" required />
             <span class="icon is-small is-right">
@@ -118,7 +118,7 @@
     <footer class="modal-card-foot is-justify-content-right">
       <button class="button is-success" type="submit" form="form--contractAdd">
         <span class="icon"><i class="fas fa-plus" aria-hidden="true"></i></span>
-        <span>Add New Contract</span>
+        <span>Add New <span data-customization="contract.alias"></span></span>
       </button>
       <button class="button is-close-modal-button" type="button">Cancel</button>
     </footer>

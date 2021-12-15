@@ -83,6 +83,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
         });
     };
     renderContractCategories();
+    const contractAlias = exports.customizations_contract_alias;
+    const contractAliasPlural = exports.customizations_contract_aliasPlural;
     const dateDiff = exports.dateDiff;
     const filterFormElement = document.querySelector("#form--filters");
     const includeExpiredFilterElement = filterFormElement.querySelector("#filters--includeExpired");
@@ -96,7 +98,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
         cityssm.postJSON(urlPrefix + "/contracts/doGetContracts", filterFormElement, (responseJSON) => {
             if (responseJSON.contracts.length === 0) {
                 searchResultsElement.innerHTML = "<div class=\"message is-info\">" +
-                    "<p class=\"message-body\">There are no contracts available.</p>" +
+                    "<p class=\"message-body\">There are no " + contractAliasPlural.toLowerCase() + " available.</p>" +
                     "</div>";
                 return;
             }
@@ -151,6 +153,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
         const contractId = clickEvent.currentTarget.dataset.contractId;
         cityssm.openHtmlModal("contractView", {
             onshow: (modalElement) => {
+                const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
+                for (const contractAliasElement of contractAliasElements) {
+                    contractAliasElement.textContent = contractAlias;
+                }
                 const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
                 for (const contractCategoryAliasElement of contractCategoryAliasElements) {
                     contractCategoryAliasElement.textContent = contractCategoryAlias;
@@ -167,7 +173,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     const contract = responseJSON.contract;
                     if (!contract || !contract.contractId) {
                         closeModalFunction();
-                        cityssm.alertModal("Contract Not Found", "Please try again.", "OK", "danger");
+                        cityssm.alertModal(contractAlias + " Not Found", "Please try again.", "OK", "danger");
                         getContracts();
                         return;
                     }
@@ -241,12 +247,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     getContracts();
                 }
                 else {
-                    cityssm.alertModal("Error Adding Contract", "Please try again", "OK", "danger");
+                    cityssm.alertModal("Error Adding " + contractAlias, "Please try again", "OK", "danger");
                 }
             });
         };
         cityssm.openHtmlModal("contractAdd", {
             onshow: (modalElement) => {
+                const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
+                for (const contractAliasElement of contractAliasElements) {
+                    contractAliasElement.textContent = contractAlias;
+                }
                 const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
                 for (const contractCategoryAliasElement of contractCategoryAliasElements) {
                     contractCategoryAliasElement.textContent = contractCategoryAlias;

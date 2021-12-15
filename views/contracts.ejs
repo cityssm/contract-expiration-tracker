@@ -56,7 +56,7 @@
   <main class="container py-2 has-min-page-height">
     <% if (user.canUpdate) { %>
       <div class="fixed-container is-fixed-bottom-right mr-4 mb-4 is-hidden-print">
-        <button class="button is-circle is-success has-tooltip-left" id="button--addContract" data-tooltip="Add a New Contract" type="button">
+        <button class="button is-circle is-success has-tooltip-left" id="button--addContract" data-tooltip="Add a New <%= configFunctions.getProperty("customizations.contract.alias") %>" type="button">
           <i class="fas fa-plus" aria-hidden="true"></i>
         </button>
       </div>
@@ -68,7 +68,7 @@
             <div class="control is-expanded has-icons-left">
               <div class="select is-fullwidth">
                 <select id="filters--contractCategory" name="contractCategory">
-                  <option value="">(All Available Categories)</option>
+                  <option value="">(All Available <%= configFunctions.getProperty("customizations.contractCategory.aliasPlural") %>)</option>
                 </select>
               </div>
               <span class="icon is-small is-left">
@@ -80,7 +80,7 @@
         <div class="column">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input" id="filters--searchString" name="searchString" type="text" placeholder="Search Contracts" />
+              <input class="input" id="filters--searchString" name="searchString" type="text" placeholder="Search <%= configFunctions.getProperty("customizations.contract.aliasPlural") %>" />
               <span class="icon is-small is-left">
                 <i class="fas fa-search" aria-hidden="true"></i>
               </span>
@@ -90,7 +90,7 @@
       </div>
       <div class="facheck">
         <input id="filters--includeExpired" name="includeExpired" type="checkbox" />
-        <label for="filters--includeExpired">Include Expired Contracts</label>
+        <label for="filters--includeExpired">Include Expired <%= configFunctions.getProperty("customizations.contract.aliasPlural") %></label>
       </div>
     </form>
     <div id="container--results">
@@ -101,7 +101,7 @@
       </div>
     </div>
     <div class="has-text-centered is-size-7 my-4 is-hidden-print">
-      <strong>Export Results</strong><br />
+      <strong>Export <%= configFunctions.getProperty("customizations.contract.aliasPlural") %></strong><br />
       <div class="field has-addons is-justify-content-center mt-2">
         <div class="control">
           <a class="button is-small" id="export--csv" href="#" target="_blank">
@@ -139,6 +139,9 @@
     exports.guidB = "<%= user.guidB %>";
 
     exports.urlPrefix = "<%= urlPrefix %>";
+
+    exports.customizations_contract_alias = "<%= configFunctions.getProperty("customizations.contract.alias") %>";
+    exports.customizations_contract_aliasPlural = "<%= configFunctions.getProperty("customizations.contract.aliasPlural") %>";
 
     exports.customizations_contractCategory_alias = "<%= configFunctions.getProperty("customizations.contractCategory.alias") %>";
     exports.customizations_contractCategory_aliasPlural = "<%= configFunctions.getProperty("customizations.contractCategory.aliasPlural") %>";
