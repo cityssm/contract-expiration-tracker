@@ -36,6 +36,7 @@ export interface Config {
     applicationName?: string;
     contract?: FieldCustomization;
     contractCategory?: FieldCustomization;
+    contractParty?: FieldCustomization;
     notificationDays?: number;
   }
 }

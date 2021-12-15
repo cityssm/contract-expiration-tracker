@@ -146,6 +146,9 @@
     exports.customizations_contractCategory_alias = "<%= configFunctions.getProperty("customizations.contractCategory.alias") %>";
     exports.customizations_contractCategory_aliasPlural = "<%= configFunctions.getProperty("customizations.contractCategory.aliasPlural") %>";
 
+    exports.customizations_contractParty_alias = "<%= configFunctions.getProperty("customizations.contractParty.alias") %>";
+    exports.customizations_contractParty_aliasPlural = "<%= configFunctions.getProperty("customizations.contractParty.aliasPlural") %>";
+
     exports.contractCategories = <%- JSON.stringify(contractCategories) %>;
 
     <% if (user.canUpdate) { %>

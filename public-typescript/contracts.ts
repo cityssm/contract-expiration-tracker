@@ -152,6 +152,8 @@ declare const bulmaJS: BulmaJS;
   const contractAlias = exports.customizations_contract_alias as string;
   const contractAliasPlural = exports.customizations_contract_aliasPlural as string;
 
+  const contractPartyAlias = exports.customizations_contractParty_alias as string;
+
   const dateDiff = exports.dateDiff as DateDiff;
 
   const filterFormElement = document.querySelector("#form--filters") as HTMLFormElement;
@@ -231,8 +233,7 @@ declare const bulmaJS: BulmaJS;
         searchResultsElement.append(panelElement);
       });
 
-    setExportURL("csv");
-    setExportURL("ical");
+    setExportURLs();
   };
 
 
@@ -255,6 +256,12 @@ declare const bulmaJS: BulmaJS;
 
         for (const contractCategoryAliasElement of contractCategoryAliasElements) {
           contractCategoryAliasElement.textContent = contractCategoryAlias;
+        }
+
+        const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
+
+        for (const contractPartyAliasElement of contractPartyAliasElements) {
+          contractPartyAliasElement.textContent = contractPartyAlias;
         }
 
         if (canUpdate) {
@@ -412,6 +419,12 @@ declare const bulmaJS: BulmaJS;
           optionElement.textContent = contractCategory;
           optionElement.value = contractCategory;
           existingContactCategoryElement.append(optionElement);
+        }
+
+        const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
+
+        for (const contractPartyAliasElement of contractPartyAliasElements) {
+          contractPartyAliasElement.textContent = contractPartyAlias;
         }
 
         const managingUserNameElement = modalElement.querySelector("#contractAdd--managingUserName");

@@ -85,6 +85,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     renderContractCategories();
     const contractAlias = exports.customizations_contract_alias;
     const contractAliasPlural = exports.customizations_contract_aliasPlural;
+    const contractPartyAlias = exports.customizations_contractParty_alias;
     const dateDiff = exports.dateDiff;
     const filterFormElement = document.querySelector("#form--filters");
     const includeExpiredFilterElement = filterFormElement.querySelector("#filters--includeExpired");
@@ -145,8 +146,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
             searchResultsElement.innerHTML = "";
             searchResultsElement.append(panelElement);
         });
-        setExportURL("csv");
-        setExportURL("ical");
+        setExportURLs();
     };
     const openContract = (clickEvent) => {
         clickEvent.preventDefault();
@@ -160,6 +160,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
                 for (const contractCategoryAliasElement of contractCategoryAliasElements) {
                     contractCategoryAliasElement.textContent = contractCategoryAlias;
+                }
+                const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
+                for (const contractPartyAliasElement of contractPartyAliasElements) {
+                    contractPartyAliasElement.textContent = contractPartyAlias;
                 }
                 if (canUpdate) {
                     modalElement.querySelector("#contractEdit--privateContractDescription").closest(".field").classList.remove("is-hidden");
@@ -267,6 +271,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     optionElement.textContent = contractCategory;
                     optionElement.value = contractCategory;
                     existingContactCategoryElement.append(optionElement);
+                }
+                const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
+                for (const contractPartyAliasElement of contractPartyAliasElements) {
+                    contractPartyAliasElement.textContent = contractPartyAlias;
                 }
                 const managingUserNameElement = modalElement.querySelector("#contractAdd--managingUserName");
                 for (const managingUserName of exports.canUpdateUserNames) {
