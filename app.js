@@ -64,7 +64,8 @@ const FileStoreSession = FileStore(session);
 app.use(session({
     store: new FileStoreSession({
         path: "./data/sessions",
-        logFn: debug("contract-expiration-tracker:session")
+        logFn: debug("contract-expiration-tracker:session"),
+        retries: 10
     }),
     name: sessionCookieName,
     secret: configFunctions.getProperty("session.secret"),
