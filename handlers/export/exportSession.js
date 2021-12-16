@@ -9,3 +9,11 @@ export const getExportSession = (request) => {
         }
     };
 };
+export const getExportParameters = (request) => {
+    return {
+        contractCategory: request.query.contractCategory,
+        searchString: request.query.searchString,
+        includeExpired: request.query.includeExpired,
+        managingUserName: request.query.managingUserName
+    };
+};

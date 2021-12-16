@@ -1,15 +1,10 @@
-import { getExportSession } from "./exportSession.js";
+import { getExportSession, getExportParameters } from "./exportSession.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 import * as configFunctions from "../../helpers/configFunctions.js";
 import camelCase from "camelcase";
 import Papa from "papaparse";
 export const handler = async (request, response) => {
-    const parameters = {
-        contractCategory: request.query.contractCategory,
-        searchString: request.query.searchString,
-        includeExpired: request.query.includeExpired,
-        managingUserName: request.query.managingUserName
-    };
+    const parameters = getExportParameters(request);
     const fakeSession = getExportSession(request);
     const contracts = getContracts(parameters, fakeSession, {
         includeTimeMillis: true

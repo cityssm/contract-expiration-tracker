@@ -1,5 +1,5 @@
 import ical, { ICalEventStatus, ICalEventTransparency, ICalAlarmType } from "ical-generator";
-import { getExportSession } from "./exportSession.js";
+import { getExportSession, getExportParameters } from "./exportSession.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 import * as configFunctions from "../../helpers/configFunctions.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
@@ -30,12 +30,7 @@ const addEventDetails = (icalEvent, contract) => {
     return icalEvent;
 };
 export const handler = (request, response) => {
-    const parameters = {
-        contractCategory: request.query.contractCategory,
-        searchString: request.query.searchString,
-        includeExpired: request.query.includeExpired,
-        managingUserName: request.query.managingUserName
-    };
+    const parameters = getExportParameters(request);
     const fakeSession = getExportSession(request);
     const contracts = getContracts(parameters, fakeSession, {
         includeContractDescription: true,

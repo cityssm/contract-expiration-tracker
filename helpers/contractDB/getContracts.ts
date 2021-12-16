@@ -6,7 +6,7 @@ import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js"
 import type { Contract, SessionWithUser } from "../../types/recordTypes";
 
 
-interface GetContractsFilters {
+export interface GetContractsFilters {
   contractCategory: string;
   searchString: string;
   includeExpired?: string;
