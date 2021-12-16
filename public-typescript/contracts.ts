@@ -21,6 +21,10 @@ declare const bulmaJS: BulmaJS;
    */
 
 
+  const contractCategoryFilterElement = document.querySelector("#filters--contractCategory") as HTMLSelectElement;
+  const managingUserNameFilterElement = document.querySelector("#filters--managingUserName") as HTMLSelectElement | HTMLInputElement;
+
+
   const exportAnchorElements = {
     csv: document.querySelector("#export--csv") as HTMLAnchorElement,
     ical: document.querySelector("#export--ical") as HTMLAnchorElement
@@ -39,8 +43,15 @@ declare const bulmaJS: BulmaJS;
 
     const exportURL = new URL(exportURLString);
 
-    exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
+    if (contractCategoryFilterElement.value !== "") {
+      exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
+    }
+
     exportURL.searchParams.set("searchString", (document.querySelector("#filters--searchString") as HTMLInputElement).value);
+
+    if (managingUserNameFilterElement.value !== "") {
+      exportURL.searchParams.set("managingUserName", managingUserNameFilterElement.value);
+    }
 
     if (includeExpiredFilterElement.checked) {
       exportURL.searchParams.set("includeExpired", includeExpiredFilterElement.value);
@@ -130,8 +141,6 @@ declare const bulmaJS: BulmaJS;
 
 
   let contractCategories: string[] = exports.contractCategories;
-
-  const contractCategoryFilterElement = document.querySelector("#filters--contractCategory") as HTMLSelectElement;
 
 
   const renderContractCategories = () => {
@@ -372,6 +381,7 @@ declare const bulmaJS: BulmaJS;
   contractCategoryFilterElement.addEventListener("change", getContracts);
   document.querySelector("#filters--searchString").addEventListener("change", getContracts);
   includeExpiredFilterElement.addEventListener("change", getContracts);
+  managingUserNameFilterElement.addEventListener("change", getContracts);
 
   getContracts();
 

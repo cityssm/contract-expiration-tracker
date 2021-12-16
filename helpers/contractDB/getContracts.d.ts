@@ -3,6 +3,7 @@ interface GetContractsFilters {
     contractCategory: string;
     searchString: string;
     includeExpired?: string;
+    managingUserName?: string;
 }
 interface GetContractsOptions {
     includeContractDescription?: boolean;

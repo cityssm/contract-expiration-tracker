@@ -33,7 +33,8 @@ export const handler = (request, response) => {
     const parameters = {
         contractCategory: request.query.contractCategory,
         searchString: request.query.searchString,
-        includeExpired: request.query.includeExpired
+        includeExpired: request.query.includeExpired,
+        managingUserName: request.query.managingUserName
     };
     const fakeSession = getExportSession(request);
     const contracts = getContracts(parameters, fakeSession, {

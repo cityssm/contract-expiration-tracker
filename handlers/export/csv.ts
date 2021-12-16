@@ -16,7 +16,8 @@ export const handler: RequestHandler = async (request, response) => {
   const parameters = {
     contractCategory: request.query.contractCategory as string,
     searchString: request.query.searchString as string,
-    includeExpired: request.query.includeExpired as string
+    includeExpired: request.query.includeExpired as string,
+    managingUserName: request.query.managingUserName as string
   };
 
   const fakeSession = getExportSession(request);

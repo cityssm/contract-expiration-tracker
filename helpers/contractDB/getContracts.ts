@@ -10,6 +10,7 @@ interface GetContractsFilters {
   contractCategory: string;
   searchString: string;
   includeExpired?: string;
+  managingUserName?: string;
 }
 
 interface GetContractsOptions {
@@ -46,12 +47,12 @@ export const getContracts = (filters: GetContractsFilters, requestSession: Sessi
     parameters.push(requestSession.user.userName);
   }
 
-  if (filters.contractCategory !== "") {
+  if (filters.contractCategory && filters.contractCategory !== "") {
     sql += " and contractCategory = ?";
     parameters.push(filters.contractCategory);
   }
 
-  if (filters.searchString !== "") {
+  if (filters.searchString && filters.searchString !== "") {
 
     const searchStringPieces = filters.searchString.trim().toLowerCase().split(" ");
 
@@ -65,6 +66,11 @@ export const getContracts = (filters: GetContractsFilters, requestSession: Sessi
 
       parameters.push(searchStringPiece, searchStringPiece, searchStringPiece);
     }
+  }
+
+  if (filters.managingUserName && filters.managingUserName !== "") {
+    sql += " and managingUserName = ?";
+    parameters.push(filters.managingUserName);
   }
 
   if (!filters.includeExpired) {

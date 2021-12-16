@@ -72,7 +72,7 @@
                 </select>
               </div>
               <span class="icon is-small is-left">
-                <i class="fas fa-search" aria-hidden="true"></i>
+                <i class="fas fa-archive" aria-hidden="true"></i>
               </span>
             </div>
           </div>
@@ -88,9 +88,32 @@
           </div>
         </div>
       </div>
-      <div class="facheck">
-        <input id="filters--includeExpired" name="includeExpired" type="checkbox" />
-        <label for="filters--includeExpired">Include Expired <%= configFunctions.getProperty("customizations.contract.aliasPlural") %></label>
+      <div class="columns">
+        <div class="column">
+          <div class="facheck">
+            <input id="filters--includeExpired" name="includeExpired" type="checkbox" />
+            <label for="filters--includeExpired">Include Expired <%= configFunctions.getProperty("customizations.contract.aliasPlural") %></label>
+          </div>
+        </div>
+        <div class="column">
+          <% if (user.canUpdate) { %>
+            <div class="control is-expanded has-icons-left">
+              <div class="select is-fullwidth">
+                <select id="filters--managingUserName" name="managingUserName">
+                  <option value="">(All Managing Users)</option>
+                  <% for (const managingUserName of configFunctions.getProperty("permissions.canUpdate").sort()) { %>
+                    <option value="<%= managingUserName %>"><%= managingUserName %></option>
+                  <% } %>
+                </select>
+              </div>
+              <span class="icon is-small is-left">
+                <i class="fas fa-id-card" aria-hidden="true"></i>
+              </span>
+            </div>
+          <% } else { %>
+            <input id="filters--managingUserName" name="managingUserName" type="hidden" value="" />
+          <% } %>
+        </div>
       </div>
     </form>
     <div id="container--results">

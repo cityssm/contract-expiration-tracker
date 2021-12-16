@@ -24,11 +24,11 @@ export const getContracts = (filters, requestSession, options = {}) => {
         sql += " and contractCategory in (select contractCategory from ContractCategoryUsers where userName = ?)";
         parameters.push(requestSession.user.userName);
     }
-    if (filters.contractCategory !== "") {
+    if (filters.contractCategory && filters.contractCategory !== "") {
         sql += " and contractCategory = ?";
         parameters.push(filters.contractCategory);
     }
-    if (filters.searchString !== "") {
+    if (filters.searchString && filters.searchString !== "") {
         const searchStringPieces = filters.searchString.trim().toLowerCase().split(" ");
         for (const searchStringPiece of searchStringPieces) {
             sql += " and (" +
@@ -38,6 +38,10 @@ export const getContracts = (filters, requestSession, options = {}) => {
                 ")";
             parameters.push(searchStringPiece, searchStringPiece, searchStringPiece);
         }
+    }
+    if (filters.managingUserName && filters.managingUserName !== "") {
+        sql += " and managingUserName = ?";
+        parameters.push(filters.managingUserName);
     }
     if (!filters.includeExpired) {
         sql += " and endDate is not null and endDate >= ?";

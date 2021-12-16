@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 (() => {
     const urlPrefix = exports.urlPrefix;
     const canUpdate = exports.canUpdate;
+    const contractCategoryFilterElement = document.querySelector("#filters--contractCategory");
+    const managingUserNameFilterElement = document.querySelector("#filters--managingUserName");
     const exportAnchorElements = {
         csv: document.querySelector("#export--csv"),
         ical: document.querySelector("#export--ical")
@@ -17,8 +19,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
             "/" + exports.guidA +
             "/" + exports.guidB;
         const exportURL = new URL(exportURLString);
-        exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
+        if (contractCategoryFilterElement.value !== "") {
+            exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
+        }
         exportURL.searchParams.set("searchString", document.querySelector("#filters--searchString").value);
+        if (managingUserNameFilterElement.value !== "") {
+            exportURL.searchParams.set("managingUserName", managingUserNameFilterElement.value);
+        }
         if (includeExpiredFilterElement.checked) {
             exportURL.searchParams.set("includeExpired", includeExpiredFilterElement.value);
         }
@@ -73,7 +80,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
         }
     };
     let contractCategories = exports.contractCategories;
-    const contractCategoryFilterElement = document.querySelector("#filters--contractCategory");
     const renderContractCategories = () => {
         const currentContractCategory = contractCategoryFilterElement.value;
         let currentContractCategoryFound = false;
@@ -245,6 +251,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     contractCategoryFilterElement.addEventListener("change", getContracts);
     document.querySelector("#filters--searchString").addEventListener("change", getContracts);
     includeExpiredFilterElement.addEventListener("change", getContracts);
+    managingUserNameFilterElement.addEventListener("change", getContracts);
     getContracts();
     if (!canUpdate) {
         return;
