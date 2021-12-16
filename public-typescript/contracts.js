@@ -131,12 +131,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 panelBlockElement.innerHTML = "<div class=\"columns is-multiline is-mobile\">" +
                     ("<div class=\"column is-12-mobile is-8-tablet\">" +
                         "<h2 class=\"title is-5 mb-1\">" + cityssm.escapeHTML(contract.contractTitle) + "</h2>" +
-                        (contract.contractCategory !== ""
-                            ? "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />"
+                        "<div class=\"columns is-mobile\">" +
+                        ("<div class=\"column\">" +
+                            (contract.contractCategory !== ""
+                                ? "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />"
+                                : "") +
+                            (contract.contractParty !== ""
+                                ? "<span class=\"icon\"><i class=\"fas fa-user-tie\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractParty) + "<br />"
+                                : "") +
+                            "</div>") +
+                        (contract.managingUserName && contract.managingUserName !== ""
+                            ? "<div class=\"column is-4\">" +
+                                "<span class=\"icon\"><i class=\"fas fa-id-card\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.managingUserName) +
+                                "</div>"
                             : "") +
-                        (contract.contractParty !== ""
-                            ? "<span class=\"icon\"><i class=\"fas fa-user-tie\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractParty) + "<br />"
-                            : "") +
+                        "</div>" +
                         "</div>") +
                     ("<div class=\"column is-6-mobile has-text-centered\">" +
                         "<i class=\"fas fa-play" + (contract.startDateString <= currentDateString ? " has-text-success" : "") + "\" aria-hidden=\"true\"></i><br />" +
