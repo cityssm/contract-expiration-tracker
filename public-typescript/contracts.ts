@@ -90,12 +90,44 @@ declare const bulmaJS: BulmaJS;
 
 
   /*
-   * Contract Categories
+   * Field Customizations
    */
 
 
+  const contractAlias = exports.customizations_contract_alias as string;
+  const contractAliasPlural = exports.customizations_contract_aliasPlural as string;
+
   const contractCategoryAlias = exports.customizations_contractCategory_alias as string;
   const contractCategoryAliasPlural = exports.customizations_contractCategory_aliasPlural as string;
+
+  const contractPartyAlias = exports.customizations_contractParty_alias as string;
+
+  const populateCustomFieldNames = (containerElement: HTMLElement) => {
+
+    const contractAliasElements = containerElement.querySelectorAll("[data-customization='contract.alias']");
+
+    for (const contractAliasElement of contractAliasElements) {
+      contractAliasElement.textContent = contractAlias;
+    }
+
+    const contractCategoryAliasElements = containerElement.querySelectorAll("[data-customization='contractCategory.alias']");
+
+    for (const contractCategoryAliasElement of contractCategoryAliasElements) {
+      contractCategoryAliasElement.textContent = contractCategoryAlias;
+    }
+
+    const contractPartyAliasElements = containerElement.querySelectorAll("[data-customization='contractParty.alias']");
+
+    for (const contractPartyAliasElement of contractPartyAliasElements) {
+      contractPartyAliasElement.textContent = contractPartyAlias;
+    }
+  };
+
+
+  /*
+   * Contract Categories
+   */
+
 
   let contractCategories: string[] = exports.contractCategories;
 
@@ -148,11 +180,6 @@ declare const bulmaJS: BulmaJS;
    * Contract Search
    */
 
-
-  const contractAlias = exports.customizations_contract_alias as string;
-  const contractAliasPlural = exports.customizations_contract_aliasPlural as string;
-
-  const contractPartyAlias = exports.customizations_contractParty_alias as string;
 
   const dateDiff = exports.dateDiff as DateDiff;
 
@@ -246,23 +273,7 @@ declare const bulmaJS: BulmaJS;
 
       onshow: (modalElement) => {
 
-        const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
-
-        for (const contractAliasElement of contractAliasElements) {
-          contractAliasElement.textContent = contractAlias;
-        }
-
-        const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
-
-        for (const contractCategoryAliasElement of contractCategoryAliasElements) {
-          contractCategoryAliasElement.textContent = contractCategoryAlias;
-        }
-
-        const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
-
-        for (const contractPartyAliasElement of contractPartyAliasElements) {
-          contractPartyAliasElement.textContent = contractPartyAlias;
-        }
+        populateCustomFieldNames(modalElement);
 
         if (canUpdate) {
           modalElement.querySelector("#contractEdit--privateContractDescription").closest(".field").classList.remove("is-hidden");
@@ -399,17 +410,7 @@ declare const bulmaJS: BulmaJS;
     cityssm.openHtmlModal("contractAdd", {
       onshow: (modalElement) => {
 
-        const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
-
-        for (const contractAliasElement of contractAliasElements) {
-          contractAliasElement.textContent = contractAlias;
-        }
-
-        const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
-
-        for (const contractCategoryAliasElement of contractCategoryAliasElements) {
-          contractCategoryAliasElement.textContent = contractCategoryAlias;
-        }
+        populateCustomFieldNames(modalElement);
 
         const existingContactCategoryElement = modalElement.querySelector("#contractAdd--contactCategory-existing");
 
@@ -419,12 +420,6 @@ declare const bulmaJS: BulmaJS;
           optionElement.textContent = contractCategory;
           optionElement.value = contractCategory;
           existingContactCategoryElement.append(optionElement);
-        }
-
-        const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
-
-        for (const contractPartyAliasElement of contractPartyAliasElements) {
-          contractPartyAliasElement.textContent = contractPartyAlias;
         }
 
         const managingUserNameElement = modalElement.querySelector("#contractAdd--managingUserName");

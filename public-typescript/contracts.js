@@ -53,8 +53,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
             }
         });
     });
+    const contractAlias = exports.customizations_contract_alias;
+    const contractAliasPlural = exports.customizations_contract_aliasPlural;
     const contractCategoryAlias = exports.customizations_contractCategory_alias;
     const contractCategoryAliasPlural = exports.customizations_contractCategory_aliasPlural;
+    const contractPartyAlias = exports.customizations_contractParty_alias;
+    const populateCustomFieldNames = (containerElement) => {
+        const contractAliasElements = containerElement.querySelectorAll("[data-customization='contract.alias']");
+        for (const contractAliasElement of contractAliasElements) {
+            contractAliasElement.textContent = contractAlias;
+        }
+        const contractCategoryAliasElements = containerElement.querySelectorAll("[data-customization='contractCategory.alias']");
+        for (const contractCategoryAliasElement of contractCategoryAliasElements) {
+            contractCategoryAliasElement.textContent = contractCategoryAlias;
+        }
+        const contractPartyAliasElements = containerElement.querySelectorAll("[data-customization='contractParty.alias']");
+        for (const contractPartyAliasElement of contractPartyAliasElements) {
+            contractPartyAliasElement.textContent = contractPartyAlias;
+        }
+    };
     let contractCategories = exports.contractCategories;
     const contractCategoryFilterElement = document.querySelector("#filters--contractCategory");
     const renderContractCategories = () => {
@@ -83,9 +100,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
         });
     };
     renderContractCategories();
-    const contractAlias = exports.customizations_contract_alias;
-    const contractAliasPlural = exports.customizations_contract_aliasPlural;
-    const contractPartyAlias = exports.customizations_contractParty_alias;
     const dateDiff = exports.dateDiff;
     const filterFormElement = document.querySelector("#form--filters");
     const includeExpiredFilterElement = filterFormElement.querySelector("#filters--includeExpired");
@@ -153,18 +167,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
         const contractId = clickEvent.currentTarget.dataset.contractId;
         cityssm.openHtmlModal("contractView", {
             onshow: (modalElement) => {
-                const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
-                for (const contractAliasElement of contractAliasElements) {
-                    contractAliasElement.textContent = contractAlias;
-                }
-                const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
-                for (const contractCategoryAliasElement of contractCategoryAliasElements) {
-                    contractCategoryAliasElement.textContent = contractCategoryAlias;
-                }
-                const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
-                for (const contractPartyAliasElement of contractPartyAliasElements) {
-                    contractPartyAliasElement.textContent = contractPartyAlias;
-                }
+                populateCustomFieldNames(modalElement);
                 if (canUpdate) {
                     modalElement.querySelector("#contractEdit--privateContractDescription").closest(".field").classList.remove("is-hidden");
                 }
@@ -257,24 +260,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
         };
         cityssm.openHtmlModal("contractAdd", {
             onshow: (modalElement) => {
-                const contractAliasElements = modalElement.querySelectorAll("[data-customization='contract.alias']");
-                for (const contractAliasElement of contractAliasElements) {
-                    contractAliasElement.textContent = contractAlias;
-                }
-                const contractCategoryAliasElements = modalElement.querySelectorAll("[data-customization='contractCategory.alias']");
-                for (const contractCategoryAliasElement of contractCategoryAliasElements) {
-                    contractCategoryAliasElement.textContent = contractCategoryAlias;
-                }
+                populateCustomFieldNames(modalElement);
                 const existingContactCategoryElement = modalElement.querySelector("#contractAdd--contactCategory-existing");
                 for (const contractCategory of contractCategories) {
                     const optionElement = document.createElement("option");
                     optionElement.textContent = contractCategory;
                     optionElement.value = contractCategory;
                     existingContactCategoryElement.append(optionElement);
-                }
-                const contractPartyAliasElements = modalElement.querySelectorAll("[data-customization='contractParty.alias']");
-                for (const contractPartyAliasElement of contractPartyAliasElements) {
-                    contractPartyAliasElement.textContent = contractPartyAlias;
                 }
                 const managingUserNameElement = modalElement.querySelector("#contractAdd--managingUserName");
                 for (const managingUserName of exports.canUpdateUserNames) {
