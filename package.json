@@ -1,7 +1,7 @@
 {
   "name": "contract-expiration-tracker",
-  "version": "1.0.0-beta.1",
-  "description": "A tool to track expirations of procurement projects and/or contracts to help prepare for and be proactive on upcoming sourcing requirements.",
+  "version": "1.0.0-beta.2",
+  "description": "A tool to track the expiration of procurement projects and/or contracts to help prepare for and be proactive on upcoming sourcing requirements.",
   "directories": {
     "doc": "docs"
   },
