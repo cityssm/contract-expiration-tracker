@@ -4,8 +4,9 @@ import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
 export interface Config {
 
   application?: {
-    httpPort?: number;
     userDomain?: string;
+    httpPort?: number;
+    rootUrl?: string;
   };
 
   reverseProxy?: {

@@ -27,10 +27,12 @@ declare const bulmaJS: BulmaJS;
 
   const exportAnchorElements = {
     csv: document.querySelector("#export--csv") as HTMLAnchorElement,
-    ical: document.querySelector("#export--ical") as HTMLAnchorElement
+    ical: document.querySelector("#export--ical") as HTMLAnchorElement,
+    "feed/atom": document.querySelector("#export--atom") as HTMLAnchorElement,
+    "feed/rss2": document.querySelector("#export--rss") as HTMLAnchorElement
   };
 
-  const setExportURL = (exportType: "csv" | "ical") => {
+  const setExportURL = (exportType: "csv" | "ical" | "feed/atom" | "feed/rss2") => {
 
     const exportURLString = window.location.protocol + "//" +
       window.location.host +
@@ -63,6 +65,8 @@ declare const bulmaJS: BulmaJS;
   const setExportURLs = () => {
     setExportURL("csv");
     setExportURL("ical");
+    setExportURL("feed/rss2");
+    setExportURL("feed/atom");
   };
 
   const doResetUserAccessGUIDs = () => {

@@ -17,3 +17,11 @@ export const getExportParameters = (request) => {
         managingUserName: request.query.managingUserName
     };
 };
+export const formatContractContent = (contract) => {
+    return (contract.contractDescription && contract.contractDescription !== ""
+        ? contract.contractDescription + "\n\n"
+        : "") +
+        "Start Date: " + contract.startDateString +
+        (contract.endDate ? "\nEnd Date: " + contract.endDateString : "") +
+        (contract.extensionDate ? "\nExtension Date: " + contract.extensionDateString : "");
+};

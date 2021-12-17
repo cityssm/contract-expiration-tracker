@@ -7,7 +7,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
     const managingUserNameFilterElement = document.querySelector("#filters--managingUserName");
     const exportAnchorElements = {
         csv: document.querySelector("#export--csv"),
-        ical: document.querySelector("#export--ical")
+        ical: document.querySelector("#export--ical"),
+        "feed/atom": document.querySelector("#export--atom"),
+        "feed/rss2": document.querySelector("#export--rss")
     };
     const setExportURL = (exportType) => {
         const exportURLString = window.location.protocol + "//" +
@@ -34,6 +36,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
     const setExportURLs = () => {
         setExportURL("csv");
         setExportURL("ical");
+        setExportURL("feed/rss2");
+        setExportURL("feed/atom");
     };
     const doResetUserAccessGUIDs = () => {
         cityssm.postJSON(urlPrefix + "/contracts/doResetUserAccessGUIDs", {}, (responseJSON) => {

@@ -4,7 +4,7 @@ import type { RequestHandler } from "express";
 
 import ical, { ICalEvent, ICalEventStatus, ICalEventTransparency, ICalAlarmType } from "ical-generator";
 
-import { getExportSession, getExportParameters } from "./exportSession.js";
+import { getExportSession, getExportParameters, formatContractContent } from "./exportHelpers.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 
 import * as configFunctions from "../../helpers/configFunctions.js";
@@ -25,15 +25,7 @@ const addEventDetails = (icalEvent: ICalEvent, contract: Contract) => {
 
   icalEvent.transparency(ICalEventTransparency.TRANSPARENT);
 
-  icalEvent.description(
-    (contract.contractDescription && contract.contractDescription !== ""
-      ? contract.contractDescription + "\n\n"
-      : ""
-    ) +
-    "Start Date: " + contract.startDateString +
-    (contract.endDate ? "\nEnd Date: " + contract.endDateString : "") +
-    (contract.extensionDate ? "\nExtension Date: " + contract.extensionDateString : "")
-  );
+  icalEvent.description(formatContractContent(contract));
 
   if (contract.contractParty && contract.contractParty !== "") {
     icalEvent.location(contract.contractParty);
@@ -135,7 +127,7 @@ export const handler: RequestHandler = (request, response) => {
   }
 
   response.setHeader("Content-Disposition",
-    "attachment; filename=contracts-" + Date.now().toString() + ".ical");
+    "inline; filename=contracts-" + Date.now().toString() + ".ical");
 
   response.setHeader("Content-Type", "text/calendar");
 

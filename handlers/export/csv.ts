@@ -2,7 +2,7 @@
 
 import type { RequestHandler } from "express";
 
-import { getExportSession, getExportParameters } from "./exportSession.js";
+import { getExportSession, getExportParameters } from "./exportHelpers.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 
 import * as configFunctions from "../../helpers/configFunctions.js";
@@ -11,7 +11,7 @@ import camelCase from "camelcase";
 import Papa from "papaparse";
 
 
-export const handler: RequestHandler = async (request, response) => {
+export const handler: RequestHandler = (request, response) => {
 
   const parameters = getExportParameters(request);
 
@@ -57,7 +57,7 @@ export const handler: RequestHandler = async (request, response) => {
   const csv = Papa.unparse(csvContracts);
 
   response.setHeader("Content-Disposition",
-    "attachment; filename=contracts-" + Date.now().toString() + ".csv");
+    "inline; filename=contracts-" + Date.now().toString() + ".csv");
 
   response.setHeader("Content-Type", "text/csv");
 

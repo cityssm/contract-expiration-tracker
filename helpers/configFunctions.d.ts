@@ -1,7 +1,8 @@
 import type * as configTypes from "../types/configTypes";
 import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
-export declare function getProperty(propertyName: "application.httpPort"): number;
 export declare function getProperty(propertyName: "application.userDomain"): string;
+export declare function getProperty(propertyName: "application.httpPort"): number;
+export declare function getProperty(propertyName: "application.rootUrl"): string;
 export declare function getProperty(propertyName: "reverseProxy.disableCompression"): boolean;
 export declare function getProperty(propertyName: "reverseProxy.disableEtag"): boolean;
 export declare function getProperty(propertyName: "reverseProxy.blockViaXForwardedFor"): boolean;

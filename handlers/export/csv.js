@@ -1,9 +1,9 @@
-import { getExportSession, getExportParameters } from "./exportSession.js";
+import { getExportSession, getExportParameters } from "./exportHelpers.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 import * as configFunctions from "../../helpers/configFunctions.js";
 import camelCase from "camelcase";
 import Papa from "papaparse";
-export const handler = async (request, response) => {
+export const handler = (request, response) => {
     const parameters = getExportParameters(request);
     const fakeSession = getExportSession(request);
     const contracts = getContracts(parameters, fakeSession, {
@@ -33,7 +33,7 @@ export const handler = async (request, response) => {
         csvContracts.push(csvContract);
     }
     const csv = Papa.unparse(csvContracts);
-    response.setHeader("Content-Disposition", "attachment; filename=contracts-" + Date.now().toString() + ".csv");
+    response.setHeader("Content-Disposition", "inline; filename=contracts-" + Date.now().toString() + ".csv");
     response.setHeader("Content-Type", "text/csv");
     response.send(csv);
 };

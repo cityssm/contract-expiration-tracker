@@ -22,6 +22,7 @@ const configOverrides: { [propertyName: string]: unknown } = {};
 const configFallbackValues = new Map<string, unknown>();
 
 configFallbackValues.set("application.httpPort", 55_557);
+configFallbackValues.set("application.rootUrl", "http://localhost:55557/");
 
 configFallbackValues.set("reverseProxy.disableCompression", false);
 configFallbackValues.set("reverseProxy.disableEtag", false);
@@ -50,8 +51,9 @@ configFallbackValues.set("customizations.contractParty.aliasPlural", "Contract P
 configFallbackValues.set("customizations.notificationDays", 90);
 
 
-export function getProperty(propertyName: "application.httpPort"): number;
 export function getProperty(propertyName: "application.userDomain"): string;
+export function getProperty(propertyName: "application.httpPort"): number;
+export function getProperty(propertyName: "application.rootUrl"): string;
 
 export function getProperty(propertyName: "reverseProxy.disableCompression"): boolean;
 export function getProperty(propertyName: "reverseProxy.disableEtag"): boolean;

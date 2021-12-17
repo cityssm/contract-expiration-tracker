@@ -1,7 +1,7 @@
 import * as configFunctions from "../../helpers/configFunctions.js";
 
 import type { Request } from "express";
-import type { SessionWithUser } from "../../types/recordTypes";
+import type { Contract, SessionWithUser } from "../../types/recordTypes";
 
 import type { GetContractsFilters } from "../../helpers/contractDB/getContracts";
 
@@ -27,4 +27,16 @@ export const getExportParameters = (request: Request): GetContractsFilters => {
     includeExpired: request.query.includeExpired as string,
     managingUserName: request.query.managingUserName as string
   };
+};
+
+
+export const formatContractContent = (contract: Contract): string => {
+
+  return (contract.contractDescription && contract.contractDescription !== ""
+    ? contract.contractDescription + "\n\n"
+    : ""
+  ) +
+    "Start Date: " + contract.startDateString +
+    (contract.endDate ? "\nEnd Date: " + contract.endDateString : "") +
+    (contract.extensionDate ? "\nExtension Date: " + contract.extensionDateString : "");
 };

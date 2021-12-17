@@ -1,5 +1,5 @@
 import ical, { ICalEventStatus, ICalEventTransparency, ICalAlarmType } from "ical-generator";
-import { getExportSession, getExportParameters } from "./exportSession.js";
+import { getExportSession, getExportParameters, formatContractContent } from "./exportHelpers.js";
 import { getContracts } from "../../helpers/contractDB/getContracts.js";
 import * as configFunctions from "../../helpers/configFunctions.js";
 import * as dateTimeFunctions from "@cityssm/expressjs-server-js/dateTimeFns.js";
@@ -11,12 +11,7 @@ const addEventDetails = (icalEvent, contract) => {
         });
     }
     icalEvent.transparency(ICalEventTransparency.TRANSPARENT);
-    icalEvent.description((contract.contractDescription && contract.contractDescription !== ""
-        ? contract.contractDescription + "\n\n"
-        : "") +
-        "Start Date: " + contract.startDateString +
-        (contract.endDate ? "\nEnd Date: " + contract.endDateString : "") +
-        (contract.extensionDate ? "\nExtension Date: " + contract.extensionDateString : ""));
+    icalEvent.description(formatContractContent(contract));
     if (contract.contractParty && contract.contractParty !== "") {
         icalEvent.location(contract.contractParty);
     }
@@ -83,7 +78,7 @@ export const handler = (request, response) => {
             addEventDetails(extensionEvent, contract);
         }
     }
-    response.setHeader("Content-Disposition", "attachment; filename=contracts-" + Date.now().toString() + ".ical");
+    response.setHeader("Content-Disposition", "inline; filename=contracts-" + Date.now().toString() + ".ical");
     response.setHeader("Content-Type", "text/calendar");
     response.send(calendar.toString());
 };

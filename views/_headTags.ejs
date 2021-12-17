@@ -18,3 +18,7 @@
 <meta name="application-name" content="Contractor Prequal">
 <meta name="msapplication-TileColor" content="#363636">
 <meta name="theme-color" content="#ffffff">
+
+<link id="feed--atom-unfiltered" rel="alternate" type="application/atom+xml" href="<%= urlPrefix %>/export/feed/atom/<%= user.userName %>/<%= user.guidA %>/<%= user.guidB %>?includeExpired=on" title="<%= configFunctions.getProperty("customizations.applicationName") %> Atom: <%= user.userName %> (Unfiltered)" />
+<link id="feed--rss2-unfiltered" rel="alternate" type="application/rss+xml" href="<%= urlPrefix %>/export/feed/rss2/<%= user.userName %>/<%= user.guidA %>/<%= user.guidB %>?includeExpired=on" title="<%= configFunctions.getProperty("customizations.applicationName") %> RSS: <%= user.userName %> (Unfiltered)" />
+<link id="feed--json-unfiltered" rel="alternate" type="application/feed+json" href="<%= urlPrefix %>/export/feed/json/<%= user.userName %>/<%= user.guidA %>/<%= user.guidB %>?includeExpired=on" title="<%= configFunctions.getProperty("customizations.applicationName") %> JSON: <%= user.userName %> (Unfiltered)" />
