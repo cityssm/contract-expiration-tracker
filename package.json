@@ -82,7 +82,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
-    "eslint-plugin-unicorn": "^39.0.0",
+    "eslint-plugin-unicorn": "^40.0.0",
     "gulp": "^4.0.2",
     "gulp-minify": "^3.1.0",
     "nodemon": "^2.0.15"
