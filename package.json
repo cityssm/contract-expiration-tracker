@@ -88,8 +88,7 @@
     "nodemon": "^2.0.15"
   },
   "resolutions": {
-    "xmldom": "github:xmldom/xmldom#0.7.0",
-    "yargs-parser": "5.0.0-security.0"
+    "xmldom": "github:xmldom/xmldom#0.7.0"
   },
   "private": true
 }
