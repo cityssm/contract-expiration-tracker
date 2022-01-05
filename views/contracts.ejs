@@ -14,9 +14,9 @@
       <span class="navbar-item">
         <img src="<%= urlPrefix %>/images/logo.svg" alt="" />
       </span>
-      <span class="navbar-item has-text-weight-bold">
+      <h1 class="navbar-item has-text-weight-bold">
         <%= configFunctions.getProperty("customizations.applicationName") %>
-      </span>
+      </h1>
       <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -58,6 +58,7 @@
       <div class="fixed-container is-fixed-bottom-right mr-4 mb-4 is-hidden-print">
         <button class="button is-circle is-success has-tooltip-left" id="button--addContract" data-tooltip="Add a New <%= configFunctions.getProperty("customizations.contract.alias") %>" type="button">
           <i class="fas fa-plus" aria-hidden="true"></i>
+          <span class="is-sr-only">Add</span>
         </button>
       </div>
     <% } %>
@@ -67,7 +68,7 @@
           <div class="field">
             <div class="control is-expanded has-icons-left">
               <div class="select is-fullwidth">
-                <select id="filters--contractCategory" name="contractCategory">
+                <select id="filters--contractCategory" name="contractCategory" aria-label="Filter by <%= configFunctions.getProperty("customizations.contractCategory.alias") %>">
                   <option value="">(All Available <%= configFunctions.getProperty("customizations.contractCategory.aliasPlural") %>)</option>
                 </select>
               </div>
@@ -80,7 +81,7 @@
         <div class="column">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input" id="filters--searchString" name="searchString" type="text" placeholder="Search <%= configFunctions.getProperty("customizations.contract.aliasPlural") %>" />
+              <input class="input" id="filters--searchString" name="searchString" type="text" placeholder="Search <%= configFunctions.getProperty("customizations.contract.aliasPlural") %>" aria-label="Filter by <%= configFunctions.getProperty("customizations.contract.alias") %> Details" />
               <span class="icon is-small is-left">
                 <i class="fas fa-search" aria-hidden="true"></i>
               </span>
@@ -99,7 +100,7 @@
           <% if (user.canUpdate) { %>
             <div class="control is-expanded has-icons-left">
               <div class="select is-fullwidth">
-                <select id="filters--managingUserName" name="managingUserName">
+                <select id="filters--managingUserName" name="managingUserName" aria-label="Filter by Managing User">
                   <option value="">(All Managing Users)</option>
                   <% for (const managingUserName of configFunctions.getProperty("permissions.canUpdate").sort()) { %>
                     <option value="<%= managingUserName %>"><%= managingUserName %></option>
