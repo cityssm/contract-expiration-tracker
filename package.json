@@ -30,7 +30,7 @@
     "@cityssm/ad-web-auth-connector": "^0.1.0",
     "@cityssm/bulma-js": "^0.3.1",
     "@cityssm/bulma-webapp-js": "^1.5.0",
-    "@cityssm/express-abuse-points": "^1.0.1",
+    "@cityssm/express-abuse-points": "^1.0.2",
     "@cityssm/expressjs-server-js": "^2.3.1",
     "@cityssm/mssql-multi-pool": "^2.1.4",
     "@fortawesome/fontawesome-free": "^5.15.4",
