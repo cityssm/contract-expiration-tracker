@@ -46,6 +46,7 @@ export const handler: RequestHandler = (request, response) => {
     csvContract.extensionDate = contract.extensionDate;
     csvContract.extensionDateString = contract.extensionDateString;
 
+    csvContract.hasBeenReplaced = contract.hasBeenReplaced ? true : false;
     csvContract.managingUserName = contract.managingUserName;
 
     csvContract.recordCreate_timeMillis = contract.recordCreate_timeMillis;
