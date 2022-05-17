@@ -42,7 +42,6 @@ databaseInitializer.initContractsDB();
  * INITIALIZE APP
  */
 
-
 export const app = express();
 
 if (!configFunctions.getProperty("reverseProxy.disableEtag")) {

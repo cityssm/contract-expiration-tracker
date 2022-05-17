@@ -16,6 +16,7 @@ interface UpdateContractForm {
   startDateString: string;
   endDateString: string;
   extensionDateString: string;
+  hasBeenReplaced?: string;
 }
 
 export const updateContract = (contractForm: UpdateContractForm, requestSession: expressSession.Session): boolean => {
@@ -34,6 +35,7 @@ export const updateContract = (contractForm: UpdateContractForm, requestSession:
     " startDate = ?," +
     " endDate = ?," +
     " extensionDate = ?," +
+    " hasBeenReplaced = ?," +
     " recordUpdate_userName = ?," +
     " recordUpdate_timeMillis = ?" +
     " where contractId = ?")
@@ -46,6 +48,7 @@ export const updateContract = (contractForm: UpdateContractForm, requestSession:
       contractForm.startDateString === "" ? undefined : dateStringToInteger(contractForm.startDateString),
       contractForm.endDateString === "" ? undefined : dateStringToInteger(contractForm.endDateString),
       contractForm.extensionDateString === "" ? undefined : dateStringToInteger(contractForm.extensionDateString),
+      (contractForm.hasBeenReplaced && contractForm.hasBeenReplaced !== "" ? 1 : 0),
       requestSession.user.userName,
       rightNowMillis,
       contractForm.contractId);

@@ -140,9 +140,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
                 panelBlockElement.addEventListener("click", openContract);
                 panelBlockElement.innerHTML = "<div class=\"columns is-multiline is-mobile\">" +
                     ("<div class=\"column is-12-mobile is-8-tablet\">" +
-                        "<h2 class=\"title is-5 mb-1\">" + cityssm.escapeHTML(contract.contractTitle) + "</h2>" +
+                        "<h2 class=\"title is-5 mb-1\">" +
+                        cityssm.escapeHTML(contract.contractTitle) +
+                        "</h2>" +
                         "<div class=\"columns is-mobile\">" +
                         ("<div class=\"column\">" +
+                            (contract.hasBeenReplaced
+                                ? "<span class=\"icon\"><i class=\"fas fa-fast-forward\" aria-hidden=\"true\"></i></span> Replaced<br />"
+                                : "") +
                             (contract.contractCategory !== ""
                                 ? "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />"
                                 : "") +
@@ -207,6 +212,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     modalElement.querySelector("#contractEdit--contractTitle").value = contract.contractTitle;
                     modalElement.querySelector("#contractEdit--contractCategory").value = contract.contractCategory;
                     modalElement.querySelector("#contractEdit--contractParty").value = contract.contractParty;
+                    if (contract.hasBeenReplaced) {
+                        modalElement.querySelector("#contractEdit--hasBeenReplaced").checked = true;
+                    }
                     const managingUserNameElement = modalElement.querySelector("#contractEdit--managingUserName");
                     let managingUserNameFound = false;
                     if (canUpdate) {

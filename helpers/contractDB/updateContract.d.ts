@@ -10,6 +10,7 @@ interface UpdateContractForm {
     startDateString: string;
     endDateString: string;
     extensionDateString: string;
+    hasBeenReplaced?: string;
 }
 export declare const updateContract: (contractForm: UpdateContractForm, requestSession: expressSession.Session) => boolean;
 export {};

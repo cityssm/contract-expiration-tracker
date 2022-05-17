@@ -240,9 +240,14 @@ declare const bulmaJS: BulmaJS;
 
           panelBlockElement.innerHTML = "<div class=\"columns is-multiline is-mobile\">" +
             ("<div class=\"column is-12-mobile is-8-tablet\">" +
-              "<h2 class=\"title is-5 mb-1\">" + cityssm.escapeHTML(contract.contractTitle) + "</h2>" +
+              "<h2 class=\"title is-5 mb-1\">" +
+              cityssm.escapeHTML(contract.contractTitle) +
+              "</h2>" +
               "<div class=\"columns is-mobile\">" +
               ("<div class=\"column\">" +
+                (contract.hasBeenReplaced
+                  ? "<span class=\"icon\"><i class=\"fas fa-fast-forward\" aria-hidden=\"true\"></i></span> Replaced<br />"
+                  : "") +
                 (contract.contractCategory !== ""
                   ? "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />"
                   : "") +
@@ -323,6 +328,10 @@ declare const bulmaJS: BulmaJS;
           (modalElement.querySelector("#contractEdit--contractTitle") as HTMLInputElement).value = contract.contractTitle;
           (modalElement.querySelector("#contractEdit--contractCategory") as HTMLInputElement).value = contract.contractCategory;
           (modalElement.querySelector("#contractEdit--contractParty") as HTMLInputElement).value = contract.contractParty;
+
+          if (contract.hasBeenReplaced) {
+            (modalElement.querySelector("#contractEdit--hasBeenReplaced") as HTMLInputElement).checked = true;
+          }
 
           const managingUserNameElement = modalElement.querySelector("#contractEdit--managingUserName") as HTMLSelectElement;
           let managingUserNameFound = false;

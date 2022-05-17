@@ -34,6 +34,7 @@ export const initContractsDB = (): boolean => {
       " endDate integer," +
       " extensionDate integer," +
       " managingUserName varchar(30)," +
+      " hasBeenReplaced bit not null default 0," +
 
       " recordCreate_userName varchar(30) not null," +
       " recordCreate_timeMillis integer not null," +

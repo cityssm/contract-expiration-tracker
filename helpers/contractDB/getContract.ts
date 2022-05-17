@@ -16,6 +16,7 @@ export const getContract = (contractId: number | string, requestSession: express
     " startDate, userFn_dateIntegerToString(startDate) as startDateString," +
     " endDate, userFn_dateIntegerToString(endDate) as endDateString," +
     " extensionDate, userFn_dateIntegerToString(extensionDate) as extensionDateString," +
+    " hasBeenReplaced," +
     " managingUserName," +
     " recordUpdate_userName, recordUpdate_timeMillis" +
     " from Contracts" +

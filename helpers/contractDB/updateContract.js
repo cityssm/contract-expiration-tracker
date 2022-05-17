@@ -14,10 +14,11 @@ export const updateContract = (contractForm, requestSession) => {
         " startDate = ?," +
         " endDate = ?," +
         " extensionDate = ?," +
+        " hasBeenReplaced = ?," +
         " recordUpdate_userName = ?," +
         " recordUpdate_timeMillis = ?" +
         " where contractId = ?")
-        .run(contractForm.contractTitle, contractForm.contractCategory, contractForm.contractParty, contractForm.managingUserName, contractForm.contractDescription, contractForm.privateContractDescription, contractForm.startDateString === "" ? undefined : dateStringToInteger(contractForm.startDateString), contractForm.endDateString === "" ? undefined : dateStringToInteger(contractForm.endDateString), contractForm.extensionDateString === "" ? undefined : dateStringToInteger(contractForm.extensionDateString), requestSession.user.userName, rightNowMillis, contractForm.contractId);
+        .run(contractForm.contractTitle, contractForm.contractCategory, contractForm.contractParty, contractForm.managingUserName, contractForm.contractDescription, contractForm.privateContractDescription, contractForm.startDateString === "" ? undefined : dateStringToInteger(contractForm.startDateString), contractForm.endDateString === "" ? undefined : dateStringToInteger(contractForm.endDateString), contractForm.extensionDateString === "" ? undefined : dateStringToInteger(contractForm.extensionDateString), (contractForm.hasBeenReplaced && contractForm.hasBeenReplaced !== "" ? 1 : 0), requestSession.user.userName, rightNowMillis, contractForm.contractId);
     database.close();
     return true;
 };

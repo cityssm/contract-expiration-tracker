@@ -26,6 +26,7 @@ export interface Contract {
     extensionDate?: number;
     extensionDateString?: string;
     managingUserName?: string;
+    hasBeenReplaced: boolean;
     tags?: string[];
     recordCreate_userName: string;
     recordCreate_timeMillis: number;

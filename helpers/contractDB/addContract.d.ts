@@ -11,6 +11,7 @@ interface AddContractForm {
     startDateString: string;
     endDateString: string;
     extensionDateString: string;
+    hasBeenReplaced?: string;
 }
 export declare const addContract: (contractForm: AddContractForm, requestSession: expressSession.Session) => number;
 export {};
