@@ -91,9 +91,17 @@
       </div>
       <div class="columns">
         <div class="column">
-          <div class="facheck">
-            <input id="filters--includeExpired" name="includeExpired" type="checkbox" />
-            <label for="filters--includeExpired">Include Expired <%= configFunctions.getProperty("customizations.contract.aliasPlural") %></label>
+          <div class="control is-expanded has-icons-left">
+            <div class="select is-fullwidth">
+              <select id="filters--hasBeenReplaced" name="hasBeenReplaced" aria-label="Filter by Replacement Status">
+                <option value="">(All Replacement Statuses)</option>
+                <option value="1">Has Been Replaced</option>
+                <option value="0">Not Marked as Replaced</option>
+              </select>
+            </div>
+            <span class="icon is-small is-left">
+              <i class="fas fa-fast-forward" aria-hidden="true"></i>
+            </span>
           </div>
         </div>
         <div class="column">
@@ -115,6 +123,10 @@
             <input id="filters--managingUserName" name="managingUserName" type="hidden" value="" />
           <% } %>
         </div>
+      </div>
+      <div class="facheck">
+        <input id="filters--includeExpired" name="includeExpired" type="checkbox" />
+        <label for="filters--includeExpired">Include Expired <%= configFunctions.getProperty("customizations.contract.aliasPlural") %></label>
       </div>
     </form>
     <div id="container--results">

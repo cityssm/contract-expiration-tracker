@@ -25,7 +25,8 @@ export const getExportParameters = (request: Request): GetContractsFilters => {
     contractCategory: request.query.contractCategory as string,
     searchString: request.query.searchString as string,
     includeExpired: request.query.includeExpired as string,
-    managingUserName: request.query.managingUserName as string
+    managingUserName: request.query.managingUserName as string,
+    hasBeenReplaced: request.query.hasBeenReplaced as "" | "0" | "1"
   };
 };
 

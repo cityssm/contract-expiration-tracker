@@ -14,7 +14,8 @@ export const getExportParameters = (request) => {
         contractCategory: request.query.contractCategory,
         searchString: request.query.searchString,
         includeExpired: request.query.includeExpired,
-        managingUserName: request.query.managingUserName
+        managingUserName: request.query.managingUserName,
+        hasBeenReplaced: request.query.hasBeenReplaced
     };
 };
 export const formatContractContent = (contract) => {

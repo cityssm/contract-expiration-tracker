@@ -22,6 +22,7 @@ declare const bulmaJS: BulmaJS;
 
 
   const contractCategoryFilterElement = document.querySelector("#filters--contractCategory") as HTMLSelectElement;
+  const hasBeenReplacedFilterElement = document.querySelector("#filters--hasBeenReplaced") as HTMLSelectElement;
   const managingUserNameFilterElement = document.querySelector("#filters--managingUserName") as HTMLSelectElement | HTMLInputElement;
 
 
@@ -50,6 +51,10 @@ declare const bulmaJS: BulmaJS;
     }
 
     exportURL.searchParams.set("searchString", (document.querySelector("#filters--searchString") as HTMLInputElement).value);
+
+    if (hasBeenReplacedFilterElement.value !== "") {
+      exportURL.searchParams.set("hasBeenReplaced", hasBeenReplacedFilterElement.value);
+    }
 
     if (managingUserNameFilterElement.value !== "") {
       exportURL.searchParams.set("managingUserName", managingUserNameFilterElement.value);
@@ -393,6 +398,7 @@ declare const bulmaJS: BulmaJS;
 
   contractCategoryFilterElement.addEventListener("change", getContracts);
   document.querySelector("#filters--searchString").addEventListener("change", getContracts);
+  hasBeenReplacedFilterElement.addEventListener("change", getContracts);
   includeExpiredFilterElement.addEventListener("change", getContracts);
   managingUserNameFilterElement.addEventListener("change", getContracts);
 

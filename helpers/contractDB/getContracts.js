@@ -29,6 +29,10 @@ export const getContracts = (filters, requestSession, options = {}) => {
         sql += " and contractCategory = ?";
         parameters.push(filters.contractCategory);
     }
+    if (filters.hasBeenReplaced && filters.hasBeenReplaced !== "") {
+        sql += " and hasBeenReplaced = ?";
+        parameters.push(filters.hasBeenReplaced);
+    }
     if (filters.searchString && filters.searchString !== "") {
         const searchStringPieces = filters.searchString.trim().toLowerCase().split(" ");
         for (const searchStringPiece of searchStringPieces) {

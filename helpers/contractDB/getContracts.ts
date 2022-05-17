@@ -11,6 +11,7 @@ export interface GetContractsFilters {
   searchString: string;
   includeExpired?: string;
   managingUserName?: string;
+  hasBeenReplaced?: "" | "1" | "0";
 }
 
 interface GetContractsOptions {
@@ -51,6 +52,11 @@ export const getContracts = (filters: GetContractsFilters, requestSession: Sessi
   if (filters.contractCategory && filters.contractCategory !== "") {
     sql += " and contractCategory = ?";
     parameters.push(filters.contractCategory);
+  }
+
+  if (filters.hasBeenReplaced && filters.hasBeenReplaced !== "") {
+    sql += " and hasBeenReplaced = ?";
+    parameters.push(filters.hasBeenReplaced);
   }
 
   if (filters.searchString && filters.searchString !== "") {

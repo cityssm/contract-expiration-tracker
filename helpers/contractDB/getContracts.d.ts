@@ -4,6 +4,7 @@ export interface GetContractsFilters {
     searchString: string;
     includeExpired?: string;
     managingUserName?: string;
+    hasBeenReplaced?: "" | "1" | "0";
 }
 interface GetContractsOptions {
     includeContractDescription?: boolean;

@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     const urlPrefix = exports.urlPrefix;
     const canUpdate = exports.canUpdate;
     const contractCategoryFilterElement = document.querySelector("#filters--contractCategory");
+    const hasBeenReplacedFilterElement = document.querySelector("#filters--hasBeenReplaced");
     const managingUserNameFilterElement = document.querySelector("#filters--managingUserName");
     const exportAnchorElements = {
         csv: document.querySelector("#export--csv"),
@@ -25,6 +26,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
             exportURL.searchParams.set("contractCategory", contractCategoryFilterElement.value);
         }
         exportURL.searchParams.set("searchString", document.querySelector("#filters--searchString").value);
+        if (hasBeenReplacedFilterElement.value !== "") {
+            exportURL.searchParams.set("hasBeenReplaced", hasBeenReplacedFilterElement.value);
+        }
         if (managingUserNameFilterElement.value !== "") {
             exportURL.searchParams.set("managingUserName", managingUserNameFilterElement.value);
         }
@@ -262,6 +266,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     });
     contractCategoryFilterElement.addEventListener("change", getContracts);
     document.querySelector("#filters--searchString").addEventListener("change", getContracts);
+    hasBeenReplacedFilterElement.addEventListener("change", getContracts);
     includeExpiredFilterElement.addEventListener("change", getContracts);
     managingUserNameFilterElement.addEventListener("change", getContracts);
     getContracts();
