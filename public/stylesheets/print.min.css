@@ -1,0 +1,1 @@
+@media print{html.is-clipped{overflow:visible !important}html.is-clipped main,html.is-clipped .navbar,html.is-clipped .modal-card-head,html.is-clipped footer{display:none}html.is-clipped .modal{position:static;display:block;overflow:auto}html.is-clipped .modal-card{display:block;max-height:none;margin:0;overflow:auto}html.is-clipped a{color:#000;text-decoration:underline}}
