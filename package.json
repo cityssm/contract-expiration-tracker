@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cityssm/contract-expiration-tracke.git"
+    "url": "git+https://github.com/cityssm/contract-expiration-tracker.git"
   },
   "author": "The Corporation of the City of Sault Ste. Marie",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cityssm/contract-expiration-tracke/issues"
+    "url": "https://github.com/cityssm/contract-expiration-tracker/issues"
   },
-  "homepage": "https://github.com/cityssm/contract-expiration-tracke#readme",
+  "homepage": "https://github.com/cityssm/contract-expiration-tracker#readme",
   "dependencies": {
     "@cityssm/ad-web-auth-connector": "^0.2.0",
     "@cityssm/bulma-js": "^0.3.3",
