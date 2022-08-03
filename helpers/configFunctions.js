@@ -21,6 +21,7 @@ configFallbackValues.set("customizations.contractCategory.aliasPlural", "Contrac
 configFallbackValues.set("customizations.contractParty.alias", "Contract Party");
 configFallbackValues.set("customizations.contractParty.aliasPlural", "Contract Parties");
 configFallbackValues.set("customizations.notificationDays", 90);
+configFallbackValues.set("docuShare.isEnabled", false);
 export function getProperty(propertyName) {
     if (Object.prototype.hasOwnProperty.call(configOverrides, propertyName)) {
         return configOverrides[propertyName];

@@ -1,7 +1,9 @@
 import createError from "http-errors";
 import express from "express";
 
-import { abuseCheck } from "@cityssm/express-abuse-points";
+import {
+  abuseCheck
+} from "@cityssm/express-abuse-points";
 import compression from "compression";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -14,10 +16,15 @@ import FileStore from "session-file-store";
 import * as configFunctions from "./helpers/configFunctions.js";
 import * as stringFns from "@cityssm/expressjs-server-js/stringFns.js";
 import * as dateTimeFns from "@cityssm/expressjs-server-js/dateTimeFns.js";
-import { version } from "./version.js";
+import {
+  version
+} from "./version.js";
 
-import { updateOnly as handler_updateOnly } from "./handlers/permissionHandlers.js";
+import {
+  updateOnly as handler_updateOnly
+} from "./handlers/permissionHandlers.js";
 import routerLogin from "./routes/login.js";
+import routerDocuShare from "./routes/docuShare.js";
 import routerExport from "./routes/export.js";
 import routerContracts from "./routes/contracts.js";
 import routerAdmin from "./routes/admin.js";
@@ -73,7 +80,9 @@ app.use(express.urlencoded({
 }));
 
 app.use(cookieParser());
-app.use(csurf({ cookie: true }));
+app.use(csurf({
+  cookie: true
+}));
 
 
 /*
@@ -170,7 +179,7 @@ const sessionChecker = (request: express.Request, response: express.Response, ne
 
 
 // Make config objects available to the templates
-app.use(function(request, response, next) {
+app.use(function (request, response, next) {
   response.locals.configFunctions = configFunctions;
   response.locals.dateTimeFns = dateTimeFns;
   response.locals.stringFns = stringFns;
@@ -189,6 +198,10 @@ app.get(urlPrefix + "/", sessionChecker, (_request, response) => {
 app.use(urlPrefix + "/export", routerExport);
 
 app.use(urlPrefix + "/contracts", sessionChecker, routerContracts);
+
+if (configFunctions.getProperty("docuShare.isEnabled")) {
+  app.use(urlPrefix + "/docuShare", sessionChecker, routerDocuShare);
+}
 
 app.use(urlPrefix + "/admin", sessionChecker, handler_updateOnly, routerAdmin);
 
@@ -209,13 +222,13 @@ app.get(urlPrefix + "/logout", (request, response) => {
 
 
 // Catch 404 and forward to error handler
-app.use(function(_request, _response, next) {
+app.use(function (_request, _response, next) {
   next(createError(404));
 });
 
 
 // Error handler
-app.use(function(error: Error, request: express.Request, response: express.Response) {
+app.use(function (error: Error, request: express.Request, response: express.Response) {
 
   // Set locals, only providing error in development
   response.locals.message = error.message;

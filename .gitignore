@@ -2,6 +2,8 @@ data/config.*
 data/sessions/
 data/*.db
 
+java/dsapi.jar
+
 # Logs
 logs
 *.log

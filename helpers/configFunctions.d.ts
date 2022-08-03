@@ -1,5 +1,6 @@
 import type * as configTypes from "../types/configTypes";
 import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
+import type * as docuShareConfig from "@cityssm/docushare/types";
 export declare function getProperty(propertyName: "application.userDomain"): string;
 export declare function getProperty(propertyName: "application.httpPort"): number;
 export declare function getProperty(propertyName: "application.rootUrl"): string;
@@ -23,3 +24,8 @@ export declare function getProperty(propertyName: "customizations.contractCatego
 export declare function getProperty(propertyName: "customizations.contractParty.alias"): string;
 export declare function getProperty(propertyName: "customizations.contractParty.aliasPlural"): string;
 export declare function getProperty(propertyName: "customizations.notificationDays"): number;
+export declare function getProperty(propertyName: "docuShare.isEnabled"): boolean;
+export declare function getProperty(propertyName: "docuShare.rootURL"): string;
+export declare function getProperty(propertyName: "docuShare.collectionHandle"): string;
+export declare function getProperty(propertyName: "docuShare.server"): docuShareConfig.ServerConfig;
+export declare function getProperty(propertyName: "docuShare.session"): docuShareConfig.SessionConfig;

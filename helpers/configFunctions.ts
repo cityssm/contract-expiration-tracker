@@ -1,5 +1,6 @@
 import type * as configTypes from "../types/configTypes";
 import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
+import type * as docuShareConfig from "@cityssm/docushare/types";
 
 
 /*
@@ -34,7 +35,6 @@ configFallbackValues.set("session.secret", "cityssm/contract-expiration-tracker"
 configFallbackValues.set("session.maxAgeMillis", 60 * 60 * 1000);
 configFallbackValues.set("session.doKeepAlive", false);
 
-
 configFallbackValues.set("permissions.canUpdate", []);
 
 configFallbackValues.set("customizations.applicationName", "Contract Expiration Tracker");
@@ -49,6 +49,8 @@ configFallbackValues.set("customizations.contractParty.alias", "Contract Party")
 configFallbackValues.set("customizations.contractParty.aliasPlural", "Contract Parties");
 
 configFallbackValues.set("customizations.notificationDays", 90);
+
+configFallbackValues.set("docuShare.isEnabled", false);
 
 
 export function getProperty(propertyName: "application.userDomain"): string;
@@ -83,6 +85,12 @@ export function getProperty(propertyName: "customizations.contractParty.alias"):
 export function getProperty(propertyName: "customizations.contractParty.aliasPlural"): string;
 
 export function getProperty(propertyName: "customizations.notificationDays"): number;
+
+export function getProperty(propertyName: "docuShare.isEnabled"): boolean;
+export function getProperty(propertyName: "docuShare.rootURL"): string;
+export function getProperty(propertyName: "docuShare.collectionHandle"): string;
+export function getProperty(propertyName: "docuShare.server"): docuShareConfig.ServerConfig;
+export function getProperty(propertyName: "docuShare.session"): docuShareConfig.SessionConfig;
 
 
 export function getProperty(propertyName: string): unknown {

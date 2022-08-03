@@ -14,6 +14,7 @@ import * as dateTimeFns from "@cityssm/expressjs-server-js/dateTimeFns.js";
 import { version } from "./version.js";
 import { updateOnly as handler_updateOnly } from "./handlers/permissionHandlers.js";
 import routerLogin from "./routes/login.js";
+import routerDocuShare from "./routes/docuShare.js";
 import routerExport from "./routes/export.js";
 import routerContracts from "./routes/contracts.js";
 import routerAdmin from "./routes/admin.js";
@@ -44,7 +45,9 @@ app.use(express.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-app.use(csurf({ cookie: true }));
+app.use(csurf({
+    cookie: true
+}));
 const limiter = rateLimit({
     windowMs: 60 * 1000,
     max: 1000
@@ -104,6 +107,9 @@ app.get(urlPrefix + "/", sessionChecker, (_request, response) => {
 });
 app.use(urlPrefix + "/export", routerExport);
 app.use(urlPrefix + "/contracts", sessionChecker, routerContracts);
+if (configFunctions.getProperty("docuShare.isEnabled")) {
+    app.use(urlPrefix + "/docuShare", sessionChecker, routerDocuShare);
+}
 app.use(urlPrefix + "/admin", sessionChecker, handler_updateOnly, routerAdmin);
 app.use(urlPrefix + "/login", routerLogin);
 app.get(urlPrefix + "/logout", (request, response) => {

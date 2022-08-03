@@ -30,6 +30,7 @@
     "@cityssm/ad-web-auth-connector": "^0.2.0",
     "@cityssm/bulma-js": "^0.3.3",
     "@cityssm/bulma-webapp-js": "^1.5.0",
+    "@cityssm/docushare": "^1.1.2",
     "@cityssm/express-abuse-points": "^1.0.2",
     "@cityssm/expressjs-server-js": "^2.3.2",
     "@cityssm/mssql-multi-pool": "^2.1.6",
