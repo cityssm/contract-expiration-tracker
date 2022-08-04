@@ -9,6 +9,6 @@ to help prepare for and be proactive on upcoming sourcing requirements.
 
 ![Contract Search](docs/images/contractSearch.png)
 
-**Under development.  Expected to launch January 2022.**
+**Launched May 2022.**
 
 📘 [Read the Documentation](https://cityssm.github.io/contract-expiration-tracker/docs/)
