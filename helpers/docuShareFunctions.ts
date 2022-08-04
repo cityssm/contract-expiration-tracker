@@ -3,12 +3,14 @@ import path from "node:path";
 import * as configFunctions from "./configFunctions.js";
 import * as docuShare from "@cityssm/docushare";
 
-import type * as docuShareTypes from "@cityssm/docushare/types";
+import NodeCache from "node-cache";
+
+import * as docuShareTypes from "@cityssm/docushare/types";
 
 import Debug from "debug";
 const debug = Debug("contract-expiration-tracker:docuShareFunctions");
 
-const getContractKeyword = (contractId: number) => {
+const getContractKeyword = (contractId: number | string) => {
     return "contractId:" + contractId;
 };
 
@@ -41,30 +43,36 @@ const initialize = () => {
  * Caching
  */
 
-let cachedContractCollections: docuShareTypes.DocuShareObject[];
-let cachedContractCollections_expiryMillis = 0;
-const cachedContractCollections_cacheMillis = 5 * 60 * 1000;
+const cachedCollectionChildren = new NodeCache({
+    stdTTL: 5 * 60
+});
 
-const getAllContractCollections = async (): Promise<docuShareTypes.DocuShareObject[]> => {
+
+export const getCollectionChildren = async (handle: string): Promise<docuShareTypes.DocuShareObject[]> => {
 
     initialize();
 
-    if (cachedContractCollections_expiryMillis < Date.now()) {
-        const docuShareOutput = await docuShare.getChildren(configFunctions.getProperty("docuShare.collectionHandle"));
+    let collectionChildren = cachedCollectionChildren.get(handle) as docuShareTypes.DocuShareObject[];
 
-        if (!docuShareOutput.success) {
-            debug(docuShareOutput.error);
+    if (!collectionChildren) {
+        const result = await docuShare.getChildren(handle);
+
+        if (result.success) {
+            collectionChildren = result.dsObjects;
+            cachedCollectionChildren.set(handle, collectionChildren);
         }
-
-        cachedContractCollections = docuShareOutput.success ? docuShareOutput.dsObjects : [];
-        cachedContractCollections_expiryMillis = Date.now() + cachedContractCollections_cacheMillis;
     }
 
-    return cachedContractCollections;
+    return collectionChildren;
 };
 
 
-export const getContractCollection = async (contractId: number): Promise<docuShareTypes.DocuShareObject> => {
+const getAllContractCollections = async (): Promise<docuShareTypes.DocuShareObject[]> => {
+    return await getCollectionChildren(configFunctions.getProperty("docuShare.collectionHandle"));
+};
+
+
+export const getContractCollection = async (contractId: number | string): Promise<docuShareTypes.DocuShareObject> => {
 
     const contractCollections = await getAllContractCollections();
 
@@ -81,7 +89,7 @@ export const getContractCollection = async (contractId: number): Promise<docuSha
 };
 
 
-export const createContractCollection = async (contractId: number, contractTitle: string): Promise<docuShareTypes.DocuShareObject> => {
+export const createContractCollection = async (contractId: number | string, contractTitle: string): Promise<docuShareTypes.DocuShareObject> => {
     
     initialize();
 
@@ -99,16 +107,17 @@ export const createContractCollection = async (contractId: number, contractTitle
         return;
     }
 
-    cachedContractCollections.push(docuShareOutput.dsObjects[0]);
+    cachedCollectionChildren.del(configFunctions.getProperty("docuShare.collectionHandle"));
 
     return docuShareOutput.dsObjects[0];
 };
 
 
 export const updateCollectionTitle = async (collectionHandle: string, newCollectionTitle: string) => {
+    
     initialize();
 
     await docuShare.setTitle(collectionHandle, newCollectionTitle);
 
-    cachedContractCollections_expiryMillis = 0;
+    cachedCollectionChildren.del(configFunctions.getProperty("docuShare.collectionHandle"));
 };

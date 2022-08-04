@@ -1,8 +1,12 @@
 import path from "node:path";
 import * as configFunctions from "./configFunctions.js";
 import * as docuShare from "@cityssm/docushare";
+import NodeCache from "node-cache";
 import Debug from "debug";
 const debug = Debug("contract-expiration-tracker:docuShareFunctions");
+const getContractKeyword = (contractId) => {
+    return "contractId:" + contractId;
+};
 let isInitialized = false;
 const initialize = () => {
     if (!isInitialized) {
@@ -16,30 +20,50 @@ const initialize = () => {
         isInitialized = true;
     }
 };
-let cachedContractCollections;
-let cachedContractCollections_expiryMillis = 0;
-const cachedContractCollections_cacheMillis = 5 * 60 * 1000;
-const getAllContractCollections = async () => {
+const cachedCollectionChildren = new NodeCache({
+    stdTTL: 5 * 60
+});
+export const getCollectionChildren = async (handle) => {
     initialize();
-    if (cachedContractCollections_expiryMillis < Date.now()) {
-        const docuShareOutput = await docuShare.getChildren(configFunctions.getProperty("docuShare.collectionHandle"));
-        if (!docuShareOutput.success) {
-            debug(docuShareOutput.error);
+    let collectionChildren = cachedCollectionChildren.get(handle);
+    if (!collectionChildren) {
+        const result = await docuShare.getChildren(handle);
+        if (result.success) {
+            collectionChildren = result.dsObjects;
+            cachedCollectionChildren.set(handle, collectionChildren);
         }
-        cachedContractCollections = docuShareOutput.success ? docuShareOutput.dsObjects : [];
-        cachedContractCollections_expiryMillis = Date.now() + cachedContractCollections_cacheMillis;
     }
-    return cachedContractCollections;
+    return collectionChildren;
+};
+const getAllContractCollections = async () => {
+    return await getCollectionChildren(configFunctions.getProperty("docuShare.collectionHandle"));
 };
 export const getContractCollection = async (contractId) => {
     const contractCollections = await getAllContractCollections();
+    const keyword = getContractKeyword(contractId);
     for (const contractCollection of contractCollections) {
-        if (contractCollection.keywords === "contractId:" + contractId) {
+        if (contractCollection.keywords === keyword) {
             return contractCollection;
         }
     }
     return undefined;
 };
-export const updateCollectionTitle = (collectionHandle, newCollectionTitle) => {
+export const createContractCollection = async (contractId, contractTitle) => {
     initialize();
+    let docuShareOutput = await docuShare.createCollection(configFunctions.getProperty("docuShare.collectionHandle"), contractTitle);
+    if (!docuShareOutput.success) {
+        return;
+    }
+    const newCollectionHandle = docuShareOutput.dsObjects[0].handle;
+    docuShareOutput = await docuShare.setKeywords(newCollectionHandle, getContractKeyword(contractId));
+    if (!docuShareOutput.success) {
+        return;
+    }
+    cachedCollectionChildren.del(configFunctions.getProperty("docuShare.collectionHandle"));
+    return docuShareOutput.dsObjects[0];
+};
+export const updateCollectionTitle = async (collectionHandle, newCollectionTitle) => {
+    initialize();
+    await docuShare.setTitle(collectionHandle, newCollectionTitle);
+    cachedCollectionChildren.del(configFunctions.getProperty("docuShare.collectionHandle"));
 };

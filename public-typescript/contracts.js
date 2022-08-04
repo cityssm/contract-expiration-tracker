@@ -149,38 +149,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
                         "</h2>" +
                         "<div class=\"columns is-mobile\">" +
                         ("<div class=\"column\">" +
-                            (contract.hasBeenReplaced
-                                ? "<span class=\"icon\"><i class=\"fas fa-fast-forward\" aria-hidden=\"true\"></i></span> Replaced<br />"
-                                : "") +
-                            (contract.contractCategory !== ""
-                                ? "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />"
-                                : "") +
-                            (contract.contractParty !== ""
-                                ? "<span class=\"icon\"><i class=\"fas fa-user-tie\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractParty) + "<br />"
-                                : "") +
+                            (contract.hasBeenReplaced ?
+                                "<span class=\"icon\"><i class=\"fas fa-fast-forward\" aria-hidden=\"true\"></i></span> Replaced<br />" :
+                                "") +
+                            (contract.contractCategory !== "" ?
+                                "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />" :
+                                "") +
+                            (contract.contractParty !== "" ?
+                                "<span class=\"icon\"><i class=\"fas fa-user-tie\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractParty) + "<br />" :
+                                "") +
                             "</div>") +
-                        (contract.managingUserName && contract.managingUserName !== ""
-                            ? "<div class=\"column is-4\">" +
+                        (contract.managingUserName && contract.managingUserName !== "" ?
+                            "<div class=\"column is-4\">" +
                                 "<span class=\"icon\"><i class=\"fas fa-id-card\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.managingUserName) +
-                                "</div>"
-                            : "") +
+                                "</div>" :
+                            "") +
                         "</div>" +
                         "</div>") +
                     ("<div class=\"column is-6-mobile has-text-centered\">" +
                         "<i class=\"fas fa-play" + (contract.startDateString <= currentDateString ? " has-text-success" : "") + "\" aria-hidden=\"true\"></i><br />" +
                         contract.startDateString +
-                        (contract.startDateString <= currentDateString
-                            ? "<br /><span class=\"is-size-7\">" + dateDiff(cityssm.dateStringToDate(contract.startDateString), currentDate).formatted + " ago" :
+                        (contract.startDateString <= currentDateString ?
+                            "<br /><span class=\"is-size-7\">" + dateDiff(cityssm.dateStringToDate(contract.startDateString), currentDate).formatted + " ago" :
                             "") +
                         "</div>") +
                     ("<div class=\"column is-6-mobile has-text-centered\">" +
                         "<i class=\"fas fa-stop\" aria-hidden=\"true\"></i><br />" +
-                        (contract.endDate
-                            ? contract.endDateString
-                            : "<span class=\"has-text-grey\">No End Date</span>") +
-                        (contract.extensionDate
-                            ? "<br /><span class=\"is-size-7\">Extend to " + contract.extensionDateString + "</span>"
-                            : "") +
+                        (contract.endDate ?
+                            contract.endDateString :
+                            "<span class=\"has-text-grey\">No End Date</span>") +
+                        (contract.extensionDate ?
+                            "<br /><span class=\"is-size-7\">Extend to " + contract.extensionDateString + "</span>" :
+                            "") +
                         "</div>") +
                     "</div>";
                 panelElement.append(panelBlockElement);
@@ -248,6 +248,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
                     modalElement.querySelector("#contractEdit--endDateString").value = contract.endDateString;
                     modalElement.querySelector("#contractEdit--extensionDateString").value = contract.extensionDateString;
                 });
+                if (exports.docuShare_isEnabled) {
+                    modalElement.querySelector("#section--contractDocuShare").classList.remove("is-hidden");
+                    cityssm.postJSON(urlPrefix + "/docuShare/doGetContractDocuments", {
+                        contractId
+                    }, (responseJSON) => {
+                        const containerElement = modalElement.querySelector("#container--contractDocuShare");
+                        if (responseJSON.documents.length === 0) {
+                            containerElement.innerHTML = "<div class=\"message is-info\">" +
+                                "<p class=\"message-body\">There are no related documents.</p>" +
+                                "</div>";
+                        }
+                        else {
+                            const panelElement = document.createElement("div");
+                            panelElement.className = "panel";
+                            for (const docuShareDocument of responseJSON.documents) {
+                                const panelBlockElement = document.createElement("a");
+                                panelBlockElement.className = "panel-block is-block";
+                                panelBlockElement.href = responseJSON.rootURL + "/dsweb/View/" + docuShareDocument.handle;
+                                panelBlockElement.target = "_blank";
+                                panelBlockElement.rel = "noopener";
+                                panelBlockElement.innerHTML = "<strong>" + cityssm.escapeHTML(docuShareDocument.title) + "</strong><br />" +
+                                    cityssm.escapeHTML(docuShareDocument.summary);
+                                panelElement.append(panelBlockElement);
+                            }
+                            containerElement.innerHTML = "";
+                            containerElement.append(panelElement);
+                        }
+                        containerElement.insertAdjacentHTML("afterbegin", "<a class=\"button is-fullwidth is-link is-light mb-2\" href=\"" + responseJSON.rootURL + "/dsweb/View/" + responseJSON.handle + "\" target=\"_blank\" rel=\"noopener\">" +
+                            "Open Collection in DocuShare" +
+                            "</a>");
+                    });
+                }
                 if (canUpdate) {
                     const editModeButtonElement = modalElement.querySelector("#button--switchToEditMode");
                     editModeButtonElement.classList.remove("is-hidden");

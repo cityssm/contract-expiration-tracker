@@ -185,7 +185,6 @@
   </footer>
   <script>
     window.exports = window.exports || {};
-    window.exports.__esModule = window.exports.__esModule || false;
 
     exports.userName = "<%= user.userName %>";
     exports.canUpdate = <%= user.canUpdate %>;
@@ -193,6 +192,8 @@
     exports.guidB = "<%= user.guidB %>";
 
     exports.urlPrefix = "<%= urlPrefix %>";
+
+    exports.docuShare_isEnabled = <%= configFunctions.getProperty("docuShare.isEnabled") %>;
 
     exports.customizations_contract_alias = "<%= configFunctions.getProperty("customizations.contract.alias") %>";
     exports.customizations_contract_aliasPlural = "<%= configFunctions.getProperty("customizations.contract.aliasPlural") %>";

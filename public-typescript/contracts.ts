@@ -1,10 +1,24 @@
 /* eslint-disable unicorn/prefer-module */
 
-import type { Contract } from "../types/recordTypes";
-import type { DateDiff } from "@cityssm/date-diff/types";
+import type {
+  Contract
+} from "../types/recordTypes";
 
-import type { cityssmGlobal } from "@cityssm/bulma-webapp-js/src/types";
-import type { BulmaJS } from "@cityssm/bulma-js/types";
+import type {
+  DateDiff
+} from "@cityssm/date-diff/types";
+
+import type {
+  cityssmGlobal
+} from "@cityssm/bulma-webapp-js/src/types";
+
+import type {
+  BulmaJS
+} from "@cityssm/bulma-js/types";
+
+import type {
+  DocuShareObject
+} from "@cityssm/docushare/types";
 
 declare const cityssm: cityssmGlobal;
 declare const bulmaJS: BulmaJS;
@@ -77,7 +91,9 @@ declare const bulmaJS: BulmaJS;
   const doResetUserAccessGUIDs = () => {
 
     cityssm.postJSON(urlPrefix + "/contracts/doResetUserAccessGUIDs", {},
-      (responseJSON: { success: boolean; guidA: string; guidB: string; }) => {
+      (responseJSON: {
+        success: boolean;guidA: string;guidB: string;
+      }) => {
 
         if (responseJSON.success) {
 
@@ -181,9 +197,10 @@ declare const bulmaJS: BulmaJS;
 
   const refreshContractCategories = () => {
 
-    cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories",
-      {},
-      (responseJSON: { contractCategories: string[]; }) => {
+    cityssm.postJSON(urlPrefix + "/contracts/doGetContractCategories", {},
+      (responseJSON: {
+        contractCategories: string[];
+      }) => {
         contractCategories = responseJSON.contractCategories;
         exports.contractCategories = responseJSON.contractCategories;
         renderContractCategories();
@@ -218,7 +235,9 @@ declare const bulmaJS: BulmaJS;
       "</div>";
 
     cityssm.postJSON(urlPrefix + "/contracts/doGetContracts", filterFormElement,
-      (responseJSON: { contracts: Contract[] }) => {
+      (responseJSON: {
+        contracts: Contract[]
+      }) => {
 
         if (responseJSON.contracts.length === 0) {
           searchResultsElement.innerHTML = "<div class=\"message is-info\">" +
@@ -250,38 +269,38 @@ declare const bulmaJS: BulmaJS;
               "</h2>" +
               "<div class=\"columns is-mobile\">" +
               ("<div class=\"column\">" +
-                (contract.hasBeenReplaced
-                  ? "<span class=\"icon\"><i class=\"fas fa-fast-forward\" aria-hidden=\"true\"></i></span> Replaced<br />"
-                  : "") +
-                (contract.contractCategory !== ""
-                  ? "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />"
-                  : "") +
-                (contract.contractParty !== ""
-                  ? "<span class=\"icon\"><i class=\"fas fa-user-tie\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractParty) + "<br />"
-                  : "") +
+                (contract.hasBeenReplaced ?
+                  "<span class=\"icon\"><i class=\"fas fa-fast-forward\" aria-hidden=\"true\"></i></span> Replaced<br />" :
+                  "") +
+                (contract.contractCategory !== "" ?
+                  "<span class=\"icon\"><i class=\"fas fa-archive\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractCategory) + "<br />" :
+                  "") +
+                (contract.contractParty !== "" ?
+                  "<span class=\"icon\"><i class=\"fas fa-user-tie\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.contractParty) + "<br />" :
+                  "") +
                 "</div>") +
-              (contract.managingUserName && contract.managingUserName !== ""
-                ? "<div class=\"column is-4\">" +
+              (contract.managingUserName && contract.managingUserName !== "" ?
+                "<div class=\"column is-4\">" +
                 "<span class=\"icon\"><i class=\"fas fa-id-card\" aria-hidden=\"true\"></i></span> " + cityssm.escapeHTML(contract.managingUserName) +
-                "</div>"
-                : "") +
+                "</div>" :
+                "") +
               "</div>" +
               "</div>") +
             ("<div class=\"column is-6-mobile has-text-centered\">" +
               "<i class=\"fas fa-play" + (contract.startDateString <= currentDateString ? " has-text-success" : "") + "\" aria-hidden=\"true\"></i><br />" +
               contract.startDateString +
-              (contract.startDateString <= currentDateString
-                ? "<br /><span class=\"is-size-7\">" + dateDiff(cityssm.dateStringToDate(contract.startDateString), currentDate).formatted + " ago" :
+              (contract.startDateString <= currentDateString ?
+                "<br /><span class=\"is-size-7\">" + dateDiff(cityssm.dateStringToDate(contract.startDateString), currentDate).formatted + " ago" :
                 "") +
               "</div>") +
             ("<div class=\"column is-6-mobile has-text-centered\">" +
               "<i class=\"fas fa-stop\" aria-hidden=\"true\"></i><br />" +
-              (contract.endDate
-                ? contract.endDateString
-                : "<span class=\"has-text-grey\">No End Date</span>") +
-              (contract.extensionDate
-                ? "<br /><span class=\"is-size-7\">Extend to " + contract.extensionDateString + "</span>"
-                : "") +
+              (contract.endDate ?
+                contract.endDateString :
+                "<span class=\"has-text-grey\">No End Date</span>") +
+              (contract.extensionDate ?
+                "<br /><span class=\"is-size-7\">Extend to " + contract.extensionDateString + "</span>" :
+                "") +
               "</div>") +
             "</div>";
 
@@ -318,7 +337,9 @@ declare const bulmaJS: BulmaJS;
 
         cityssm.postJSON(urlPrefix + "/contracts/doGetContract", {
           contractId
-        }, (responseJSON: { contract: Contract; }) => {
+        }, (responseJSON: {
+          contract: Contract;
+        }) => {
 
           const contract = responseJSON.contract;
 
@@ -377,6 +398,54 @@ declare const bulmaJS: BulmaJS;
           (modalElement.querySelector("#contractEdit--extensionDateString") as HTMLInputElement).value = contract.extensionDateString;
         });
 
+        if (exports.docuShare_isEnabled) {
+
+          modalElement.querySelector("#section--contractDocuShare").classList.remove("is-hidden");
+
+          cityssm.postJSON(urlPrefix + "/docuShare/doGetContractDocuments", {
+            contractId
+          }, (responseJSON: {
+            rootURL: string;
+            handle: string;
+            documents: DocuShareObject[];
+          }) => {
+
+            const containerElement = modalElement.querySelector("#container--contractDocuShare") as HTMLElement;
+
+            if (responseJSON.documents.length === 0) {
+              containerElement.innerHTML = "<div class=\"message is-info\">" +
+                "<p class=\"message-body\">There are no related documents.</p>" +
+                "</div>";
+            } else {
+
+              const panelElement = document.createElement("div");
+              panelElement.className = "panel";
+
+              for (const docuShareDocument of responseJSON.documents) {
+
+                const panelBlockElement = document.createElement("a");
+                panelBlockElement.className = "panel-block is-block";
+                panelBlockElement.href = responseJSON.rootURL + "/dsweb/View/" + docuShareDocument.handle;
+                panelBlockElement.target = "_blank";
+                panelBlockElement.rel = "noopener";
+
+                panelBlockElement.innerHTML = "<strong>" + cityssm.escapeHTML(docuShareDocument.title) + "</strong><br />" +
+                  cityssm.escapeHTML(docuShareDocument.summary);
+
+                panelElement.append(panelBlockElement);
+              }
+
+              containerElement.innerHTML = "";
+              containerElement.append(panelElement);
+            }
+
+            containerElement.insertAdjacentHTML("afterbegin",
+              "<a class=\"button is-fullwidth is-link is-light mb-2\" href=\"" + responseJSON.rootURL + "/dsweb/View/" + responseJSON.handle + "\" target=\"_blank\" rel=\"noopener\">" +
+              "Open Collection in DocuShare" +
+              "</a>");
+          });
+        }
+
         if (canUpdate) {
           const editModeButtonElement = modalElement.querySelector("#button--switchToEditMode") as HTMLButtonElement;
           editModeButtonElement.classList.remove("is-hidden");
@@ -425,7 +494,9 @@ declare const bulmaJS: BulmaJS;
       formEvent.preventDefault();
 
       cityssm.postJSON(urlPrefix + "/contracts/doAddContract", formElement,
-        (responseJSON: { success: boolean }) => {
+        (responseJSON: {
+          success: boolean
+        }) => {
 
           if (responseJSON.success) {
             addContractCloseModalFunction();
@@ -519,7 +590,9 @@ declare const bulmaJS: BulmaJS;
 
       cityssm.postJSON(urlPrefix + "/contracts/doUpdateContract",
         editFormElement,
-        (responseJSON: { success: boolean; }) => {
+        (responseJSON: {
+          success: boolean;
+        }) => {
 
           if (responseJSON.success) {
             closeModalFunction();
@@ -542,7 +615,9 @@ declare const bulmaJS: BulmaJS;
 
       cityssm.postJSON(urlPrefix + "/contracts/doRemoveContract", {
         contractId
-      }, (responseJSON: { success: boolean; }) => {
+      }, (responseJSON: {
+        success: boolean;
+      }) => {
 
         if (responseJSON.success) {
           closeModalFunction();
