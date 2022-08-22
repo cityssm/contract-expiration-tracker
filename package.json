@@ -91,7 +91,7 @@
     "gulp-minify": "^3.1.0",
     "gulp-sass": "^5.1.0",
     "nodemon": "^2.0.19",
-    "sass": "^1.54.1"
+    "sass": "^1.54.5"
   },
   "resolutions": {
     "xmldom": "github:xmldom/xmldom#0.7.0"
