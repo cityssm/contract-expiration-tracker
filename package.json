@@ -33,7 +33,6 @@
     "@cityssm/docushare": "^1.1.2",
     "@cityssm/express-abuse-points": "^1.0.2",
     "@cityssm/expressjs-server-js": "^2.3.2",
-    "@cityssm/mssql-multi-pool": "^2.1.6",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "activedirectory2": "^2.1.0",
     "better-sqlite3": "^8.7.0",
