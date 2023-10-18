@@ -36,7 +36,7 @@
     "@cityssm/mssql-multi-pool": "^2.1.6",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "activedirectory2": "^2.1.0",
-    "better-sqlite3": "^7.6.2",
+    "better-sqlite3": "^8.7.0",
     "camelcase": "^7.0.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
