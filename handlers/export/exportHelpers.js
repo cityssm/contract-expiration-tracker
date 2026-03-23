@@ -23,6 +23,6 @@ export const formatContractContent = (contract) => {
         ? contract.contractDescription + "\n\n"
         : "") +
         "Start Date: " + contract.startDateString +
-        (contract.endDate ? "\nEnd Date: " + contract.endDateString : "") +
-        (contract.extensionDate ? "\nExtension Date: " + contract.extensionDateString : "");
+        (contract.endDate ? "\nCurrent End Date: " + contract.endDateString : "") +
+        (contract.extensionDate ? "\nFinal End Date: " + contract.extensionDateString : "");
 };

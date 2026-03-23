@@ -15,7 +15,7 @@ import type { Contract } from "../../types/recordTypes";
 
 const addItem = (feed: Feed, contract: Contract, itemOptions: {
   itemDate: Date;
-  itemDateType: "Start" | "End" | "Extension";
+  itemDateType: "Start" | "End" | "Final End";
   isAdvancedNotification: boolean;
 }): boolean => {
 
@@ -136,7 +136,7 @@ export const handler: RequestHandler = (request, response) => {
 
     if (contract.extensionDate) {
 
-      // Extension Date Notification
+      // Final End Date Notification
 
       const extensionNotificationDate = dateTimeFunctions.dateIntegerToDate(contract.extensionDate);
       extensionNotificationDate.setDate(extensionNotificationDate.getDate() - notificationDays);
@@ -144,7 +144,7 @@ export const handler: RequestHandler = (request, response) => {
       if (extensionNotificationDate.getTime() <= Date.now()) {
         addItem(feed, contract, {
           itemDate: extensionNotificationDate,
-          itemDateType: "Extension",
+          itemDateType: "Final End",
           isAdvancedNotification: true
         });
       }
@@ -154,7 +154,7 @@ export const handler: RequestHandler = (request, response) => {
       if (extensionDate.getTime() <= Date.now()) {
         addItem(feed, contract, {
           itemDate: extensionDate,
-          itemDateType: "Extension",
+          itemDateType: "Final End",
           isAdvancedNotification: false
         });
       }
@@ -168,7 +168,7 @@ export const handler: RequestHandler = (request, response) => {
   switch (request.params.format) {
 
     case "atom":
-      contentDisposition = "inline; filename=contacts-" + Date.now().toString() + ".atom.xml";
+      contentDisposition = "inline; filename=contracts-" + Date.now().toString() + ".atom.xml";
       contentType = "application/atom+xml";
       content = feed.atom1();
       break;

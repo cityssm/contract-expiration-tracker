@@ -67,13 +67,13 @@ export const handler = (request, response) => {
         }
         if (contract.extensionDate) {
             const extensionEvent = calendar.createEvent({
-                summary: contract.contractTitle + " (Extension)",
+                summary: contract.contractTitle + " (Final End)",
                 start: dateTimeFunctions.dateIntegerToDate(contract.extensionDate)
             });
-            extensionEvent.uid(contract.contractId + "-extension");
+            extensionEvent.uid(contract.contractId + "-final-end");
             extensionEvent.status(ICalEventStatus.TENTATIVE);
             extensionEvent.createCategory({
-                name: "Contract Extension Date"
+                name: "Contract Final End Date"
             });
             addEventDetails(extensionEvent, contract);
         }
