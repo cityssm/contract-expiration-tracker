@@ -1,99 +1,97 @@
 {
   "name": "contract-expiration-tracker",
   "version": "1.1.0",
+  "private": true,
   "description": "A tool to track the expiration of procurement projects and/or contracts to help prepare for and be proactive on upcoming sourcing requirements.",
-  "directories": {
-    "doc": "docs"
-  },
-  "type": "module",
-  "exports": "./app.js",
-  "scripts": {
-    "preinstall": "npx npm-force-resolutions",
-    "build": "npx genversion --es6 --semi version.js",
-    "start": "cross-env NODE_ENV=production node ./bin/www",
-    "dev": "cross-env NODE_ENV=dev DEBUG=contract-expiration-tracker:* nodemon ./bin/www"
-  },
-  "engines": {
-    "node": ">=14"
+  "homepage": "https://github.com/cityssm/contract-expiration-tracker#readme",
+  "bugs": {
+    "url": "https://github.com/cityssm/contract-expiration-tracker/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cityssm/contract-expiration-tracker.git"
   },
-  "author": "The Corporation of the City of Sault Ste. Marie",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/cityssm/contract-expiration-tracker/issues"
+  "author": "The Corporation of the City of Sault Ste. Marie",
+  "type": "module",
+  "exports": {
+    ".": "./app.js"
   },
-  "homepage": "https://github.com/cityssm/contract-expiration-tracker#readme",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "npx genversion --es6 --semi version.js",
+    "dev": "node --env-file=.dev.env --watch ./bin/www",
+    "preinstall": "npx npm-force-resolutions",
+    "start": "node --env-file=.env ./bin/www"
+  },
+  "resolutions": {
+    "xmldom": "github:xmldom/xmldom#0.7.0"
+  },
   "dependencies": {
-    "@cityssm/ad-web-auth-connector": "^0.2.0",
+    "@cityssm/ad-web-auth-connector": "^1.2.0",
     "@cityssm/bulma-js": "^0.3.3",
     "@cityssm/bulma-webapp-js": "^1.5.0",
     "@cityssm/docushare": "^1.1.2",
-    "@cityssm/express-abuse-points": "^1.0.2",
-    "@cityssm/expressjs-server-js": "^2.3.2",
+    "@cityssm/express-abuse-points": "^4.0.0",
+    "@cityssm/expressjs-server-js": "^2.3.3",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "activedirectory2": "^2.1.0",
-    "better-sqlite3": "^12.8.0",
-    "camelcase": "^7.0.0",
-    "compression": "^1.7.4",
-    "cookie-parser": "^1.4.6",
-    "cross-env": "^7.0.3",
+    "activedirectory2": "^2.2.0",
+    "better-sqlite3": "^13.0.3",
+    "camelcase": "^9.0.0",
+    "compression": "^1.8.2",
+    "cookie-parser": "^1.4.7",
+    "cross-env": "^10.1.0",
     "csurf": "^1.11.0",
-    "debug": "^4.3.4",
-    "ejs": "^3.1.8",
-    "exit-hook": "^3.0.0",
-    "express": "^4.18.1",
-    "express-rate-limit": "^6.5.1",
-    "express-session": "^1.17.3",
+    "debug": "^4.4.3",
+    "ejs": "^6.0.1",
+    "exit-hook": "^5.1.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "express-session": "^1.19.0",
     "feed": "^4.2.2",
-    "http-errors": "^2.0.0",
+    "http-errors": "^2.0.1",
     "ical-generator": "^3.5.1",
     "node-cache": "^5.1.2",
-    "papaparse": "^5.3.2",
+    "papaparse": "^5.7.0",
     "session-file-store": "^1.5.0",
-    "uuid": "^8.3.2"
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@cityssm/bulma-a11y": "^0.4.0",
     "@cityssm/simple-fa5-checkbox": "^0.2.1",
     "@creativebulma/bulma-tooltip": "^1.2.0",
-    "@types/activedirectory2": "^1.2.3",
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/compression": "^1.7.2",
-    "@types/cookie-parser": "^1.4.3",
-    "@types/csurf": "^1.11.2",
-    "@types/debug": "^4.1.7",
-    "@types/ejs": "^3.1.1",
-    "@types/express": "^4.17.13",
-    "@types/express-session": "^1.17.5",
-    "@types/gulp": "^4.0.9",
-    "@types/gulp-changed": "^0.0.35",
-    "@types/gulp-minify": "^3.1.1",
-    "@types/gulp-sass": "^5.0.0",
-    "@types/http-errors": "^1.8.2",
-    "@types/papaparse": "^5.3.3",
-    "@types/request-ip": "^0.0.37",
-    "@types/session-file-store": "^1.2.2",
-    "@types/uuid": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
+    "@types/activedirectory2": "^1.2.6",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/compression": "^1.8.1",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/csurf": "^1.11.5",
+    "@types/debug": "^4.1.13",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
+    "@types/gulp": "^4.0.18",
+    "@types/gulp-sass": "^6.0.0",
+    "@types/http-errors": "^2.0.5",
+    "@types/node-windows": "^0.1.6",
+    "@types/papaparse": "^5.5.2",
+    "@types/request-ip": "^0.0.41",
+    "@types/session-file-store": "^1.2.6",
+    "@types/uuid": "^11.0.0",
     "bulma": "^0.9.4",
-    "eslint": "^8.21.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-unicorn": "^43.0.2",
+    "eslint-config-cityssm": "^54.1.0",
     "gulp": "^4.0.2",
-    "gulp-changed": "^4.0.3",
-    "gulp-minify": "^3.1.0",
     "gulp-sass": "^5.1.0",
-    "nodemon": "^2.0.19",
-    "sass": "^1.54.1"
+    "prettier-config-cityssm": "^2.2.0",
+    "sass": "^1.105.0"
   },
-  "resolutions": {
-    "xmldom": "github:xmldom/xmldom#0.7.0"
+  "engines": {
+    "node": ">=22"
   },
-  "private": true
+  "allowScripts": {
+    "better-sqlite3@13.0.3": true,
+    "sqlite3@5.0.8": true,
+    "@parcel/watcher@2.6.0": true
+  }
 }

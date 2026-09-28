@@ -20,7 +20,7 @@ const addEventDetails = (icalEvent, contract) => {
     icalEvent.lastModified(new Date(contract.recordUpdate_timeMillis));
     icalEvent.createAlarm({
         type: ICalAlarmType.display,
-        trigger: configFunctions.getProperty("customizations.notificationDays") * 86400
+        trigger: configFunctions.getProperty("customizations.notificationDays") * 86_400
     });
     return icalEvent;
 };

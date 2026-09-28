@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-module */
 
-import type { ContractCategoryUser } from "../types/recordTypes";
+import type { ContractCategoryUser } from "../../types/recordTypes";
 
 import type { cityssmGlobal } from "@cityssm/bulma-webapp-js/src/types";
 import type { BulmaJS } from "@cityssm/bulma-js/types";

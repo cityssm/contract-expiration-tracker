@@ -1,25 +1,25 @@
-import createError from "http-errors";
-import express from "express";
+import path from "node:path";
 import { abuseCheck } from "@cityssm/express-abuse-points";
+import * as dateTimeFns from "@cityssm/expressjs-server-js/dateTimeFns.js";
+import * as stringFns from "@cityssm/expressjs-server-js/stringFns.js";
 import compression from "compression";
-import path from "path";
 import cookieParser from "cookie-parser";
 import csurf from "csurf";
+import debug from "debug";
+import express from "express";
 import rateLimit from "express-rate-limit";
 import session from "express-session";
+import createError from "http-errors";
 import FileStore from "session-file-store";
-import * as configFunctions from "./helpers/configFunctions.js";
-import * as stringFns from "@cityssm/expressjs-server-js/stringFns.js";
-import * as dateTimeFns from "@cityssm/expressjs-server-js/dateTimeFns.js";
-import { version } from "./version.js";
 import { updateOnly as handler_updateOnly } from "./handlers/permissionHandlers.js";
-import routerLogin from "./routes/login.js";
+import * as configFunctions from "./helpers/configFunctions.js";
+import * as databaseInitializer from "./helpers/databaseInitializer.js";
+import routerAdmin from "./routes/admin.js";
+import routerContracts from "./routes/contracts.js";
 import routerDocuShare from "./routes/docuShare.js";
 import routerExport from "./routes/export.js";
-import routerContracts from "./routes/contracts.js";
-import routerAdmin from "./routes/admin.js";
-import * as databaseInitializer from "./helpers/databaseInitializer.js";
-import debug from "debug";
+import routerLogin from "./routes/login.js";
+import { version } from "./version.js";
 const debugApp = debug("contract-expiration-tracker:app");
 const __dirname = ".";
 databaseInitializer.initContractsDB();
@@ -37,7 +37,7 @@ if (!configFunctions.getProperty("reverseProxy.disableCompression")) {
     app.use(compression());
 }
 app.use((request, _response, next) => {
-    debugApp(request.method + " " + request.url);
+    debugApp(`${request.method} ${request.url}`);
     next();
 });
 app.use(express.json());

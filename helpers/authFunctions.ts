@@ -1,71 +1,87 @@
-import * as configFunctions from "./configFunctions.js";
+import { AdWebAuthConnector } from '@cityssm/ad-web-auth-connector'
+import ActiveDirectory from 'activedirectory2'
 
-import ActiveDirectory from "activedirectory2";
-import * as adWebAuth from "@cityssm/ad-web-auth-connector";
+import * as configFunctions from './configFunctions.js'
 
+const userDomain = configFunctions.getProperty('application.userDomain')
 
-const userDomain = configFunctions.getProperty("application.userDomain");
+const authenticationSource = configFunctions.getProperty(
+  'authentication.source'
+)
+let authenticationFunction: (
+  userName: string,
+  password: string
+) => Promise<boolean>
 
-const authenticationSource = configFunctions.getProperty("authentication.source");
-let authenticationFunction: (userName: string, password: string) => Promise<boolean>;
+const adWebAuthConfig = configFunctions.getProperty(
+  'authentication.adWebAuthConfig'
+)
+const activeDirectoryConfig = configFunctions.getProperty(
+  'authentication.activeDirectoryConfig'
+)
 
-const adWebAuthConfig = configFunctions.getProperty("authentication.adWebAuthConfig");
-const activeDirectoryConfig = configFunctions.getProperty("authentication.activeDirectoryConfig");
+const adWebAuthConnector =
+  adWebAuthConfig === undefined
+    ? undefined
+    : new AdWebAuthConnector(adWebAuthConfig)
 
+const authenticateViaADWebAuth = async (
+  userName: string,
+  password: string
+): Promise<boolean> =>
+  // eslint-disable-next-line unicorn/prefer-logical-operator-over-ternary
+  adWebAuthConnector === undefined
+    ? false
+    : await adWebAuthConnector.authenticate(
+        `${userDomain}\\${userName}`,
+        password
+      )
 
-
-adWebAuth.setConfig(adWebAuthConfig);
-
-
-const authenticateViaADWebAuth = async (userName: string, password: string): Promise<boolean> => {
-  return await adWebAuth.authenticate(userDomain + "\\" + userName, password);
-};
-
-
-const authenticateViaActiveDirectory = async (userName: string, password: string): Promise<boolean> => {
-
-  return new Promise((resolve) => {
-
+const authenticateViaActiveDirectory = async (
+  userName: string,
+  password: string
+): Promise<boolean> =>
+  await new Promise((resolve) => {
     try {
-      const ad = new ActiveDirectory(activeDirectoryConfig);
+      const ad = new ActiveDirectory(activeDirectoryConfig)
 
-      ad.authenticate(userDomain + "\\" + userName, password, async (error, auth) => {
+      ad.authenticate(
+        `${userDomain}\\${userName}`,
+        password,
+        async (error, auth) => {
+          if (error) {
+            resolve(false)
+          }
 
-        if (error) {
-          resolve(false);
+          resolve(auth)
         }
-
-        resolve(auth);
-      });
-
+      )
     } catch {
-      resolve(false);
+      resolve(false)
     }
-  });
-};
-
+  })
 
 /*
  * Setup
  */
 
 switch (authenticationSource) {
-  case "ad-web-auth":
-    adWebAuth.setConfig(adWebAuthConfig);
-    authenticationFunction = authenticateViaADWebAuth;
-    break;
-
-  case "Active Directory":
-    authenticationFunction = authenticateViaActiveDirectory;
-    break;
-}
-
-
-export const authenticate = async (userName: string, password: string): Promise<boolean> => {
-
-  if (!userName || userName === "" || !password || password === "") {
-    return false;
+  case 'Active Directory': {
+    authenticationFunction = authenticateViaActiveDirectory
+    break
   }
 
-  return await authenticationFunction(userName, password);
-};
+  case 'ad-web-auth': {
+    authenticationFunction = authenticateViaADWebAuth
+    break
+  }
+}
+
+export const authenticate = async (
+  userName: string,
+  password: string
+): Promise<boolean> =>
+  // eslint-disable-next-line unicorn/prefer-logical-operator-over-ternary
+  !userName || userName === '' || !password || password === ''
+    ? false
+    : await authenticationFunction(userName, password)

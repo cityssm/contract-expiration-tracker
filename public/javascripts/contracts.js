@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 (() => {
     const urlPrefix = exports.urlPrefix;
     const canUpdate = exports.canUpdate;

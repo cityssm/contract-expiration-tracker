@@ -1,117 +1,156 @@
-import type * as configTypes from "../types/configTypes";
-import type { ADWebAuthConfig } from "@cityssm/ad-web-auth-connector/types";
-import type * as docuShareConfig from "@cityssm/docushare/types";
+import type { ADWebAuthConfig } from '@cityssm/ad-web-auth-connector/types'
+import type * as docuShareConfig from '@cityssm/docushare/types'
 
-
+// eslint-disable-next-line node/no-unpublished-import
+import { config } from '../data/config.js'
 /*
  * LOAD CONFIGURATION
  */
+import type * as configTypes from '../types/configTypes.js'
 
-// eslint-disable-next-line node/no-unpublished-import
-import { config } from "../data/config.js";
-
-Object.freeze(config);
-
+Object.freeze(config)
 
 /*
  * SET UP FALLBACK VALUES
  */
 
+const configOverrides: { [propertyName: string]: unknown } = {}
 
-const configOverrides: { [propertyName: string]: unknown } = {};
+const configFallbackValues = new Map<string, unknown>()
 
-const configFallbackValues = new Map<string, unknown>();
+configFallbackValues.set('application.httpPort', 55_557)
+configFallbackValues.set('application.rootUrl', 'http://localhost:55557/')
 
-configFallbackValues.set("application.httpPort", 55_557);
-configFallbackValues.set("application.rootUrl", "http://localhost:55557/");
+configFallbackValues.set('reverseProxy.disableCompression', false)
+configFallbackValues.set('reverseProxy.disableEtag', false)
+configFallbackValues.set('reverseProxy.blockViaXForwardedFor', false)
+configFallbackValues.set('reverseProxy.urlPrefix', '')
 
-configFallbackValues.set("reverseProxy.disableCompression", false);
-configFallbackValues.set("reverseProxy.disableEtag", false);
-configFallbackValues.set("reverseProxy.blockViaXForwardedFor", false);
-configFallbackValues.set("reverseProxy.urlPrefix", "");
+configFallbackValues.set(
+  'session.cookieName',
+  'contract-expiration-tracker-user-sid'
+)
+configFallbackValues.set(
+  'session.secret',
+  'cityssm/contract-expiration-tracker'
+)
+configFallbackValues.set('session.maxAgeMillis', 60 * 60 * 1000)
+configFallbackValues.set('session.doKeepAlive', false)
 
-configFallbackValues.set("session.cookieName", "contract-expiration-tracker-user-sid");
-configFallbackValues.set("session.secret", "cityssm/contract-expiration-tracker");
-configFallbackValues.set("session.maxAgeMillis", 60 * 60 * 1000);
-configFallbackValues.set("session.doKeepAlive", false);
+configFallbackValues.set('permissions.canUpdate', [])
 
-configFallbackValues.set("permissions.canUpdate", []);
+configFallbackValues.set(
+  'customizations.applicationName',
+  'Contract Expiration Tracker'
+)
 
-configFallbackValues.set("customizations.applicationName", "Contract Expiration Tracker");
+configFallbackValues.set('customizations.contract.alias', 'Contract')
+configFallbackValues.set('customizations.contract.aliasPlural', 'Contracts')
 
-configFallbackValues.set("customizations.contract.alias", "Contract");
-configFallbackValues.set("customizations.contract.aliasPlural", "Contracts");
+configFallbackValues.set(
+  'customizations.contractCategory.alias',
+  'Contract Category'
+)
+configFallbackValues.set(
+  'customizations.contractCategory.aliasPlural',
+  'Contract Categories'
+)
 
-configFallbackValues.set("customizations.contractCategory.alias", "Contract Category");
-configFallbackValues.set("customizations.contractCategory.aliasPlural", "Contract Categories");
+configFallbackValues.set('customizations.contractParty.alias', 'Contract Party')
+configFallbackValues.set(
+  'customizations.contractParty.aliasPlural',
+  'Contract Parties'
+)
 
-configFallbackValues.set("customizations.contractParty.alias", "Contract Party");
-configFallbackValues.set("customizations.contractParty.aliasPlural", "Contract Parties");
+configFallbackValues.set('customizations.notificationDays', 90)
 
-configFallbackValues.set("customizations.notificationDays", 90);
+configFallbackValues.set('docuShare.isEnabled', false)
 
-configFallbackValues.set("docuShare.isEnabled", false);
+export function getProperty(propertyName: 'application.userDomain'): string
+export function getProperty(propertyName: 'application.httpPort'): number
+export function getProperty(propertyName: 'application.rootUrl'): string
 
+export function getProperty(
+  propertyName: 'reverseProxy.disableCompression'
+): boolean
+export function getProperty(propertyName: 'reverseProxy.disableEtag'): boolean
+export function getProperty(
+  propertyName: 'reverseProxy.blockViaXForwardedFor'
+): boolean
+export function getProperty(propertyName: 'reverseProxy.urlPrefix'): ''
 
-export function getProperty(propertyName: "application.userDomain"): string;
-export function getProperty(propertyName: "application.httpPort"): number;
-export function getProperty(propertyName: "application.rootUrl"): string;
+export function getProperty(propertyName: 'session.cookieName'): string
+export function getProperty(propertyName: 'session.doKeepAlive'): boolean
+export function getProperty(propertyName: 'session.maxAgeMillis'): number
+export function getProperty(propertyName: 'session.secret'): string
 
-export function getProperty(propertyName: "reverseProxy.disableCompression"): boolean;
-export function getProperty(propertyName: "reverseProxy.disableEtag"): boolean;
-export function getProperty(propertyName: "reverseProxy.blockViaXForwardedFor"): boolean;
-export function getProperty(propertyName: "reverseProxy.urlPrefix"): "";
+export function getProperty(
+  propertyName: 'authentication.source'
+): 'ad-web-auth' | 'Active Directory'
+export function getProperty(
+  propertyName: 'authentication.adWebAuthConfig'
+): ADWebAuthConfig
+export function getProperty(
+  propertyName: 'authentication.activeDirectoryConfig'
+): configTypes.ActiveDirectoryConfig
 
-export function getProperty(propertyName: "session.cookieName"): string;
-export function getProperty(propertyName: "session.doKeepAlive"): boolean;
-export function getProperty(propertyName: "session.maxAgeMillis"): number;
-export function getProperty(propertyName: "session.secret"): string;
+export function getProperty(propertyName: 'permissions.canUpdate'): string[]
 
-export function getProperty(propertyName: "authentication.source"): "ad-web-auth" | "Active Directory";
-export function getProperty(propertyName: "authentication.adWebAuthConfig"): ADWebAuthConfig;
-export function getProperty(propertyName: "authentication.activeDirectoryConfig"): configTypes.ActiveDirectoryConfig;
+export function getProperty(
+  propertyName: 'customizations.applicationName'
+): string
 
-export function getProperty(propertyName: "permissions.canUpdate"): string[];
+export function getProperty(
+  propertyName: 'customizations.contract.alias'
+): string
+export function getProperty(
+  propertyName: 'customizations.contract.aliasPlural'
+): string
 
-export function getProperty(propertyName: "customizations.applicationName"): string;
+export function getProperty(
+  propertyName: 'customizations.contractCategory.alias'
+): string
+export function getProperty(
+  propertyName: 'customizations.contractCategory.aliasPlural'
+): string
 
-export function getProperty(propertyName: "customizations.contract.alias"): string;
-export function getProperty(propertyName: "customizations.contract.aliasPlural"): string;
+export function getProperty(
+  propertyName: 'customizations.contractParty.alias'
+): string
+export function getProperty(
+  propertyName: 'customizations.contractParty.aliasPlural'
+): string
 
-export function getProperty(propertyName: "customizations.contractCategory.alias"): string;
-export function getProperty(propertyName: "customizations.contractCategory.aliasPlural"): string;
+export function getProperty(
+  propertyName: 'customizations.notificationDays'
+): number
 
-export function getProperty(propertyName: "customizations.contractParty.alias"): string;
-export function getProperty(propertyName: "customizations.contractParty.aliasPlural"): string;
-
-export function getProperty(propertyName: "customizations.notificationDays"): number;
-
-export function getProperty(propertyName: "docuShare.isEnabled"): boolean;
-export function getProperty(propertyName: "docuShare.rootURL"): string;
-export function getProperty(propertyName: "docuShare.collectionHandle"): string;
-export function getProperty(propertyName: "docuShare.server"): docuShareConfig.ServerConfig;
-export function getProperty(propertyName: "docuShare.session"): docuShareConfig.SessionConfig;
-
+export function getProperty(propertyName: 'docuShare.isEnabled'): boolean
+export function getProperty(propertyName: 'docuShare.rootURL'): string
+export function getProperty(propertyName: 'docuShare.collectionHandle'): string
+export function getProperty(
+  propertyName: 'docuShare.server'
+): docuShareConfig.ServerConfig
+export function getProperty(
+  propertyName: 'docuShare.session'
+): docuShareConfig.SessionConfig
 
 export function getProperty(propertyName: string): unknown {
-
   if (Object.prototype.hasOwnProperty.call(configOverrides, propertyName)) {
-    return configOverrides[propertyName];
+    return configOverrides[propertyName]
   }
 
-  const propertyNameSplit = propertyName.split(".");
+  const propertyNameSplit = propertyName.split('.')
 
-  let currentObject = config;
+  let currentObject = config
 
   for (const element of propertyNameSplit) {
-
-    currentObject = currentObject[element];
+    currentObject = currentObject[element]
 
     if (!currentObject) {
-      return configFallbackValues.get(propertyName);
+      return configFallbackValues.get(propertyName)
     }
-
   }
 
-  return currentObject;
+  return currentObject
 }

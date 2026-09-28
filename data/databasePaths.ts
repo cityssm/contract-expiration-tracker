@@ -1,1 +1,1 @@
-export const contractsDB = "data/contracts.db";
+export const contractsDB = 'data/contracts.db'

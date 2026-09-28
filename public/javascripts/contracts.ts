@@ -2,7 +2,7 @@
 
 import type {
   Contract
-} from "../types/recordTypes";
+} from "../../types/recordTypes";
 
 import type {
   DateDiff
