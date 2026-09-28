@@ -87,7 +87,7 @@
     "sass": "^1.105.0"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=20"
   },
   "allowScripts": {
     "better-sqlite3@13.0.3": true,

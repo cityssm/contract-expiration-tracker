@@ -77,7 +77,7 @@ export function getProperty(propertyName: 'reverseProxy.disableEtag'): boolean
 export function getProperty(
   propertyName: 'reverseProxy.blockViaXForwardedFor'
 ): boolean
-export function getProperty(propertyName: 'reverseProxy.urlPrefix'): ''
+export function getProperty(propertyName: 'reverseProxy.urlPrefix'): string
 
 export function getProperty(propertyName: 'session.cookieName'): string
 export function getProperty(propertyName: 'session.doKeepAlive'): boolean
