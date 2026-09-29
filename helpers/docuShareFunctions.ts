@@ -1,58 +1,42 @@
 import path from 'node:path'
 
-import * as docuShare from '@cityssm/docushare'
-import type * as docuShareTypes from '@cityssm/docushare/types.js'
-import Debug from 'debug'
-import NodeCache from 'node-cache'
+import NodeCache from '@cacheable/node-cache'
+import { type DocuShareObject, DocuShareAPI } from '@cityssm/docushare'
 
 import * as configFunctions from './configFunctions.js'
-const debug = Debug('contract-expiration-tracker:docuShareFunctions')
 
-const getContractKeyword = (contractId: number | string) => {
-  return 'contractId:' + contractId
+function getContractKeyword(contractId: number | string): string {
+  return `contractId:${contractId}`
 }
 
 /*
  * Initialize
  */
 
-let isInitialized = false
+const javaPath = path.join('java', 'dsapi.jar')
 
-const initialize = () => {
-  if (!isInitialized) {
-    const javaPath = path.join('java', 'dsapi.jar')
-
-    debug('DocuShare dsapi.js path: ' + javaPath)
-
-    docuShare.setupJava({
-      dsapiPath: [javaPath]
-    })
-
-    docuShare.setupServer(configFunctions.getProperty('docuShare.server'))
-    docuShare.setupSession(configFunctions.getProperty('docuShare.session'))
-
-    isInitialized = true
-  }
-}
+const docuShare = new DocuShareAPI({
+  java: {
+    dsapiPath: [javaPath]
+  },
+  server: configFunctions.getProperty('docuShare.server'),
+  session: configFunctions.getProperty('docuShare.session')
+})
 
 /*
  * Caching
  */
 
-const cachedCollectionChildren = new NodeCache({
+const cachedCollectionChildren = new NodeCache<DocuShareObject[]>({
   stdTTL: 5 * 60
 })
 
-export const getCollectionChildren = async (
+export async function getCollectionChildren(
   handle: string
-): Promise<docuShareTypes.DocuShareObject[]> => {
-  initialize()
+): Promise<DocuShareObject[] | undefined> {
+  let collectionChildren = cachedCollectionChildren.get(handle)
 
-  let collectionChildren = cachedCollectionChildren.get(
-    handle
-  ) as docuShareTypes.DocuShareObject[]
-
-  if (!collectionChildren) {
+  if (collectionChildren === undefined) {
     const result = await docuShare.getChildren(handle)
 
     if (result.success) {
@@ -64,22 +48,22 @@ export const getCollectionChildren = async (
   return collectionChildren
 }
 
-const getAllContractCollections = async (): Promise<
-  docuShareTypes.DocuShareObject[]
-> => {
+async function getAllContractCollections(): Promise<
+  DocuShareObject[] | undefined
+> {
   return await getCollectionChildren(
     configFunctions.getProperty('docuShare.collectionHandle')
   )
 }
 
-export const getContractCollection = async (
+export async function getContractCollection(
   contractId: number | string
-): Promise<docuShareTypes.DocuShareObject> => {
+): Promise<DocuShareObject | undefined> {
   const contractCollections = await getAllContractCollections()
 
   const keyword = getContractKeyword(contractId)
 
-  for (const contractCollection of contractCollections) {
+  for (const contractCollection of contractCollections ?? []) {
     if (contractCollection.keywords === keyword) {
       return contractCollection
     }
@@ -88,19 +72,17 @@ export const getContractCollection = async (
   return undefined
 }
 
-export const createContractCollection = async (
+export async function createContractCollection(
   contractId: number | string,
   contractTitle: string
-): Promise<docuShareTypes.DocuShareObject> => {
-  initialize()
-
+): Promise<DocuShareObject | undefined> {
   let docuShareOutput = await docuShare.createCollection(
     configFunctions.getProperty('docuShare.collectionHandle'),
     contractTitle
   )
 
   if (!docuShareOutput.success) {
-    return
+    return undefined
   }
 
   const newCollectionHandle = docuShareOutput.dsObjects[0].handle
@@ -111,7 +93,7 @@ export const createContractCollection = async (
   )
 
   if (!docuShareOutput.success) {
-    return
+    return undefined
   }
 
   cachedCollectionChildren.del(
@@ -121,12 +103,10 @@ export const createContractCollection = async (
   return docuShareOutput.dsObjects[0]
 }
 
-export const updateCollectionTitle = async (
+export async function updateCollectionTitle(
   collectionHandle: string,
   newCollectionTitle: string
-) => {
-  initialize()
-
+): Promise<void> {
   await docuShare.setTitle(collectionHandle, newCollectionTitle)
 
   cachedCollectionChildren.del(

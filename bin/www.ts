@@ -1,4 +1,4 @@
-/* eslint-disable no-process-exit, unicorn/no-process-exit */
+/* eslint-disable unicorn/no-process-exit */
 
 import http from 'node:http'
 
@@ -16,35 +16,38 @@ interface ServerError extends Error {
   code: string
 }
 
-const onError = (error: ServerError) => {
+const onError = (error: ServerError): void => {
   if (error.syscall !== 'listen') {
     throw error
   }
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
+    case 'EACCES': {
       debugWWW('Requires elevated privileges')
       process.exit(1)
+    }
     // break;
 
-    case 'EADDRINUSE':
+    case 'EADDRINUSE': {
       debugWWW('Port is already in use.')
       process.exit(1)
+    }
     // break;
 
-    default:
+    default: {
       throw error
+    }
   }
 }
 
-const onListening = (server: http.Server) => {
+const onListening = (server: http.Server): void => {
   const addr = server.address()
 
   const bind =
     typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port.toString()}`
 
-  debugWWW('Listening on ' + bind)
+  debugWWW(`Listening on ${bind}`)
 }
 
 /**
@@ -59,7 +62,7 @@ if (httpPort) {
   httpServer.listen(httpPort)
 
   httpServer.on('error', onError)
-  httpServer.on('listening', function () {
+  httpServer.on('listening', () => {
     onListening(httpServer)
   })
 
@@ -67,9 +70,11 @@ if (httpPort) {
 }
 
 exitHook(() => {
-  if (httpServer) {
-    debugWWW('Closing HTTP')
-    httpServer.close()
-    httpServer = undefined
+  if (!httpServer) {
+    return
   }
+
+  debugWWW('Closing HTTP')
+  httpServer.close()
+  httpServer = undefined
 })

@@ -1,29 +1,29 @@
-import sqlite from "better-sqlite3";
-import { contractsDB as databasePath } from "../../data/databasePaths.js";
+import sqlite from 'better-sqlite3'
 
+import { contractsDB as databasePath } from '../../data/databasePaths.js'
 
 export const getUserNames = (): string[] => {
-
   const database = sqlite(databasePath, {
     readonly: true
-  });
+  })
 
-  const rows: Array<{ userName: string; }> = database
-    .prepare("select distinct userName" +
-      " from ContractCategoryUsers" +
-      " order by userName")
-    .all();
+  const rows: Array<{ userName: string }> = database
+    .prepare(
+      'select distinct userName' +
+        ' from ContractCategoryUsers' +
+        ' order by userName'
+    )
+    .all()
 
-  database.close();
+  database.close()
 
-  const userNames: string[] = [];
+  const userNames: string[] = []
 
   for (const row of rows) {
-    userNames.push(row.userName);
+    userNames.push(row.userName)
   }
 
-  return userNames;
-};
+  return userNames
+}
 
-
-export default getUserNames;
+export default getUserNames

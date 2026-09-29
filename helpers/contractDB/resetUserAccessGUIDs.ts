@@ -1,36 +1,40 @@
-import sqlite from "better-sqlite3";
-import { contractsDB as databasePath } from "../../data/databasePaths.js";
+import uuid from 'node:crypto'
 
-import { v4 as uuidv4 } from "uuid";
+import sqlite from 'better-sqlite3'
 
-import type { UserAccessGUIDs } from "./getUserAccessGUIDs"
+import { contractsDB as databasePath } from '../../data/databasePaths.js'
 
+import type { UserAccessGUIDs } from './getUserAccessGUIDs.js'
 
 export const resetUserAccessGUIDs = (userName: string): UserAccessGUIDs => {
+  const database = sqlite(databasePath)
 
-  const database = sqlite(databasePath);
+  const guidA = uuid.randomUUID().toLowerCase()
+  const guidB = uuid.randomUUID().toLowerCase()
 
-  const guidA = uuidv4().toLowerCase();
-  const guidB = uuidv4().toLowerCase();
+  database
+    .prepare(/* sql */ `
+      DELETE FROM UserAccessGUIDs
+      WHERE
+        userName = ?
+    `)
+    .run(userName)
 
-  database.prepare(
-    "delete from UserAccessGUIDs" +
-    " where userName = ?")
-    .run(userName);
+  database
+    .prepare(/* sql */ `
+      INSERT INTO
+        UserAccessGUIDs (userName, guidA, guidB, recordCreate_timeMillis)
+      VALUES
+        (?, ?, ?, ?)
+    `)
+    .run(userName, guidA, guidB, Date.now())
 
-  database.prepare(
-    "insert into UserAccessGUIDs" +
-    " (userName, guidA, guidB, recordCreate_timeMillis)" +
-    " values (?, ?, ?, ?)")
-    .run(userName, guidA, guidB, Date.now());
-
-  database.close();
+  database.close()
 
   return {
     guidA,
     guidB
-  };
-};
+  }
+}
 
-
-export default resetUserAccessGUIDs;
+export default resetUserAccessGUIDs

@@ -1,32 +1,24 @@
 import path from 'node:path';
-import * as docuShare from '@cityssm/docushare';
-import Debug from 'debug';
-import NodeCache from 'node-cache';
+import NodeCache from '@cacheable/node-cache';
+import { DocuShareAPI } from '@cityssm/docushare';
 import * as configFunctions from './configFunctions.js';
-const debug = Debug('contract-expiration-tracker:docuShareFunctions');
-const getContractKeyword = (contractId) => {
-    return 'contractId:' + contractId;
-};
-let isInitialized = false;
-const initialize = () => {
-    if (!isInitialized) {
-        const javaPath = path.join('java', 'dsapi.jar');
-        debug('DocuShare dsapi.js path: ' + javaPath);
-        docuShare.setupJava({
-            dsapiPath: [javaPath]
-        });
-        docuShare.setupServer(configFunctions.getProperty('docuShare.server'));
-        docuShare.setupSession(configFunctions.getProperty('docuShare.session'));
-        isInitialized = true;
-    }
-};
+function getContractKeyword(contractId) {
+    return `contractId:${contractId}`;
+}
+const javaPath = path.join('java', 'dsapi.jar');
+const docuShare = new DocuShareAPI({
+    java: {
+        dsapiPath: [javaPath]
+    },
+    server: configFunctions.getProperty('docuShare.server'),
+    session: configFunctions.getProperty('docuShare.session')
+});
 const cachedCollectionChildren = new NodeCache({
     stdTTL: 5 * 60
 });
-export const getCollectionChildren = async (handle) => {
-    initialize();
+export async function getCollectionChildren(handle) {
     let collectionChildren = cachedCollectionChildren.get(handle);
-    if (!collectionChildren) {
+    if (collectionChildren === undefined) {
         const result = await docuShare.getChildren(handle);
         if (result.success) {
             collectionChildren = result.dsObjects;
@@ -34,36 +26,34 @@ export const getCollectionChildren = async (handle) => {
         }
     }
     return collectionChildren;
-};
-const getAllContractCollections = async () => {
+}
+async function getAllContractCollections() {
     return await getCollectionChildren(configFunctions.getProperty('docuShare.collectionHandle'));
-};
-export const getContractCollection = async (contractId) => {
+}
+export async function getContractCollection(contractId) {
     const contractCollections = await getAllContractCollections();
     const keyword = getContractKeyword(contractId);
-    for (const contractCollection of contractCollections) {
+    for (const contractCollection of contractCollections ?? []) {
         if (contractCollection.keywords === keyword) {
             return contractCollection;
         }
     }
     return undefined;
-};
-export const createContractCollection = async (contractId, contractTitle) => {
-    initialize();
+}
+export async function createContractCollection(contractId, contractTitle) {
     let docuShareOutput = await docuShare.createCollection(configFunctions.getProperty('docuShare.collectionHandle'), contractTitle);
     if (!docuShareOutput.success) {
-        return;
+        return undefined;
     }
     const newCollectionHandle = docuShareOutput.dsObjects[0].handle;
     docuShareOutput = await docuShare.setKeywords(newCollectionHandle, getContractKeyword(contractId));
     if (!docuShareOutput.success) {
-        return;
+        return undefined;
     }
     cachedCollectionChildren.del(configFunctions.getProperty('docuShare.collectionHandle'));
     return docuShareOutput.dsObjects[0];
-};
-export const updateCollectionTitle = async (collectionHandle, newCollectionTitle) => {
-    initialize();
+}
+export async function updateCollectionTitle(collectionHandle, newCollectionTitle) {
     await docuShare.setTitle(collectionHandle, newCollectionTitle);
     cachedCollectionChildren.del(configFunctions.getProperty('docuShare.collectionHandle'));
-};
+}

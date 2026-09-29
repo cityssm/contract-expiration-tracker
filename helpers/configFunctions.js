@@ -1,29 +1,30 @@
 import { config } from '../data/config.js';
 Object.freeze(config);
 const configOverrides = {};
-const configFallbackValues = new Map();
-configFallbackValues.set('application.httpPort', 55_557);
-configFallbackValues.set('application.rootUrl', 'http://localhost:55557/');
-configFallbackValues.set('reverseProxy.disableCompression', false);
-configFallbackValues.set('reverseProxy.disableEtag', false);
-configFallbackValues.set('reverseProxy.blockViaXForwardedFor', false);
-configFallbackValues.set('reverseProxy.urlPrefix', '');
-configFallbackValues.set('session.cookieName', 'contract-expiration-tracker-user-sid');
-configFallbackValues.set('session.secret', 'cityssm/contract-expiration-tracker');
-configFallbackValues.set('session.maxAgeMillis', 60 * 60 * 1000);
-configFallbackValues.set('session.doKeepAlive', false);
-configFallbackValues.set('permissions.canUpdate', []);
-configFallbackValues.set('customizations.applicationName', 'Contract Expiration Tracker');
-configFallbackValues.set('customizations.contract.alias', 'Contract');
-configFallbackValues.set('customizations.contract.aliasPlural', 'Contracts');
-configFallbackValues.set('customizations.contractCategory.alias', 'Contract Category');
-configFallbackValues.set('customizations.contractCategory.aliasPlural', 'Contract Categories');
-configFallbackValues.set('customizations.contractParty.alias', 'Contract Party');
-configFallbackValues.set('customizations.contractParty.aliasPlural', 'Contract Parties');
-configFallbackValues.set('customizations.notificationDays', 90);
-configFallbackValues.set('docuShare.isEnabled', false);
+const configFallbackValues = new Map([
+    ['application.httpPort', 55_557],
+    ['application.rootUrl', 'http://localhost:55557/'],
+    ['customizations.applicationName', 'Contract Expiration Tracker'],
+    ['customizations.contract.alias', 'Contract'],
+    ['customizations.contract.aliasPlural', 'Contracts'],
+    ['customizations.contractCategory.alias', 'Contract Category'],
+    ['customizations.contractCategory.aliasPlural', 'Contract Categories'],
+    ['customizations.contractParty.alias', 'Contract Party'],
+    ['customizations.contractParty.aliasPlural', 'Contract Parties'],
+    ['customizations.notificationDays', 90],
+    ['docuShare.isEnabled', false],
+    ['permissions.canUpdate', []],
+    ['reverseProxy.blockViaXForwardedFor', false],
+    ['reverseProxy.disableCompression', false],
+    ['reverseProxy.disableEtag', false],
+    ['reverseProxy.urlPrefix', ''],
+    ['session.cookieName', 'contract-expiration-tracker-user-sid'],
+    ['session.doKeepAlive', false],
+    ['session.maxAgeMillis', 60 * 60 * 1000],
+    ['session.secret', 'cityssm/contract-expiration-tracker']
+]);
 export function getProperty(propertyName) {
-    if (Object.prototype.hasOwnProperty.call(configOverrides, propertyName)) {
+    if (Object.hasOwn(configOverrides, propertyName)) {
         return configOverrides[propertyName];
     }
     const propertyNameSplit = propertyName.split('.');
