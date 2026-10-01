@@ -32,7 +32,7 @@
   "dependencies": {
     "@cacheable/node-cache": "^3.1.1",
     "@cityssm/ad-web-auth-connector": "^1.2.0",
-    "@cityssm/bulma-js": "^0.3.3",
+    "@cityssm/bulma-js": "^0.5.0",
     "@cityssm/bulma-webapp-js": "^1.5.0",
     "@cityssm/docushare": "^2.0.1",
     "@cityssm/express-abuse-points": "^4.0.0",
